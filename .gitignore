@@ -396,6 +396,15 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
+# WiX Toolset
+installer/obj/
+installer/bin/
+*.wixobj
+*.wixpdb
+
+# Build output directory
+output/
+
 # JetBrains Rider
 *.sln.iml
 .claude/**

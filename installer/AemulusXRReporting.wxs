@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <!--
+    Aemulus XR Reporting Application Installer
+    This WiX installer creates an MSI package for the Aemulus XR Reporting application
+  -->
+
+  <?define ProductName = "Aemulus XR Reporting" ?>
+  <?define ProductVersion = "1.0.0.0" ?>
+  <?define Manufacturer = "Aemulus XR" ?>
+  <?define UpgradeCode = "8b7c49af-4352-4886-a835-dd52f7b44131" ?>
+
+  <!-- Build output path - passed from build script or defaults to framework-dependent -->
+  <?ifndef BuildOutputPath ?>
+    <?define BuildOutputPath = "..\src\bin\Release\net8.0-windows10.0.26100.0" ?>
+  <?endif ?>
+
+  <!-- TODO: Generate a unique GUID for UpgradeCode using: powershell -Command "[guid]::NewGuid()" -->
+  <!-- Keep the same UpgradeCode for all versions to enable upgrades -->
+
+  <Package
+    Name="$(var.ProductName)"
+    Version="$(var.ProductVersion)"
+    Manufacturer="$(var.Manufacturer)"
+    UpgradeCode="$(var.UpgradeCode)"
+    Language="1033"
+    Compressed="yes"
+    InstallerVersion="500"
+    Scope="perMachine">
+
+    <SummaryInformation
+      Keywords="Installer"
+      Description="$(var.ProductName) Installer"
+      Manufacturer="$(var.Manufacturer)" />
+
+    <!-- Major upgrade configuration - allows newer versions to replace older ones -->
+    <MajorUpgrade
+      DowngradeErrorMessage="A newer version of [ProductName] is already installed."
+      AllowSameVersionUpgrades="yes" />
+
+    <!-- Embed the cab file in the MSI -->
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- Check for .NET 8.0 or higher Desktop Runtime -->
+    <Launch
+      Message="This application requires .NET 8.0 Desktop Runtime or later. Please install it from https://dotnet.microsoft.com/download/dotnet/8.0"
+      Condition="DOTNETDESKTOPINSTALLED OR Installed" />
+
+    <!-- Custom property to check for .NET Desktop Runtime -->
+    <!-- Looks for the Microsoft.WindowsDesktop.App folder which exists if any Desktop Runtime is installed -->
+    <Property Id="DOTNETDESKTOPINSTALLED">
+      <DirectorySearch Id="SearchDotNetDesktop" Path="C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App" />
+    </Property>
+
+    <!-- Installation directory structure -->
+    <StandardDirectory Id="ProgramFiles6432Folder">
+      <Directory Id="ManufacturerFolder" Name="$(var.Manufacturer)">
+        <Directory Id="INSTALLFOLDER" Name="$(var.ProductName)">
+          <Directory Id="PlatformToolsFolder" Name="platform-tools" />
+        </Directory>
+      </Directory>
+    </StandardDirectory>
+
+    <!-- Start Menu folder -->
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="ApplicationProgramsFolder" Name="$(var.ProductName)" />
+    </StandardDirectory>
+
+    <!-- Desktop folder for shortcut (optional) -->
+    <StandardDirectory Id="DesktopFolder" />
+
+    <!-- Main application component -->
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+
+      <!-- Main executable -->
+      <Component Id="MainExecutable" Guid="d30b4069-00ca-424a-9e68-5b43fdfa7d74">
+        <File
+          Id="AemulusXRReportingAppExe"
+          Source="$(var.BuildOutputPath)\Aemulus XR Reporting App.exe"
+          KeyPath="yes">
+          <!-- File association and capabilities can be added here if needed -->
+        </File>
+
+        <!-- All DLL dependencies -->
+        <File Source="$(var.BuildOutputPath)\Aemulus XR Reporting App.dll" />
+        <File Source="$(var.BuildOutputPath)\Aemulus XR Reporting App.runtimeconfig.json" />
+        <File Source="$(var.BuildOutputPath)\Aemulus XR Reporting App.deps.json" />
+
+        <!-- NuGet package dependencies -->
+        <File Source="$(var.BuildOutputPath)\AdvancedSharpAdbClient.dll" />
+        <File Source="$(var.BuildOutputPath)\log4net.dll" />
+
+        <!-- Configuration files -->
+        <File Source="$(var.BuildOutputPath)\log4net.config" />
+      </Component>
+
+      <!-- ADB Platform Tools -->
+      <Component Id="PlatformToolsComponent" Directory="PlatformToolsFolder" Guid="a48a76d8-f696-458e-a734-01ea103437f3">
+        <File Source="$(var.BuildOutputPath)\platform-tools\adb.exe" />
+        <File Source="$(var.BuildOutputPath)\platform-tools\AdbWinApi.dll" />
+      </Component>
+
+      <!-- Add any additional runtime files that may be present -->
+      <!-- Note: If using self-contained deployment, you'll need to add all runtime DLLs here -->
+
+    </ComponentGroup>
+
+    <!-- Start Menu Shortcuts -->
+    <ComponentGroup Id="ApplicationShortcuts" Directory="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="*">
+        <Shortcut
+          Id="ApplicationStartMenuShortcut"
+          Name="$(var.ProductName)"
+          Description="Aemulus XR Reporting Application"
+          Target="[INSTALLFOLDER]Aemulus XR Reporting App.exe"
+          WorkingDirectory="INSTALLFOLDER"
+          Icon="AppIcon.exe" />
+
+        <!-- Uninstall shortcut -->
+        <Shortcut
+          Id="UninstallProduct"
+          Name="Uninstall $(var.ProductName)"
+          Description="Uninstalls $(var.ProductName)"
+          Target="[System64Folder]msiexec.exe"
+          Arguments="/x [ProductCode]" />
+
+        <RemoveFolder
+          Id="CleanUpStartMenu"
+          Directory="ApplicationProgramsFolder"
+          On="uninstall" />
+
+        <RegistryValue
+          Root="HKCU"
+          Key="Software\$(var.Manufacturer)\$(var.ProductName)"
+          Name="installed"
+          Type="integer"
+          Value="1"
+          KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <!-- Optional: Desktop Shortcut -->
+    <ComponentGroup Id="DesktopShortcuts" Directory="DesktopFolder">
+      <Component Id="DesktopShortcut" Guid="*">
+        <Shortcut
+          Id="ApplicationDesktopShortcut"
+          Name="$(var.ProductName)"
+          Description="Aemulus XR Reporting Application"
+          Target="[INSTALLFOLDER]Aemulus XR Reporting App.exe"
+          WorkingDirectory="INSTALLFOLDER"
+          Icon="AppIcon.exe" />
+
+        <RemoveFile
+          Id="CleanUpDesktopShortcut"
+          Name="$(var.ProductName).lnk"
+          On="uninstall" />
+
+        <RegistryValue
+          Root="HKCU"
+          Key="Software\$(var.Manufacturer)\$(var.ProductName)"
+          Name="desktopShortcut"
+          Type="integer"
+          Value="1"
+          KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <!-- Icon definition -->
+    <Icon Id="AppIcon.exe" SourceFile="..\src\aemulus.ico" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon.exe" />
+
+    <!-- Add/Remove Programs information -->
+    <Property Id="ARPURLINFOABOUT" Value="https://www.aemulus-xr.com/" />
+    <Property Id="ARPNOREPAIR" Value="yes" Secure="yes" />
+    <Property Id="ARPNOMODIFY" Value="yes" Secure="yes" />
+
+    <!-- Features to install -->
+    <Feature
+      Id="ProductFeature"
+      Title="Aemulus XR Reporting Application"
+      Level="1"
+      Description="The main application files">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="ApplicationShortcuts" />
+    </Feature>
+
+    <Feature
+      Id="DesktopShortcutFeature"
+      Title="Desktop Shortcut"
+      Level="1"
+      Description="Creates a shortcut on the desktop">
+      <ComponentGroupRef Id="DesktopShortcuts" />
+    </Feature>
+
+    <!-- Custom UI (optional - uses WixUI built-in dialogs) -->
+    <!-- Uncomment to add a custom installation UI -->
+    <!--
+    <UIRef Id="WixUI_InstallDir" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    -->
+
+  </Package>
+</Wix>
