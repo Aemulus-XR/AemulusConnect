@@ -2,6 +2,38 @@
 
 This directory contains automation scripts for building and packaging the Aemulus XR Reporting application.
 
+## Table of Contents
+
+- [Available Scripts](#available-scripts)
+  - [1. verify_prerequisites.ps1](#1-verify_prerequisitesps1)
+  - [2. build_and_package.ps1](#2-build_and_packageps1)
+  - [3. harvest_runtime.ps1](#3-harvest_runtimeps1)
+  - [4. test_detection.ps1](#4-test_detectionps1)
+  - [5. check_encoding.ps1](#5-check_encodingps1)
+- [Quick Start](#quick-start)
+  - [First Time Setup](#first-time-setup)
+  - [Regular Development Workflow](#regular-development-workflow)
+- [Build Output Structure](#build-output-structure)
+- [Common Scenarios](#common-scenarios)
+  - [Scenario 1: Daily Development Build](#scenario-1-daily-development-build)
+  - [Scenario 2: Clean Release Build](#scenario-2-clean-release-build)
+  - [Scenario 3: Self-Contained Distribution](#scenario-3-self-contained-distribution)
+  - [Scenario 4: Quick Installer Rebuild](#scenario-4-quick-installer-rebuild)
+  - [Scenario 5: Pre-Release Checklist](#scenario-5-pre-release-checklist)
+- [PowerShell Features](#powershell-features)
+  - [Getting Help](#getting-help)
+- [Troubleshooting](#troubleshooting)
+- [Advanced Usage](#advanced-usage)
+  - [Custom Build Configuration](#custom-build-configuration)
+  - [WiX with Custom Parameters](#wix-with-custom-parameters)
+  - [Silent Installation Testing](#silent-installation-testing)
+- [Environment Variables (Optional)](#environment-variables-optional)
+- [CI/CD Integration](#cicd-integration)
+  - [GitHub Actions Example](#github-actions-example)
+  - [Azure DevOps Example](#azure-devops-example)
+- [Additional Resources](#additional-resources)
+- [Support](#support)
+
 ## Available Scripts
 
 ### 1. verify_prerequisites.ps1
@@ -68,6 +100,76 @@ PowerShell script that builds the application and creates the MSI installer with
 - Location: `src\output\AemulusXRReporting.msi`
 - Build logs: Console output
 - Build artifacts: `src\bin\Release\`
+
+### 3. harvest_runtime.ps1
+
+PowerShell script that uses WiX Heat to automatically generate a WiX fragment containing all .NET runtime DLLs for self-contained deployments.
+
+**Usage:**
+```powershell
+.\harvest_runtime.ps1 -BuildOutputPath "..\src\bin\Release\net8.0-windows10.0.26100.0\win-x64"
+```
+
+**What it does:**
+- Uses WiX Heat tool to harvest all files from the build output directory
+- Generates a RuntimeFiles.wxs fragment file
+- Creates component groups for easy inclusion in the main installer
+
+**When to use:**
+- Creating self-contained installers that include the .NET runtime
+- Automating the process of adding ~400+ runtime DLLs to the installer
+- Updating the installer when runtime files change
+
+**Output:**
+- Location: `src\installer\RuntimeFiles.wxs`
+- Next step: Add `<ComponentGroupRef Id='RuntimeFiles'/>` to your main .wxs file
+
+### 4. test_detection.ps1
+
+PowerShell script that tests the .NET Desktop Runtime detection logic used by the installer.
+
+**Usage:**
+```powershell
+.\test_detection.ps1
+```
+
+**What it does:**
+- Checks if the .NET Desktop Runtime directory exists
+- Lists all installed .NET Desktop Runtime versions (64-bit and 32-bit)
+- Simulates the WiX DirectorySearch logic
+- Reports whether the installer will detect the runtime
+
+**When to use:**
+- Troubleshooting installer runtime detection issues
+- Verifying .NET installation on a target machine
+- Testing before deploying to users
+
+**Output:**
+- Console report showing detected .NET versions
+- Prediction of installer behavior
+
+### 5. check_encoding.ps1
+
+PowerShell script that verifies the encoding and syntax of PowerShell scripts.
+
+**Usage:**
+```powershell
+.\check_encoding.ps1
+```
+
+**What it does:**
+- Checks file encoding (UTF-8 with/without BOM, UTF-16)
+- Validates PowerShell syntax
+- Reports file size and line count
+- Ensures scripts are properly formatted
+
+**When to use:**
+- Troubleshooting script execution issues
+- Verifying scripts after editing in different editors
+- Ensuring cross-platform compatibility
+
+**Output:**
+- Console report showing encoding, syntax validation, and file statistics
 
 ## Quick Start
 
