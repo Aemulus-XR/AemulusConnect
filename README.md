@@ -1,7 +1,7 @@
 # AMXR_Report [![starline](https://starlines.qoo.monster/assets/Aemulus-XR/AMXR_Report)](https://github.com/qoomon/starline)
 <div align="center">
 
-  <img src="assets/media/logo.jpg" alt="logo" width="200" height="auto" />
+  <img src="assets/media/logo.jpg" alt="logo" width="auto" height="auto" />
     <h1><a href="https://github.com/Aemulus-XR/AMXR_Report">Aemulus-XR/AMXR_Report</a></h1>
   <h3>Nulla nobis dicta iste minus dolor repellendus aspernatur atque</h3>
   
