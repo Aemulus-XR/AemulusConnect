@@ -1,0 +1,19 @@
+<Project Sdk="WixToolset.Sdk/4.0.5">
+  <PropertyGroup>
+    <OutputName>AemulusXRReporting</OutputName>
+    <OutputType>Package</OutputType>
+    <DefineConstants>BuildOutputPath=$(BuildOutputPath)</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="license.rtf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" Version="4.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <BindPath Include="$(BuildOutputPath)" />
+  </ItemGroup>
+</Project>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
   <!--
     Aemulus XR Reporting Application Installer
     This WiX installer creates an MSI package for the Aemulus XR Reporting application
@@ -178,8 +179,9 @@
     <Feature
       Id="ProductFeature"
       Title="Aemulus XR Reporting Application"
+      ConfigurableDirectory="INSTALLFOLDER"
       Level="1"
-      Description="The main application files">
+      Description="The main application files and Start Menu shortcuts">
       <ComponentGroupRef Id="ProductComponents" />
       <ComponentGroupRef Id="ApplicationShortcuts" />
     </Feature>
@@ -192,12 +194,13 @@
       <ComponentGroupRef Id="DesktopShortcuts" />
     </Feature>
 
-    <!-- Custom Installer UI -->
-    <!-- Note: WiX 4 UI extension has compatibility issues. Using default Windows Installer UI for now. -->
-    <!-- Future: Add custom UI dialogs or wait for WiX 4 UI improvements -->
-    <!--
-    <UIRef Id="WixUI_Minimal" />
-    -->
+    <!-- License file -->
+    <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+
+    <!-- Custom Installer UI using WiX 4 pattern -->
+    <UI>
+      <ui:WixUI Id="WixUI_FeatureTree" />
+    </UI>
 
   </Package>
 </Wix>

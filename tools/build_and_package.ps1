@@ -395,32 +395,59 @@ try {
 
     Write-Info "Using build output from: $BuildOutputPath"
 
-    # Change to installer directory for WiX build
-    Push-Location $InstallerDir
+    # Build using dotnet build with wixproj
+    $WixProj = Join-Path $InstallerDir "AemulusXRReporting.wixproj"
 
-    try {
-        $wixArgs = @(
+    if (Test-Path $WixProj) {
+        # Use wixproj for build (supports WiX 4 UI extension)
+        $buildArgs = @(
             "build",
-            $WxsFile,
-            "-out", $OutputMsi,
-            "-d", "BuildOutputPath=$BuildOutputPath"
+            $WixProj,
+            "-p:BuildOutputPath=`"$BuildOutputPath`"",
+            "-o", $OutputDir
         )
 
         if ($VerboseOutput) {
-            $wixArgs += "-v"
+            $buildArgs += "-v", "detailed"
+        }
+        else {
+            $buildArgs += "-v", "minimal"
         }
 
-        & wix @wixArgs
+        & dotnet @buildArgs
 
         if ($LASTEXITCODE -ne 0) {
-            throw "WiX build failed with exit code $LASTEXITCODE"
+            throw "WiX installer build failed with exit code $LASTEXITCODE"
         }
+    }
+    else {
+        # Fallback to direct wix build
+        Push-Location $InstallerDir
 
-        Write-Success "Installer created successfully"
+        try {
+            $wixArgs = @(
+                "build",
+                $WxsFile,
+                "-out", $OutputMsi,
+                "-d", "BuildOutputPath=$BuildOutputPath"
+            )
+
+            if ($VerboseOutput) {
+                $wixArgs += "-v"
+            }
+
+            & wix @wixArgs
+
+            if ($LASTEXITCODE -ne 0) {
+                throw "WiX build failed with exit code $LASTEXITCODE"
+            }
+        }
+        finally {
+            Pop-Location
+        }
     }
-    finally {
-        Pop-Location
-    }
+
+    Write-Success "Installer created successfully"
 }
 catch {
     Write-Error "ERROR: WiX installer build failed"
