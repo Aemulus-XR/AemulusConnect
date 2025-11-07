@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
   <!--
     Aemulus XR Reporting Application Installer
     This WiX installer creates an MSI package for the Aemulus XR Reporting application
@@ -52,11 +53,26 @@
       <DirectorySearch Id="SearchDotNetDesktop" Path="C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App" />
     </Property>
 
+    <!-- Custom action for finish dialog -->
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Aemulus XR Reporting" />
+
+    <!-- Launch application -->
+    <CustomAction
+      Id="LaunchApplication"
+      Directory="BINFOLDER"
+      ExeCommand="[BINFOLDER]Aemulus XR Reporting App.exe"
+      Execute="immediate"
+      Impersonate="yes"
+      Return="asyncNoWait" />
+
     <!-- Installation directory structure -->
     <StandardDirectory Id="ProgramFiles6432Folder">
       <Directory Id="ManufacturerFolder" Name="$(var.Manufacturer)">
         <Directory Id="INSTALLFOLDER" Name="$(var.ProductName)">
-          <Directory Id="PlatformToolsFolder" Name="platform-tools" />
+          <Directory Id="BINFOLDER" Name="bin">
+            <Directory Id="PlatformToolsFolder" Name="platform-tools" />
+          </Directory>
+          <Directory Id="DOCUMENTATIONFOLDER" Name="documentation" />
         </Directory>
       </Directory>
     </StandardDirectory>
@@ -70,7 +86,7 @@
     <StandardDirectory Id="DesktopFolder" />
 
     <!-- Main application component -->
-    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+    <ComponentGroup Id="ProductComponents" Directory="BINFOLDER">
 
       <!-- Main executable -->
       <Component Id="MainExecutable" Guid="d30b4069-00ca-424a-9e68-5b43fdfa7d74">
@@ -105,6 +121,17 @@
 
     </ComponentGroup>
 
+    <!-- Documentation component -->
+    <ComponentGroup Id="DocumentationComponents" Directory="DOCUMENTATIONFOLDER">
+      <Component Id="UserDocumentation" Guid="3cc6bcbf-51d9-4600-8e13-74bca12b9405">
+        <!-- User Manual PDF -->
+        <File Id="UserManualPdf" Source="UserManual.pdf" Name="UserManual.pdf" KeyPath="yes" />
+
+        <!-- License RTF -->
+        <File Id="LicenseRtf" Source="license.rtf" Name="License.rtf" />
+      </Component>
+    </ComponentGroup>
+
     <!-- Start Menu Shortcuts -->
     <ComponentGroup Id="ApplicationShortcuts" Directory="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="*">
@@ -112,9 +139,16 @@
           Id="ApplicationStartMenuShortcut"
           Name="$(var.ProductName)"
           Description="Aemulus XR Reporting Application"
-          Target="[INSTALLFOLDER]Aemulus XR Reporting App.exe"
-          WorkingDirectory="INSTALLFOLDER"
+          Target="[BINFOLDER]Aemulus XR Reporting App.exe"
+          WorkingDirectory="BINFOLDER"
           Icon="AppIcon.exe" />
+
+        <!-- User Manual shortcut -->
+        <Shortcut
+          Id="UserManualShortcut"
+          Name="User Manual"
+          Description="Open the Aemulus XR Reporting User Manual"
+          Target="[DOCUMENTATIONFOLDER]UserManual.pdf" />
 
         <!-- Uninstall shortcut -->
         <Shortcut
@@ -146,8 +180,8 @@
           Id="ApplicationDesktopShortcut"
           Name="$(var.ProductName)"
           Description="Aemulus XR Reporting Application"
-          Target="[INSTALLFOLDER]Aemulus XR Reporting App.exe"
-          WorkingDirectory="INSTALLFOLDER"
+          Target="[BINFOLDER]Aemulus XR Reporting App.exe"
+          WorkingDirectory="BINFOLDER"
           Icon="AppIcon.exe" />
 
         <RemoveFile
@@ -178,9 +212,11 @@
     <Feature
       Id="ProductFeature"
       Title="Aemulus XR Reporting Application"
+      ConfigurableDirectory="INSTALLFOLDER"
       Level="1"
-      Description="The main application files">
+      Description="The main application files and Start Menu shortcuts">
       <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="DocumentationComponents" />
       <ComponentGroupRef Id="ApplicationShortcuts" />
     </Feature>
 
@@ -192,12 +228,15 @@
       <ComponentGroupRef Id="DesktopShortcuts" />
     </Feature>
 
-    <!-- Custom UI (optional - uses WixUI built-in dialogs) -->
-    <!-- Uncomment to add a custom installation UI -->
-    <!--
-    <UIRef Id="WixUI_InstallDir" />
-    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
-    -->
+    <!-- License file -->
+    <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+
+    <!-- Custom Installer UI using WiX 4 pattern -->
+    <UI>
+      <ui:WixUI Id="WixUI_FeatureTree" />
+      <!-- Launch app when checkbox is checked -->
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication" Condition="WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed" />
+    </UI>
 
   </Package>
 </Wix>

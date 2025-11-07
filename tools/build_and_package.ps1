@@ -140,7 +140,7 @@ Write-Host ""
 
 #region Step 1: Check Prerequisites
 
-Write-Step "Checking prerequisites..." 1 7
+Write-Step "Checking prerequisites..." 1 8
 
 # Check .NET SDK
 if (-not (Test-CommandExists "dotnet")) {
@@ -181,7 +181,7 @@ Write-Success "WiX source file found"
 
 #region Step 2: Clean Build (Optional)
 
-Write-Step "Build preparation..." 2 7
+Write-Step "Build preparation..." 2 8
 
 if ($Clean) {
     Write-Info "Cleaning previous builds..."
@@ -204,7 +204,8 @@ if ($Clean) {
     }
 
     Write-Success "Clean completed"
-} else {
+}
+else {
     Write-Info "Skipping clean (use -Clean to clean build artifacts)"
 }
 
@@ -238,8 +239,9 @@ if (-not $SkipBuild) {
         Write-Host $_.Exception.Message -ForegroundColor Red
         exit 1
     }
-} else {
-    Write-Step "Skipping NuGet restore..." 3 7
+}
+else {
+    Write-Step "Skipping NuGet restore..." 3 8
     Write-Info "Build step skipped as requested"
 }
 
@@ -248,7 +250,7 @@ if (-not $SkipBuild) {
 #region Step 4: Build Application
 
 if (-not $SkipBuild) {
-    Write-Step "Building application..." 4 7
+    Write-Step "Building application..." 4 8
 
     try {
         $buildType = if ($SelfContained) { "self-contained (includes .NET runtime)" } else { "framework-dependent (requires .NET 8)" }
@@ -267,7 +269,8 @@ if (-not $SkipBuild) {
 
         if (-not $VerboseOutput) {
             $buildArgs += "--verbosity", "minimal"
-        } else {
+        }
+        else {
             $buildArgs += "--verbosity", "detailed"
         }
 
@@ -284,8 +287,9 @@ if (-not $SkipBuild) {
         Write-Host $_.Exception.Message -ForegroundColor Red
         exit 1
     }
-} else {
-    Write-Step "Skipping build..." 4 7
+}
+else {
+    Write-Step "Skipping build..." 4 8
     Write-Info "Using existing build artifacts"
 }
 
@@ -293,12 +297,13 @@ if (-not $SkipBuild) {
 
 #region Step 5: Create Output Directory
 
-Write-Step "Preparing output directory..." 5 7
+Write-Step "Preparing output directory..." 5 8
 
 if (-not (Test-Path $OutputDir)) {
     New-Item -ItemType Directory -Path $OutputDir -Force | Out-Null
     Write-Success "Output directory created"
-} else {
+}
+else {
     Write-Info "Output directory exists"
 }
 
@@ -312,12 +317,13 @@ if (Test-Path $OutputMsi) {
 
 #region Step 6: Create Shipping Folder
 
-Write-Step "Creating Shipping folder..." 6 7
+Write-Step "Creating Shipping folder..." 6 8
 
 # Determine the correct build output path
 if ($SelfContained) {
     $BuildOutputPath = Join-Path $SrcDir "bin\$BuildConfig\$TargetFramework\$RuntimeIdentifier"
-} else {
+}
+else {
     $BuildOutputPath = Join-Path $SrcDir "bin\$BuildConfig\$TargetFramework"
 }
 
@@ -346,7 +352,8 @@ foreach ($file in $mainFiles) {
     $sourcePath = Join-Path $BuildOutputPath $file
     if (Test-Path $sourcePath) {
         Copy-Item -Path $sourcePath -Destination $ShippingDir -Force
-    } else {
+    }
+    else {
         Write-Warning "File not found: $file"
     }
 }
@@ -362,7 +369,8 @@ foreach ($file in $platformToolsFiles) {
     $sourcePath = Join-Path $sourcePlatformTools $file
     if (Test-Path $sourcePath) {
         Copy-Item -Path $sourcePath -Destination $ShippingPlatformTools -Force
-    } else {
+    }
+    else {
         Write-Warning "Platform tool not found: $file"
     }
 }
@@ -372,46 +380,103 @@ Write-Info "Location: $ShippingDir"
 
 #endregion
 
-#region Step 7: Build WiX Installer
+#region Step 7: Convert Documentation
 
-Write-Step "Building WiX installer..." 7 7
+Write-Step "Converting documentation..." 7 8
+
+try {
+    $ConvertDocsScript = Join-Path $PSScriptRoot "convert_docs.ps1"
+
+    if (Test-Path $ConvertDocsScript) {
+        # Run doc conversion (LICENSE.md -> RTF, USER_README.md -> PDF)
+        & powershell.exe -NoProfile -File $ConvertDocsScript
+
+        if ($LASTEXITCODE -eq 0) {
+            Write-Success "Documentation converted successfully"
+        }
+        else {
+            Write-Warning "Documentation conversion had warnings, but continuing..."
+        }
+    }
+    else {
+        Write-Warning "convert_docs.ps1 not found, skipping documentation conversion"
+    }
+}
+catch {
+    Write-Warning "Documentation conversion failed: $($_.Exception.Message)"
+    Write-Info "Continuing with build..."
+}
+
+#endregion
+
+#region Step 8: Build WiX Installer
+
+Write-Step "Building WiX installer..." 8 8
 
 try {
     # Determine the correct build output path
     if ($SelfContained) {
         $BuildOutputPath = Join-Path $SrcDir "bin\$BuildConfig\$TargetFramework\$RuntimeIdentifier"
-    } else {
+    }
+    else {
         $BuildOutputPath = Join-Path $SrcDir "bin\$BuildConfig\$TargetFramework"
     }
 
     Write-Info "Using build output from: $BuildOutputPath"
 
-    # Change to installer directory for WiX build
-    Push-Location $InstallerDir
+    # Build using dotnet build with wixproj
+    $WixProj = Join-Path $InstallerDir "AemulusXRReporting.wixproj"
 
-    try {
-        $wixArgs = @(
+    if (Test-Path $WixProj) {
+        # Use wixproj for build (supports WiX 4 UI extension)
+        $buildArgs = @(
             "build",
-            $WxsFile,
-            "-out", $OutputMsi,
-            "-d", "BuildOutputPath=$BuildOutputPath"
+            $WixProj,
+            "-p:BuildOutputPath=`"$BuildOutputPath`"",
+            "-o", $OutputDir
         )
 
         if ($VerboseOutput) {
-            $wixArgs += "-v"
+            $buildArgs += "-v", "detailed"
+        }
+        else {
+            $buildArgs += "-v", "minimal"
         }
 
-        & wix @wixArgs
+        & dotnet @buildArgs
 
         if ($LASTEXITCODE -ne 0) {
-            throw "WiX build failed with exit code $LASTEXITCODE"
+            throw "WiX installer build failed with exit code $LASTEXITCODE"
         }
+    }
+    else {
+        # Fallback to direct wix build
+        Push-Location $InstallerDir
 
-        Write-Success "Installer created successfully"
+        try {
+            $wixArgs = @(
+                "build",
+                $WxsFile,
+                "-out", $OutputMsi,
+                "-d", "BuildOutputPath=$BuildOutputPath"
+            )
+
+            if ($VerboseOutput) {
+                $wixArgs += "-v"
+            }
+
+            & wix @wixArgs
+
+            if ($LASTEXITCODE -ne 0) {
+                throw "WiX build failed with exit code $LASTEXITCODE"
+            }
+        }
+        finally {
+            Pop-Location
+        }
     }
-    finally {
-        Pop-Location
-    }
+
+    Write-Success "Installer created successfully"
 }
 catch {
     Write-Error "ERROR: WiX installer build failed"
@@ -443,7 +508,8 @@ Write-Host $OutputMsi -ForegroundColor Cyan
 Write-Host "  Build type:      " -NoNewline
 if ($SelfContained) {
     Write-Host "Self-contained (includes .NET runtime)" -ForegroundColor Cyan
-} else {
+}
+else {
     Write-Host "Framework-dependent (requires .NET 8)" -ForegroundColor Cyan
 }
 
@@ -461,6 +527,7 @@ Write-Host ""
 
 #region Open Output Folder
 
+<#
 if (Test-Path $OutputMsi) {
     Write-Host "Opening output folder..." -ForegroundColor Gray
 
@@ -477,6 +544,7 @@ if (Test-Path $OutputMsi) {
         }
     }
 }
+#>
 
 #endregion
 
