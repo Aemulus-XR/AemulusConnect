@@ -195,7 +195,8 @@ if (Test-Path $updateVersionScript) {
 
         if ($LASTEXITCODE -ne 0) {
             Write-Warning "Version update script failed, continuing anyway..."
-        } else {
+        }
+        else {
             Write-Success "Version numbers updated"
         }
     }
@@ -203,7 +204,8 @@ if (Test-Path $updateVersionScript) {
         Write-Warning "Failed to run version update script: $($_.Exception.Message)"
         Write-Info "Continuing with build..."
     }
-} else {
+}
+else {
     Write-Warning "Version update script not found, skipping..."
 }
 
@@ -508,6 +510,7 @@ try {
 
     Write-Success "Installer created successfully"
 
+    <#
     # Rename MSI with version number
     $versionFile = Join-Path (Split-Path -Parent $ScriptRoot) "notes\VERSION.md"
     if (Test-Path $versionFile) {
@@ -522,6 +525,34 @@ try {
             }
         }
     }
+    #>
+
+    # Rename MSI with version number
+    $versionFile = Join-Path (Split-Path -Parent $ScriptRoot) "AemulusConnect\notes\VERSION.md"
+    if (Test-Path $versionFile) {
+        $versionContent = Get-Content $versionFile -Raw
+        Write-Info "Version file content: $versionContent"  # Debug output
+
+        if ($versionContent -match 'version=(\d+\.\d+\.\d+)') {
+            $version = $matches[1]
+            $versionedMsi = Join-Path $OutputDir "AemulusConnect-$version.msi"
+
+            if (Test-Path $OutputMsi) {
+                Copy-Item $OutputMsi $versionedMsi -Force
+                Write-Success "Created versioned installer: AemulusConnect-$version.msi"
+            }
+            else {
+                Write-Error "ERROR: The MSI file does not exist: $OutputMsi"
+            }
+        }
+        else {
+            Write-Error "ERROR: Version pattern not found in file."
+        }
+    }
+    else {
+        Write-Error "ERROR: Version file not found: $versionFile"
+    }
+
 }
 catch {
     Write-Error "ERROR: WiX installer build failed"
@@ -548,7 +579,7 @@ Write-Success "SUCCESS: Build and packaging completed!"
 
 Write-Host ""
 Write-Host "  Output location: " -NoNewline
-Write-Host $OutputMsi -ForegroundColor Cyan
+Write-Host $versionedMsi -ForegroundColor Cyan
 
 Write-Host "  Build type:      " -NoNewline
 if ($SelfContained) {
