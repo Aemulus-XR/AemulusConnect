@@ -85,13 +85,13 @@ If no quest is detected (via adb)
 **Screen 2: Default Screen** 
 
 Once a quest is detected, we show logo and the app name, and the "Fetch reports" button
-![image](https://github.com/user-attachments/assets/5c67faad-7fd4-4d07-9bda-940e0ae6c3ab)
 
+![](assets/media/Pasted%20image%2020251107085147.png)
 **Screen 3: Downloading Screen** 
 
 Once fetch Reports has been clicked, use loading bar to indicate reports are being fetched
-![image](https://github.com/user-attachments/assets/6bc33131-ea4d-4017-a858-30b6604ce6ca)
 
+![](assets/media/Pasted%20image%2020251107085159.png)
 * hide button / buttons whenever loading bar is visible
 * even if no files exist in the saved report directory, show loading bar for a default of 1 second (minimum loading bar time is 1 second)
 * while loading bar is active, display text below:
@@ -104,8 +104,7 @@ Once fetch Reports has been clicked, use loading bar to indicate reports are bei
 **Screen 4: Default Screen**
 
 Once reports have been fetched, show number of reports found at bottom of page, and make visible the 2nd button, "View Reports"
-![image](https://github.com/user-attachments/assets/1dbf733f-6de1-48ca-85ff-6d9c150ec510)
-
+![](assets/media/Pasted%20image%2020251107085211.png)
 
 
 **Buttons:**

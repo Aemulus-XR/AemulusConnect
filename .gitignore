@@ -412,3 +412,4 @@ src/Shipping/
 *.sln.iml
 .claude/**
 example_wix_installer_code/**
+.obsidian/
