@@ -1,124 +1,212 @@
-# AemulusConnect
+# AemulusConnect User Guide
 
-## Overview
-AemulusConnect is a Windows PC application developed in C# for fetching and reporting data from an Oculus Quest device. The application uses the Android Debug Bridge (ADB) to communicate with the Quest device, retrieve reports, and display the status of these operations to the user.
+## What is AemulusConnect?
 
-## Key Features
-- **Device Detection**: Detects when an Oculus Quest device is connected or disconnected.
-- **Report Fetching**: Copies all available reports from the Quest device to the PC.
-- **Status Updates**: Provides real-time status updates on the connection and file transfer processes.
-- **Error Handling**: Displays error messages and allows the user to retry operations or exit the application.
-- **User Interface**: Uses different user controls to display various states of the application (disconnected, connected, loading).
+AemulusConnect is a Windows application that helps you transfer report files from your Oculus Quest VR headset to your PC. It uses a secure connection (Android Debug Bridge) to automatically detect your Quest device, download your reports, and organize them on your computer.
 
-## User Interface Flow
-1. **Setup Screen**: Displayed when no Quest device is detected.
-2. **Default Screen**: Displayed when a Quest device is detected, showing the app name and a "Fetch Reports" button.
-3. **Downloading Screen**: Displayed when the "Fetch Reports" button is clicked, showing a loading bar and status messages.
-4. **Default Screen**: Displayed again after reports have been fetched, showing the number of reports found and a "View Reports" button.
+## System Requirements
 
-## Key Components
+- **Operating System**: Windows 10 (Build 26100+) or Windows 11
+- **Required Software**: .NET 8 Desktop Runtime (installer will prompt if needed)
+- **Hardware**: USB cable to connect your Quest device
+- **Quest Device**: Oculus Quest or Quest 2 with USB debugging enabled
 
-### `frmMain` Class
-- Manages the main form of the application.
-- Handles initialization, user interface updates, and interactions with the `QuestHelper` class.
-- Responds to status changes and errors from the `QuestHelper`.
+## Installation
 
-### `QuestHelper` Class
-- Manages the ADB server, device status, and file transfer operations.
-- Raises events to notify the `frmMain` class of status changes and errors.
+1. **Download** the latest `AemulusConnect.msi` installer from the [Releases page](https://github.com/Aemulus-XR/AemulusConnect/releases)
 
-### User Controls
-- **`disconnectedUserControl`**: Displayed when the Quest device is not connected.
-- **`connectedUserControl`**: Displayed when the Quest device is connected. Includes buttons for fetching and viewing reports.
-- **`loadingUserControl`**: Displayed during the file transfer process. Shows a progress bar and status messages.
+2. **Run the installer** by double-clicking the downloaded `.msi` file
 
-### `loadingUserControl` Class
-- Manages the loading screen displayed during file transfers.
-- Uses a `BackgroundWorker` to simulate progress and update the progress bar.
-- Provides status messages based on the current download status.
+3. **Follow the installation wizard**:
+   - Accept the license agreement
+   - Choose your installation location (default recommended)
+   - Optionally select "Create desktop shortcut"
+   - Click Install
 
-## File Structure
-- **`frmMain.cs`**: Main form of the application.
-- **`QuestHelper.cs`**: Manages ADB server and file transfer operations.
-- **`UserControls`**: Contains user controls for different application states.
-  - `disconnectedUserControl.cs`
-  - `connectedUserControl.cs`
-  - `loadingUserControl.cs`
-- **`Strings/FSStrings.cs`**: Contains file path strings used in the application.
-- **`Program.cs`**: Entry point of the application.
+4. **Launch AemulusConnect** from the Start Menu or desktop shortcut
 
-## Technologies Used
-- **C# 12.0**
-- **.NET 8**
-- **Windows Forms**
-- **ADB (Android Debug Bridge)**
-- **log4net**: For logging
+> **Note**: If you don't have .NET 8 Desktop Runtime installed, the installer will direct you to download it from Microsoft.
 
-## Usage
-1. Run the application.
-2. Connect an Oculus Quest device.
-3. Click "Fetch Reports" to copy reports from the device to the PC.
-4. View the reports by clicking "View Reports".
+## First Time Setup
 
-For more information about the Oculus Quest app, visit the [Aemulus XR site](https://www.aemulus-xr.com/).
+### Enable USB Debugging on Your Quest
 
-# AemulusConnect (Original Project Requirements)
-A fetching / reporting app for Aemulus XR
-To be developed in C# for Windows PC
+Before using AemulusConnect, you need to enable USB debugging on your Quest device:
 
-For the Oculus Quest App - See Aemulus XR site for info about the full XR app - https://www.aemulus-xr.com/
+1. Put on your Quest headset
+2. Go to **Settings** → **System** → **Developer**
+3. Enable **USB Debugging**
+4. Connect your Quest to your PC with a USB cable
+5. You'll see a prompt in the headset asking to "Allow USB Debugging"
+6. Check "Always allow from this computer" and tap **OK**
 
+## Using AemulusConnect
 
+### Basic Workflow
 
+1. **Connect Your Quest**
+   - Plug your Quest device into your PC using a USB cable
+   - AemulusConnect will automatically detect the connection
+   - The main interface will appear when the device is ready
 
+2. **Fetch Reports**
+   - Click the **"Fetch Reports"** button
+   - The application will copy all report files from your Quest
+   - A progress indicator shows the transfer status
+   - Files are saved to: `Desktop\AemulusConnect\`
 
-WireFrame Flow:
-![](assets/media/Pasted%20image%2020251107084934.png)
+3. **View Reports**
+   - After fetching, click **"View Reports"** to open the folder
+   - Reports are organized by date and type (PDF and CSV files)
+   - Original files are archived on your Quest device for safekeeping
 
-**Screen 1: Setup Screen** 
+### Application States
 
-If no quest is detected (via adb)
-![](assets/media/Pasted%20image%2020251107084951.png)
-* This screen should only stay up until a quest device is detected.
-* We're assuming detection == usb debugging allowed, so once detection is possible, this screen should go away and Screen 2 should be visible/active. (if this assumption is wrong, we can re-work this page's requirements / UX as needed)
+**Setup Screen (No Device Detected)**
+- Shows connection instructions
+- Guides you through USB debugging setup
+- Automatically disappears when Quest is detected
 
-**Screen 2: Default Screen** 
+**Ready Screen (Device Connected)**
+- Shows the AemulusConnect logo
+- Displays "Fetch Reports" button
+- Shows count of previously fetched reports (if any)
 
-Once a quest is detected, we show logo and the app name, and the "Fetch reports" button
+**Transfer Screen (Downloading)**
+- Displays progress bar
+- Shows current status:
+  - "No Reports Found" - No files to download
+  - "Downloading to PC" - Transfer in progress
+  - "Downloading Complete" - Successfully downloaded
+  - "Downloading Failed" - Error occurred (see troubleshooting)
 
-![](assets/media/Pasted%20image%2020251107085147.png)
-**Screen 3: Downloading Screen** 
+## File Organization
 
-Once fetch Reports has been clicked, use loading bar to indicate reports are being fetched
+Reports are saved to your desktop in the following structure:
 
-![](assets/media/Pasted%20image%2020251107085159.png)
-* hide button / buttons whenever loading bar is visible
-* even if no files exist in the saved report directory, show loading bar for a default of 1 second (minimum loading bar time is 1 second)
-* while loading bar is active, display text below:
-* * No Reports found (while app directory doesn't exist or it exists but has no reports)
-* * Downloading to PC (while reports found and are downloading)
-* * Downloading Complete (if reports existed and were downloaded and the process is complete.)
-* * Downloading Failed (Bold and in red, if something went wrong during the download process)
-* once loading bar is filled/doanload is complete, wait 2 seconds to return to normal screen
+```
+Desktop\
+└── AemulusConnect\
+    ├── Report-files-2025-01-15.pdf
+    ├── Report-files-2025-01-15.csv
+    ├── Report-files-2025-01-14.pdf
+    └── Report-files-2025-01-14.csv
+```
 
-**Screen 4: Default Screen**
+On your Quest device, fetched files are moved to:
+```
+sdcard\Documents\Archive\
+```
 
-Once reports have been fetched, show number of reports found at bottom of page, and make visible the 2nd button, "View Reports"
-![](assets/media/Pasted%20image%2020251107085211.png)
+> **Note**: The Quest archive automatically maintains the most recent 100 files to save storage space.
 
+## Troubleshooting
 
-**Buttons:**
-Fetch Reports button should always copy all available reports to the PC.
+### Quest Device Not Detected
 
-Copy all files from the Quest Aemulus Directory: 
+**Problem**: The setup screen doesn't disappear after connecting Quest
 
-(there should eventually be both PDFs and CSV files with matching names.)
+**Solutions**:
+1. Check your USB cable is properly connected
+2. Verify USB debugging is enabled on Quest (see [First Time Setup](#first-time-setup))
+3. Try a different USB port on your PC
+4. Restart the AemulusConnect application
+5. Unplug and reconnect your Quest device
 
-To a folder with the copy date as it's name:
-Desktop/AemulusConnect/Reports-[YYYY-MM-DD]/
+### "Allow USB Debugging" Prompt Keeps Appearing
 
-When copying down to desktop, add "_Archived_[YYYY-MM-DD]" to the copied file name.
+**Problem**: Quest repeatedly asks for USB debugging permission
 
-View Reports button should always open the directory on the PC: Desktop/AemulusConnect/
+**Solution**:
+- Make sure to check "Always allow from this computer" before tapping OK
+- If the problem persists, go to Quest Settings → Developer → "Revoke USB Debugging Authorizations", then reconnect and authorize again
 
+### Download Failed Error
 
+**Problem**: Reports fail to download
+
+**Solutions**:
+1. Ensure your Quest has files in `sdcard\Documents\` folder
+2. Check that you have enough free space on your desktop
+3. Verify your Quest is still connected (check USB connection)
+4. Try restarting both AemulusConnect and your Quest device
+5. Check the application logs (see [Log Files](#log-files))
+
+### .NET Runtime Not Found
+
+**Problem**: Application won't launch, error about missing .NET
+
+**Solution**:
+- Download and install .NET 8 Desktop Runtime from: https://dotnet.microsoft.com/download/dotnet/8.0
+- Select "Run desktop apps" → "Download x64"
+- After installation, restart AemulusConnect
+
+### Application Crashes or Freezes
+
+**Solutions**:
+1. Close and restart AemulusConnect
+2. Disconnect and reconnect your Quest device
+3. Check Task Manager and close any stuck "AemulusConnect.exe" processes
+4. Restart your computer if problems persist
+5. Review log files for error details (see below)
+
+## Log Files
+
+AemulusConnect creates log files to help diagnose issues:
+
+**Location**: Same directory as the application executable
+**File**: `AemulusConnect.log`
+
+If you need help troubleshooting:
+1. Locate the log file
+2. Open it with Notepad or any text editor
+3. Look for entries marked "ERROR" or "WARN"
+4. Include relevant log excerpts when reporting issues
+
+## Settings
+
+Click the gear icon (⚙️) in the top-right corner to customize:
+
+- **Reports Location** - Where to find reports on your Quest (default: `sdcard\Documents\`)
+- **Archive Location** - Where to store archived files on Quest (default: `sdcard\Documents\Archive\`)
+- **Output Location** - Where to save reports on your PC (default: `Desktop\AemulusConnect\`)
+
+> **Tip**: Most users don't need to change these settings. Only modify if you have a custom setup.
+
+## Uninstalling
+
+To remove AemulusConnect:
+
+1. Open Windows **Settings** → **Apps** → **Installed apps**
+2. Find "AemulusConnect" in the list
+3. Click the three dots (...) → **Uninstall**
+4. Follow the uninstall wizard
+
+Or use the Start Menu shortcut:
+- **Start Menu** → **AemulusConnect** → **Uninstall AemulusConnect**
+
+## Support and Feedback
+
+- **Report Issues**: [GitHub Issues](https://github.com/Aemulus-XR/AemulusConnect/issues)
+- **Feature Requests**: [Request a Feature](https://github.com/Aemulus-XR/AemulusConnect/issues/new?template=feature_request.md)
+- **Questions**: Visit our [Discord community](https://discord.gg/gQH4mXWQRT)
+- **Aemulus XR Website**: https://www.aemulus-xr.com/
+
+## Privacy and Data
+
+- AemulusConnect only accesses the specific report folders on your Quest device
+- No data is sent to external servers
+- All file transfers happen directly between your Quest and your PC
+- Reports are stored locally on your computer only
+
+## Version Information
+
+Check your installed version:
+- **Start Menu** → **AemulusConnect** → **About**
+- Or check the title bar of the application window
+
+Current version documentation: **1.4.0**
+
+---
+
+For developer documentation, build instructions, and contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).

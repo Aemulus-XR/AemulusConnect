@@ -1,145 +1,155 @@
 # AemulusConnect [![starline](https://starlines.qoo.monster/assets/Aemulus-XR/AemulusConnect)](https://github.com/qoomon/starline)
 <div align="center">
 
-  <img src="assets/media/logo.jpg" alt="logo" width="auto" height="auto" />
-    <h1><a href="https://github.com/Aemulus-XR/AemulusConnect">Aemulus-XR/AemulusConnect</a></h1>
-  <h3>Nulla nobis dicta iste minus dolor repellendus aspernatur atque</h3>
-  
-  
-<!-- Badges -->
-<p>
-  <a href="https://github.com/Aemulus-XR/AemulusConnect/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/Aemulus-XR/AemulusConnect" alt="contributors" />
-  </a>
-  <a href="">
-    <img src="https://img.shields.io/github/last-commit/Aemulus-XR/AemulusConnect" alt="last update" />
-  </a>
-  <a href="https://github.com/Aemulus-XR/AemulusConnect/network/members">
-    <img src="https://img.shields.io/github/forks/Aemulus-XR/AemulusConnect" alt="forks" />
-  </a>
-  <a href="https://github.com/Aemulus-XR/AemulusConnect/stargazers">
-    <img src="https://img.shields.io/github/stars/Aemulus-XR/AemulusConnect" alt="stars" />
-  </a>
-  <a href="https://github.com/Aemulus-XR/AemulusConnect/issues/">
-    <img src="https://img.shields.io/github/issues/Aemulus-XR/AemulusConnect" alt="open issues" />
-  </a>
-  <a href="https://github.com/Aemulus-XR/AemulusConnect/blob/main/notes/LICENSE.md">
-    <img src="https://img.shields.io/github/license/Aemulus-XR/AemulusConnect.svg" alt="license" />
-  </a>
-  <a href="https://discord.gg/gQH4mXWQRT">
-    <!--<img src="https://img.shields.io/discord/704680098577514527?style=flat-square&label=%F0%9F%92%AC%20discord&color=00ACD7">-->
-    <img src="https://img.shields.io/discord/1052011377415438346?style=flat-square&label=discord&color=00ACD7">
-  </a>
-</p>
-   
-<h4>
-    <a href="https://tinyurl.com/3vf7whyd">View Demo</a>
-  <span> · </span>
-    <a href="https://github.com/Aemulus-XR/AemulusConnect/blob/main/README.md">Documentation</a>
-  <span> · </span>
-    <a href="https://github.com/Aemulus-XR/AemulusConnect/issues/new?template=bug_report.md">Report Bug</a>
-  <span> · </span>
-    <a href="https://github.com/Aemulus-XR/AemulusConnect/issues/new?template=feature_request.md">Request Feature</a>
-  </h4>
+<div align="center">
+
+<img src="assets/media/logo.jpg" alt="AemulusConnect Logo" width="200" height="auto" />
+
+### Seamlessly transfer XR reports from your Oculus Quest to your Windows PC
+
+[![Contributors](https://img.shields.io/github/contributors/Aemulus-XR/AemulusConnect)](https://github.com/Aemulus-XR/AemulusConnect/graphs/contributors)
+[![Last Commit](https://img.shields.io/github/last-commit/Aemulus-XR/AemulusConnect)](https://github.com/Aemulus-XR/AemulusConnect/commits/main)
+[![Stars](https://img.shields.io/github/stars/Aemulus-XR/AemulusConnect)](https://github.com/Aemulus-XR/AemulusConnect/stargazers)
+[![Issues](https://img.shields.io/github/issues/Aemulus-XR/AemulusConnect)](https://github.com/Aemulus-XR/AemulusConnect/issues/)
+[![License](https://img.shields.io/github/license/Aemulus-XR/AemulusConnect.svg)](https://github.com/Aemulus-XR/AemulusConnect/blob/main/notes/LICENSE.md)
+[![Discord](https://img.shields.io/discord/1052011377415438346?style=flat-square&label=discord&color=00ACD7)](https://discord.gg/gQH4mXWQRT)
+
+[Download](https://github.com/Aemulus-XR/AemulusConnect/releases) • [Documentation](notes/USER_README.md) • [Report Bug](https://github.com/Aemulus-XR/AemulusConnect/issues/new?template=bug_report.md) • [Request Feature](https://github.com/Aemulus-XR/AemulusConnect/issues/new?template=feature_request.md)
+
 </div>
 
-**AemulusConnect** is voluptatibus magni nemo est. Nulla nobis dicta iste minus dolor repellendus aspernatur atque. Earum expedita aut inventore tempora fugiat deleniti. Molestias minima nam expedita beatae totam ipsa reprehenderit animi. Occaecati quibusdam beatae ducimus voluptate ut doloribus vitae amet. Quia ut ut voluptate dignissimos adipisci dolorum rem.
+---
 
-## Getting Started with This Template
+## What is AemulusConnect?
 
->[!IMPORTANT]
-> **Customization Checklist** - After creating a repository from this template, customize these items:
->
-> - [ ] Update the project description (line 5 above and in repository settings)
-> - [ ] Replace `assets/media/logo.jpg` with your project logo
-> - [ ] Update or remove the "View Demo" link (line 35)
-> - [ ] Update or remove the Discord badge/link (lines 28-31)
-> - [ ] Choose and apply a `.gitignore` from `.github/gitignore-templates/` (see [gitignore templates](.github/gitignore-templates/))
-> - [ ] Update the version in `.release-please-manifest.json` to your starting version (e.g., "0.1.0")
-> - [ ] Fill in the Features, Installation, and Usage sections below
-> - [ ] Review and update the [Code of Conduct](notes/CODE_OF_CONDUCT.md) contact information
-> - [ ] Enable GitHub Pages in repository settings if you want a project website
-> - [ ] Remove or update this checklist section
-
-Branches
---------
-`main` is the [deployed](https://Aemulus-XR.github.io/AemulusConnect/) branch.  The repo doesn't currently contain any other historic or dev branches.
-
-Repo Layout
------------
-```
-AemulusConnect
-├───_layouts                     # Jekyll layouts for GitHub Pages
-├───.github
-│   ├───gitignore-templates      # Example .gitignore files (Unreal, Unity, Python, etc.)
-│   ├───ISSUE_TEMPLATE           # Bug report and feature request templates
-│   ├───release-please           # Release-Please configuration
-│   ├───workflows                # GitHub Actions (release, template-init)
-│   ├───FUNDING.yml              # Sponsorship configuration
-│   └───PULL_REQUEST_TEMPLATE.md # PR template
-├───assets
-│   ├───css                      # Styling for GitHub Pages
-│   └───media                    # Images and logos
-├───notes                        # CHANGELOG, VERSION, TODO
-├───CODE_OF_CONDUCT.md           # Community guidelines
-├───CONTRIBUTING.md              # Contribution guidelines
-├───LICENSE.md                   # MIT License
-└───README.md                    # This file
-```
+**AemulusConnect** is a Windows desktop application that makes it easy to transfer report files from your Oculus Quest VR headset to your PC. Built specifically for [Aemulus XR](https://www.aemulus-xr.com/) users, it automatically detects your Quest device, downloads your reports, and organizes them on your computer—all with just a click.
 
 ### Key Features
 
-**GitHub Pages Support**: The `_layouts` and `assets/css` folders enable GitHub Pages rendering with a custom dark theme similar to GitHub's [Dark High Contrast](https://github.blog/changelog/2021-08-25-dark-high-contrast-theme-ga/) theme. Enable Pages in your repo settings - see [GitHub's Jekyll documentation](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll).
+- 🔌 **Automatic Device Detection** - Instantly recognizes your Quest when connected
+- 📥 **One-Click Downloads** - Fetch all reports with a single button press
+- 📁 **Smart Organization** - Files saved to organized folders on your desktop
+- 💾 **Automatic Archiving** - Keeps your Quest storage clean by archiving transferred files
+- ⚙️ **Customizable Paths** - Configure where files are stored (both on Quest and PC)
+- 🔄 **Real-Time Status** - Visual feedback during transfers with progress indicators
+- 🛡️ **Secure & Private** - All transfers happen locally—no cloud, no external servers
 
-**Automated Release Management**: The `.github/workflows` folder includes [Release-Please](https://github.com/googleapis/release-please) for automated versioning and CHANGELOG updates based on conventional commits.
+## Quick Start
 
-**Template Initialization**: The `template-init.yml` workflow automatically updates repository references when you create a new repo from this template, then deletes itself.
+### For Users
 
-**.gitignore Templates**: The `.github/gitignore-templates/` folder contains ready-to-use `.gitignore` files for Unreal Engine, Unity, Python, Node.js, C++, and general development. See the [templates README](.github/gitignore-templates/) for usage.
+1. **Download** the latest installer from [Releases](https://github.com/Aemulus-XR/AemulusConnect/releases)
+2. **Install** by running the `.msi` file
+3. **Connect** your Quest device to your PC via USB
+4. **Enable USB Debugging** on your Quest (first time only)
+5. **Click "Fetch Reports"** to download your files
 
->[!NOTE]
-> When using this template project, do not clone the tags or branches. Stick with `main` as the name of your main release branch. Change the version number in the `.release-please-manifest.json` file to the version you want to start with.
->
-> Release-Please uses [Semantic Versioning](https://semver.org/) (version: MAJOR.MINOR.PATCH). Changes to version numbers are triggered by specific keywords in your commit messages:
-> - `feat:` (new feature) will bump the MINOR version number.
-> - `fix:` (bug fixes) will bump the PATCH number.
-> - `feat!:` `fix!:` or any `xxx!:` (major and breaking changes) will bump the MAJOR version number.
+📖 **Full user guide:** [USER_README.md](notes/USER_README.md)
 
->[!TIP]
-> **Automatic Template Initialization**: When you create a new repository from this template, a GitHub Actions workflow automatically runs on your first push to update all repository references, URLs, and badges in the README with your new repository information. The workflow then deletes itself to keep your repo clean. No manual setup required!
+### For Developers
 
+```powershell
+# Clone the repository
+git clone https://github.com/Aemulus-XR/AemulusConnect.git
+cd AemulusConnect
 
+# Verify prerequisites
+cd tools
+.\verify_prerequisites.ps1
 
-Table of Contents
------------------
-- [Branches](#branches)
-- [Repo Layout](#repo-layout)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributions / Contact](#contributions--contact)
-- [Credits](#credits)
+# Build the application
+.\build_and_package.ps1 -Clean
+```
 
-Features
---------
-Installation
-------------
-Usage
------
+🛠️ **Developer guide:** [CONTRIBUTING.md](notes/CONTRIBUTING.md)
 
-Contributions / Contact
------------------------
-- Please [file an issue](https://github.com/Aemulus-XR/AemulusConnect/issues/new), or [grab a fork](https://github.com/Aemulus-XR/AemulusConnect/fork), hack away, and submit a [pull request](https://github.com/Aemulus-XR/AemulusConnect/pulls).
-- Contact me at [linkedin.com/in/scottkirvan/](https://www.linkedin.com/in/scottkirvan/)
-- You can also contact me at my [discord](https://discord.gg/TSKHvVFYxB) server, I'm cptvideo.
+## System Requirements
 
-Credits
--------
-**[ScooterGitTemplate](https://github.com/ScottKirvan/ScooterGitTemplate) Copyright (c) (2025):** [Scott Kirvan](https://github.com/ScottKirvan)  - All rights reserved
-*ScooterGitTemplate is licensed under the [MIT License](notes/LICENSE.md).*
+- **Operating System**: Windows 10 (Build 26100+) or Windows 11
+- **Runtime**: .NET 8 Desktop Runtime (installer will prompt if needed)
+- **Device**: Oculus Quest or Quest 2 with USB debugging enabled
+- **Connection**: USB cable
 
-Project Link:  [AemulusConnect](https://github.com/Aemulus-XR/AemulusConnect)  
+## Documentation
 
+| Document                                        | Description                                                |
+| ----------------------------------------------- | ---------------------------------------------------------- |
+| **[User Guide](notes/USER_README.md)**          | Installation, usage, and troubleshooting for end users     |
+| **[Contributing Guide](notes/CONTRIBUTING.md)** | Developer setup, architecture, and contribution guidelines |
+| **[Build Guide](notes/BUILD.md)**               | Quick reference for building and packaging                 |
+| **[Changelog](notes/CHANGELOG.md)**             | Version history and release notes                          |
+| **[Code of Conduct](notes/CODE_OF_CONDUCT.md)** | Community guidelines and expectations                      |
 
-[CHANGELOG](notes/CHANGELOG.md)  
-[TODO](notes/TODO.md)
+## How It Works
+
+AemulusConnect uses the Android Debug Bridge (ADB) to communicate securely with your Quest device:
+
+1. **Detect** - Automatically finds your connected Quest
+2. **Transfer** - Copies report files (PDF and CSV) from `sdcard\Documents\` to your PC desktop
+3. **Archive** - Moves original files to `sdcard\Documents\Archive\` on your Quest
+4. **Manage** - Automatically maintains the 100 most recent archived files
+
+## Technology Stack
+
+- **Language**: C# 12.0
+- **Framework**: .NET 8.0 with Windows Forms
+- **ADB Library**: AdvancedSharpAdbClient 3.3.13
+- **Logging**: log4net 3.0.3
+- **Installer**: WiX Toolset v4
+- **Build System**: PowerShell automation scripts
+
+## Contributing
+
+We welcome contributions! Whether you're fixing bugs, adding features, improving documentation, or helping with testing:
+
+1. 🍴 Fork the repository
+2. 🌿 Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. 💾 Commit your changes (`git commit -m 'feat: add amazing feature'`)
+4. 📤 Push to your branch (`git push origin feature/amazing-feature`)
+5. 🔁 Open a Pull Request
+
+See our [Contributing Guide](notes/CONTRIBUTING.md) for detailed instructions.
+
+## Support & Community
+
+- 💬 **Discord**: [Join our community](https://discord.gg/gQH4mXWQRT)
+- 🐛 **Bug Reports**: [Open an issue](https://github.com/Aemulus-XR/AemulusConnect/issues/new?template=bug_report.md)
+- ✨ **Feature Requests**: [Suggest a feature](https://github.com/Aemulus-XR/AemulusConnect/issues/new?template=feature_request.md)
+- 🌐 **Aemulus XR**: [www.aemulus-xr.com](https://www.aemulus-xr.com/)
+
+## Project Status
+
+**Current Version**: 1.4.0
+**Status**: Active Development
+**Branch**: `main` (stable, deployed)
+
+See [CHANGELOG.md](notes/CHANGELOG.md) for version history and [TODO.md](notes/TODO.md) for planned features.
+
+## Credits & Acknowledgments
+
+Copyright (c) 2025 Aemulus-XR  
+This project is licensed under the **MIT License** - see [LICENSE.md](notes/LICENSE.md) for details.
+
+**AemulusConnect** is built upon:
+
+- **[ScooterGitTemplate](https://github.com/ScottKirvan/ScooterGitTemplate)** Copyright (c) 2024-2025 [Scott Kirvan](https://github.com/ScottKirvan) - Project template foundation
+- **[AdvancedSharpAdbClient](https://github.com/yungd1plomat/AdvancedSharpAdbClient)** - ADB communication library
+- **[log4net](https://logging.apache.org/log4net/)** - Copyright © 2007-2025 [The Apache Software Foundation](https://www.apache.org/) - Apache Logging Services
+- **[WiX Toolset](https://wixtoolset.org/)** - Windows Installer XML toolset
+
+### Project Maintainer
+
+**Scott Kirvan** ([cptvideo](https://github.com/ScottKirvan))
+- GitHub: [@ScottKirvan](https://github.com/ScottKirvan)
+- LinkedIn: [scottkirvan](https://www.linkedin.com/in/scottkirvan/)
+- Discord: cptvideo
+
+---
+
+<div align="center">
+
+**Made with ❤️ for the Aemulus XR community**
+
+[⬆ Back to Top](#aemulusconnect)
+
+</div>
