@@ -550,4 +550,9 @@ if (Test-Path $OutputMsi) {
 
 Write-Host "Done!" -ForegroundColor Green
 Write-Host ""
+
+$player = New-Object System.Media.SoundPlayer
+$player.SoundLocation = "assets/media/done.wav"
+$player.PlaySync()  # Plays the sound synchronously (blocking)
+
 exit 0
