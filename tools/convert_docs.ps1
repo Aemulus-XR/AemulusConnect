@@ -95,7 +95,7 @@ function Get-WkhtmltopdfPath {
 #region Configuration
 
 $ScriptRoot = Split-Path -Parent $PSScriptRoot
-$LicenseMd = Join-Path $ScriptRoot "LICENSE.md"
+$LicenseMd = Join-Path $ScriptRoot "notes/LICENSE.md"
 $UserReadmeMd = Join-Path $ScriptRoot "notes\USER_README.md"
 $InstallerDir = Join-Path $ScriptRoot "src\installer"
 $LicenseRtf = Join-Path $InstallerDir "license.rtf"

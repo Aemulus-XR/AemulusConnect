@@ -23,7 +23,7 @@
   <a href="https://github.com/Aemulus-XR/AMXR_Report/issues/">
     <img src="https://img.shields.io/github/issues/Aemulus-XR/AMXR_Report" alt="open issues" />
   </a>
-  <a href="https://github.com/Aemulus-XR/AMXR_Report/blob/main/LICENSE.md">
+  <a href="https://github.com/Aemulus-XR/AMXR_Report/blob/main/notes/LICENSE.md">
     <img src="https://img.shields.io/github/license/Aemulus-XR/AMXR_Report.svg" alt="license" />
   </a>
   <a href="https://discord.gg/gQH4mXWQRT">
@@ -136,7 +136,7 @@ Contributions / Contact
 Credits
 -------
 **[ScooterGitTemplate](https://github.com/ScottKirvan/ScooterGitTemplate) Copyright (c) (2025):** [Scott Kirvan](https://github.com/ScottKirvan)  - All rights reserved
-*ScooterGitTemplate is licensed under the [MIT License](LICENSE.md).*
+*ScooterGitTemplate is licensed under the [MIT License](notes/LICENSE.md).*
 
 Project Link:  [AMXR_Report](https://github.com/Aemulus-XR/AMXR_Report)  
 [CHANGELOG](notes/CHANGELOG.md)  
