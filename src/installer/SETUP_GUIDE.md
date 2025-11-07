@@ -79,13 +79,13 @@ dotnet restore "Aemulus XR Reporting App.csproj"
 dotnet build "Aemulus XR Reporting App.csproj" --configuration Release
 
 # Build the installer
-cd ..\installer
+cd installer
 wix build AemulusXRReporting.wxs -out ..\output\AemulusXRReporting.msi
 ```
 
 ## Step 4: Test the Installer
 
-1. Locate the MSI file in the `output` folder
+1. Locate the MSI file in the `src\output` folder
 2. **Test Installation**:
    - Double-click the MSI to install
    - Check that shortcuts appear in Start Menu
@@ -213,10 +213,10 @@ Get-Help .\build_and_package.ps1 -Detailed
 .\verify_prerequisites.ps1
 
 # Install with logging (for debugging)
-msiexec /i output\AemulusXRReporting.msi /l*v install.log
+msiexec /i src\output\AemulusXRReporting.msi /l*v install.log
 
 # Silent install
-msiexec /i output\AemulusXRReporting.msi /quiet /qn
+msiexec /i src\output\AemulusXRReporting.msi /quiet /qn
 
 # Check WiX version
 wix --version

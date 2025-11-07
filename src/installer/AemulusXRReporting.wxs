@@ -12,7 +12,7 @@
 
   <!-- Build output path - passed from build script or defaults to framework-dependent -->
   <?ifndef BuildOutputPath ?>
-    <?define BuildOutputPath = "..\src\bin\Release\net8.0-windows10.0.26100.0" ?>
+    <?define BuildOutputPath = "..\bin\Release\net8.0-windows10.0.26100.0" ?>
   <?endif ?>
 
   <!-- TODO: Generate a unique GUID for UpgradeCode using: powershell -Command "[guid]::NewGuid()" -->
@@ -166,7 +166,7 @@
     </ComponentGroup>
 
     <!-- Icon definition -->
-    <Icon Id="AppIcon.exe" SourceFile="..\src\aemulus.ico" />
+    <Icon Id="AppIcon.exe" SourceFile="..\aemulus.ico" />
     <Property Id="ARPPRODUCTICON" Value="AppIcon.exe" />
 
     <!-- Add/Remove Programs information -->

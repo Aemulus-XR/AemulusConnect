@@ -2,6 +2,38 @@
 
 This directory contains automation scripts for building and packaging the Aemulus XR Reporting application.
 
+## Table of Contents
+
+- [Available Scripts](#available-scripts)
+  - [1. verify_prerequisites.ps1](#1-verify_prerequisitesps1)
+  - [2. build_and_package.ps1](#2-build_and_packageps1)
+  - [3. harvest_runtime.ps1](#3-harvest_runtimeps1)
+  - [4. test_detection.ps1](#4-test_detectionps1)
+  - [5. check_encoding.ps1](#5-check_encodingps1)
+- [Quick Start](#quick-start)
+  - [First Time Setup](#first-time-setup)
+  - [Regular Development Workflow](#regular-development-workflow)
+- [Build Output Structure](#build-output-structure)
+- [Common Scenarios](#common-scenarios)
+  - [Scenario 1: Daily Development Build](#scenario-1-daily-development-build)
+  - [Scenario 2: Clean Release Build](#scenario-2-clean-release-build)
+  - [Scenario 3: Self-Contained Distribution](#scenario-3-self-contained-distribution)
+  - [Scenario 4: Quick Installer Rebuild](#scenario-4-quick-installer-rebuild)
+  - [Scenario 5: Pre-Release Checklist](#scenario-5-pre-release-checklist)
+- [PowerShell Features](#powershell-features)
+  - [Getting Help](#getting-help)
+- [Troubleshooting](#troubleshooting)
+- [Advanced Usage](#advanced-usage)
+  - [Custom Build Configuration](#custom-build-configuration)
+  - [WiX with Custom Parameters](#wix-with-custom-parameters)
+  - [Silent Installation Testing](#silent-installation-testing)
+- [Environment Variables (Optional)](#environment-variables-optional)
+- [CI/CD Integration](#cicd-integration)
+  - [GitHub Actions Example](#github-actions-example)
+  - [Azure DevOps Example](#azure-devops-example)
+- [Additional Resources](#additional-resources)
+- [Support](#support)
+
 ## Available Scripts
 
 ### 1. verify_prerequisites.ps1
@@ -65,9 +97,79 @@ PowerShell script that builds the application and creates the MSI installer with
 6. Opens the output folder
 
 **Output:**
-- Location: `output\AemulusXRReporting.msi`
+- Location: `src\output\AemulusXRReporting.msi`
 - Build logs: Console output
 - Build artifacts: `src\bin\Release\`
+
+### 3. harvest_runtime.ps1
+
+PowerShell script that uses WiX Heat to automatically generate a WiX fragment containing all .NET runtime DLLs for self-contained deployments.
+
+**Usage:**
+```powershell
+.\harvest_runtime.ps1 -BuildOutputPath "..\src\bin\Release\net8.0-windows10.0.26100.0\win-x64"
+```
+
+**What it does:**
+- Uses WiX Heat tool to harvest all files from the build output directory
+- Generates a RuntimeFiles.wxs fragment file
+- Creates component groups for easy inclusion in the main installer
+
+**When to use:**
+- Creating self-contained installers that include the .NET runtime
+- Automating the process of adding ~400+ runtime DLLs to the installer
+- Updating the installer when runtime files change
+
+**Output:**
+- Location: `src\installer\RuntimeFiles.wxs`
+- Next step: Add `<ComponentGroupRef Id='RuntimeFiles'/>` to your main .wxs file
+
+### 4. test_detection.ps1
+
+PowerShell script that tests the .NET Desktop Runtime detection logic used by the installer.
+
+**Usage:**
+```powershell
+.\test_detection.ps1
+```
+
+**What it does:**
+- Checks if the .NET Desktop Runtime directory exists
+- Lists all installed .NET Desktop Runtime versions (64-bit and 32-bit)
+- Simulates the WiX DirectorySearch logic
+- Reports whether the installer will detect the runtime
+
+**When to use:**
+- Troubleshooting installer runtime detection issues
+- Verifying .NET installation on a target machine
+- Testing before deploying to users
+
+**Output:**
+- Console report showing detected .NET versions
+- Prediction of installer behavior
+
+### 5. check_encoding.ps1
+
+PowerShell script that verifies the encoding and syntax of PowerShell scripts.
+
+**Usage:**
+```powershell
+.\check_encoding.ps1
+```
+
+**What it does:**
+- Checks file encoding (UTF-8 with/without BOM, UTF-16)
+- Validates PowerShell syntax
+- Reports file size and line count
+- Ensures scripts are properly formatted
+
+**When to use:**
+- Troubleshooting script execution issues
+- Verifying scripts after editing in different editors
+- Ensuring cross-platform compatibility
+
+**Output:**
+- Console report showing encoding, syntax validation, and file statistics
 
 ## Quick Start
 
@@ -85,7 +187,7 @@ PowerShell script that builds the application and creates the MSI installer with
    ```powershell
    [guid]::NewGuid()
    ```
-   Update `installer\AemulusXRReporting.wxs` line 11 with the generated GUID
+   Update `src\installer\AemulusXRReporting.wxs` line 11 with the generated GUID
 
 4. **Build the installer:**
    ```powershell
@@ -102,7 +204,7 @@ cd tools
 .\build_and_package.ps1 -Clean
 
 # Test the installer
-cd ..\output
+cd ..\src\output
 # Double-click AemulusXRReporting.msi to test
 ```
 
@@ -111,21 +213,21 @@ cd ..\output
 ```
 AMXR_Report/
 ├── src/
-│   └── bin/
-│       └── Release/
-│           └── net8.0-windows10.0.26100.0/
-│               ├── Aemulus XR Reporting App.exe
-│               ├── *.dll (dependencies)
-│               └── platform-tools/
-│                   ├── adb.exe
-│                   └── AdbWinApi.dll
-├── installer/
-│   └── AemulusXRReporting.wxs
-├── output/
-│   └── AemulusXRReporting.msi  ← Final installer
+│   ├── bin/
+│   │   └── Release/
+│   │       └── net8.0-windows10.0.26100.0/
+│   │           ├── Aemulus XR Reporting App.exe
+│   │           ├── *.dll (dependencies)
+│   │           └── platform-tools/
+│   │               ├── adb.exe
+│   │               └── AdbWinApi.dll
+│   ├── installer/
+│   │   └── AemulusXRReporting.wxs
+│   └── output/
+│       └── AemulusXRReporting.msi  ← Final installer
 └── tools/
-    ├── build_and_package.bat
-    └── verify_prerequisites.bat
+    ├── build_and_package.ps1
+    └── verify_prerequisites.ps1
 ```
 
 ## Common Scenarios
@@ -293,7 +395,7 @@ wix build AemulusXRReporting.wxs ^
 
 ```batch
 # Install silently
-msiexec /i output\AemulusXRReporting.msi /quiet /qn /l*v install.log
+msiexec /i src\output\AemulusXRReporting.msi /quiet /qn /l*v install.log
 
 # Check installation log
 notepad install.log
@@ -355,7 +457,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: installer
-          path: output/AemulusXRReporting.msi
+          path: src/output/AemulusXRReporting.msi
 ```
 
 ### Azure DevOps Example
@@ -385,14 +487,14 @@ steps:
 
   - task: PublishBuildArtifacts@1
     inputs:
-      pathToPublish: 'output/AemulusXRReporting.msi'
+      pathToPublish: 'src/output/AemulusXRReporting.msi'
       artifactName: 'installer'
 ```
 
 ## Additional Resources
 
-- **Detailed Setup**: See [installer/SETUP_GUIDE.md](../installer/SETUP_GUIDE.md)
-- **Installer Documentation**: See [installer/README.md](../installer/README.md)
+- **Detailed Setup**: See [src/installer/SETUP_GUIDE.md](../src/installer/SETUP_GUIDE.md)
+- **Installer Documentation**: See [src/installer/README.md](../src/installer/README.md)
 - **WiX Documentation**: https://wixtoolset.org/docs/
 - **.NET Publishing**: https://learn.microsoft.com/en-us/dotnet/core/deploying/
 

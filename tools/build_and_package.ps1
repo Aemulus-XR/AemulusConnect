@@ -115,8 +115,9 @@ function Get-FormattedFileSize {
 
 $ScriptRoot = Split-Path -Parent $PSScriptRoot
 $SrcDir = Join-Path $ScriptRoot "src"
-$InstallerDir = Join-Path $ScriptRoot "installer"
-$OutputDir = Join-Path $ScriptRoot "output"
+$InstallerDir = Join-Path $SrcDir "installer"
+$OutputDir = Join-Path $SrcDir "output"
+$ShippingDir = Join-Path $SrcDir "Shipping"
 $ProjectFile = Join-Path $SrcDir "Aemulus XR Reporting App.csproj"
 $WxsFile = Join-Path $InstallerDir "AemulusXRReporting.wxs"
 $OutputMsi = Join-Path $OutputDir "AemulusXRReporting.msi"
@@ -139,7 +140,7 @@ Write-Host ""
 
 #region Step 1: Check Prerequisites
 
-Write-Step "Checking prerequisites..." 1 6
+Write-Step "Checking prerequisites..." 1 7
 
 # Check .NET SDK
 if (-not (Test-CommandExists "dotnet")) {
@@ -180,7 +181,7 @@ Write-Success "WiX source file found"
 
 #region Step 2: Clean Build (Optional)
 
-Write-Step "Build preparation..." 2 6
+Write-Step "Build preparation..." 2 7
 
 if ($Clean) {
     Write-Info "Cleaning previous builds..."
@@ -212,7 +213,7 @@ if ($Clean) {
 #region Step 3: Restore NuGet Packages
 
 if (-not $SkipBuild) {
-    Write-Step "Restoring NuGet packages..." 3 6
+    Write-Step "Restoring NuGet packages..." 3 7
 
     try {
         $restoreArgs = @(
@@ -238,7 +239,7 @@ if (-not $SkipBuild) {
         exit 1
     }
 } else {
-    Write-Step "Skipping NuGet restore..." 3 6
+    Write-Step "Skipping NuGet restore..." 3 7
     Write-Info "Build step skipped as requested"
 }
 
@@ -247,7 +248,7 @@ if (-not $SkipBuild) {
 #region Step 4: Build Application
 
 if (-not $SkipBuild) {
-    Write-Step "Building application..." 4 6
+    Write-Step "Building application..." 4 7
 
     try {
         $buildType = if ($SelfContained) { "self-contained (includes .NET runtime)" } else { "framework-dependent (requires .NET 8)" }
@@ -284,7 +285,7 @@ if (-not $SkipBuild) {
         exit 1
     }
 } else {
-    Write-Step "Skipping build..." 4 6
+    Write-Step "Skipping build..." 4 7
     Write-Info "Using existing build artifacts"
 }
 
@@ -292,7 +293,7 @@ if (-not $SkipBuild) {
 
 #region Step 5: Create Output Directory
 
-Write-Step "Preparing output directory..." 5 6
+Write-Step "Preparing output directory..." 5 7
 
 if (-not (Test-Path $OutputDir)) {
     New-Item -ItemType Directory -Path $OutputDir -Force | Out-Null
@@ -309,9 +310,71 @@ if (Test-Path $OutputMsi) {
 
 #endregion
 
-#region Step 6: Build WiX Installer
+#region Step 6: Create Shipping Folder
 
-Write-Step "Building WiX installer..." 6 6
+Write-Step "Creating Shipping folder..." 6 7
+
+# Determine the correct build output path
+if ($SelfContained) {
+    $BuildOutputPath = Join-Path $SrcDir "bin\$BuildConfig\$TargetFramework\$RuntimeIdentifier"
+} else {
+    $BuildOutputPath = Join-Path $SrcDir "bin\$BuildConfig\$TargetFramework"
+}
+
+# Create Shipping directory structure
+if (Test-Path $ShippingDir) {
+    Remove-Item -Path $ShippingDir -Recurse -Force
+}
+New-Item -ItemType Directory -Path $ShippingDir -Force | Out-Null
+$ShippingPlatformTools = Join-Path $ShippingDir "platform-tools"
+New-Item -ItemType Directory -Path $ShippingPlatformTools -Force | Out-Null
+
+Write-Info "Copying files to Shipping folder..."
+
+# Copy main application files
+$mainFiles = @(
+    "Aemulus XR Reporting App.exe",
+    "Aemulus XR Reporting App.dll",
+    "Aemulus XR Reporting App.runtimeconfig.json",
+    "Aemulus XR Reporting App.deps.json",
+    "AdvancedSharpAdbClient.dll",
+    "log4net.dll",
+    "log4net.config"
+)
+
+foreach ($file in $mainFiles) {
+    $sourcePath = Join-Path $BuildOutputPath $file
+    if (Test-Path $sourcePath) {
+        Copy-Item -Path $sourcePath -Destination $ShippingDir -Force
+    } else {
+        Write-Warning "File not found: $file"
+    }
+}
+
+# Copy platform-tools
+$platformToolsFiles = @(
+    "adb.exe",
+    "AdbWinApi.dll"
+)
+
+$sourcePlatformTools = Join-Path $BuildOutputPath "platform-tools"
+foreach ($file in $platformToolsFiles) {
+    $sourcePath = Join-Path $sourcePlatformTools $file
+    if (Test-Path $sourcePath) {
+        Copy-Item -Path $sourcePath -Destination $ShippingPlatformTools -Force
+    } else {
+        Write-Warning "Platform tool not found: $file"
+    }
+}
+
+Write-Success "Shipping folder created with installation layout"
+Write-Info "Location: $ShippingDir"
+
+#endregion
+
+#region Step 7: Build WiX Installer
+
+Write-Step "Building WiX installer..." 7 7
 
 try {
     # Determine the correct build output path

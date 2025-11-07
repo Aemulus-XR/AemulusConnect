@@ -101,7 +101,7 @@ function Get-WixVersion {
 
 $ScriptRoot = Split-Path -Parent $PSScriptRoot
 $SrcDir = Join-Path $ScriptRoot "src"
-$InstallerDir = Join-Path $ScriptRoot "installer"
+$InstallerDir = Join-Path $SrcDir "installer"
 $ProjectFile = Join-Path $SrcDir "Aemulus XR Reporting App.csproj"
 $WxsFile = Join-Path $InstallerDir "AemulusXRReporting.wxs"
 
@@ -329,7 +329,7 @@ else {
     Write-Host "  ERROR: Some prerequisites are missing or need attention." -ForegroundColor Red
     Write-Host ""
     Write-Host "  Please install missing components and try again." -ForegroundColor Yellow
-    Write-Host "  See installer\SETUP_GUIDE.md for detailed setup instructions." -ForegroundColor Yellow
+    Write-Host "  See src\installer\SETUP_GUIDE.md for detailed setup instructions." -ForegroundColor Yellow
     Write-Host ""
 }
 

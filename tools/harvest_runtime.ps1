@@ -42,7 +42,7 @@ if (-not (Test-Path $BuildOutputPath)) {
     exit 1
 }
 
-$OutputFile = Join-Path $PSScriptRoot "..\installer\RuntimeFiles.wxs"
+$OutputFile = Join-Path $PSScriptRoot "..\src\installer\RuntimeFiles.wxs"
 
 Write-Host "Harvesting files from: " -NoNewline
 Write-Host $BuildOutputPath -ForegroundColor Yellow
