@@ -97,6 +97,7 @@ function Get-WkhtmltopdfPath {
 $ScriptRoot = Split-Path -Parent $PSScriptRoot
 $LicenseMd = Join-Path $ScriptRoot "notes/LICENSE.md"
 $UserReadmeMd = Join-Path $ScriptRoot "notes\USER_README.md"
+$MediaScriptRoot = Join-Path $ScriptRoot "assets\media"
 $InstallerDir = Join-Path $ScriptRoot "src\installer"
 $LicenseRtf = Join-Path $InstallerDir "license.rtf"
 $UserManualPdf = Join-Path $InstallerDir "UserManual.pdf"
@@ -212,7 +213,7 @@ if (-not $SkipPdf) {
                     $UserReadmeMd,
                     "-o", $UserManualPdf,
                     "--metadata", "title=AemulusConnect - User Manual",
-                    "--resource-path=$UserReadmeDir"
+                    "--resource-path=$UserReadmeDir, $MediaScriptRoot"
                 )
 
                 if ($wkhtmltopdfPath) {
@@ -239,7 +240,7 @@ if (-not $SkipPdf) {
                 foreach ($engine in $engines) {
                     try {
                         $UserReadmeDir = Split-Path -Parent $UserReadmeMd
-                        & $pandocPath $UserReadmeMd -o $UserManualPdf --metadata title="AemulusConnect - User Manual" --resource-path="$UserReadmeDir" --pdf-engine=$engine 2>&1 | Out-Null
+                        & $pandocPath $UserReadmeMd -o $UserManualPdf --metadata title="AemulusConnect - User Manual" --resource-path="$UserReadmeDir, $MediaScriptRoot" --pdf-engine=$engine 2>&1 | Out-Null
 
                         if ($LASTEXITCODE -eq 0 -and (Test-Path $UserManualPdf)) {
                             Write-Success "User Manual PDF created using $engine`: $UserManualPdf"
