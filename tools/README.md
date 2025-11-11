@@ -97,7 +97,7 @@ PowerShell script that builds the application and creates the MSI installer with
 6. Opens the output folder
 
 **Output:**
-- Location: `src\output\AemulusConnect.msi`
+- Location: `src\Shipping\output\AemulusConnect-Installer.msi`
 - Build logs: Console output
 - Build artifacts: `src\bin\Release\`
 
@@ -221,10 +221,12 @@ AemulusConnect/
 │   │           └── platform-tools/
 │   │               ├── adb.exe
 │   │               └── AdbWinApi.dll
-│   ├── installer/
-│   │   └── AemulusConnect.wxs
-│   └── output/
-│       └── AemulusConnect.msi  ← Final installer
+│   ├── Shipping/
+│   │   ├── AemulusConnect.exe
+│   │   ├── platform-tools/
+│   │   └── output/
+│   │       └── AemulusConnect-Installer.msi  ← Final installer
+│   └── installer/
 └── tools/
     ├── build_and_package.ps1
     └── verify_prerequisites.ps1
@@ -342,7 +344,7 @@ powershell -ExecutionPolicy Bypass -File .\build_and_package.ps1
 ### Build succeeds but installer creation fails
 
 **Problem**: File paths in .wxs don't match build output
-
+ 
 **Solution**:
 1. Check `src\bin\Release\net8.0-windows10.0.26100.0\` exists
 2. Verify all files referenced in `AemulusConnect.wxs` exist
@@ -383,7 +385,7 @@ dotnet build "AemulusConnect.csproj" ^
 
 ### WiX with Custom Parameters
 
-```batch
+```powershell
 cd installer
 wix build AemulusConnect.wxs ^
   -out ..\output\AemulusConnect.msi ^
@@ -393,7 +395,7 @@ wix build AemulusConnect.wxs ^
 
 ### Silent Installation Testing
 
-```batch
+```powershell
 # Install silently
 msiexec /i src\output\AemulusConnect.msi /quiet /qn /l*v install.log
 
@@ -457,7 +459,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: installer
-          path: src/output/AemulusConnect.msi
+          path: src/Shipping/output/*.msi
 ```
 
 ### Azure DevOps Example

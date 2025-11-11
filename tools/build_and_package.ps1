@@ -116,11 +116,11 @@ function Get-FormattedFileSize {
 $ScriptRoot = Split-Path -Parent $PSScriptRoot
 $SrcDir = Join-Path $ScriptRoot "src"
 $InstallerDir = Join-Path $SrcDir "installer"
-$OutputDir = Join-Path $SrcDir "output"
 $ShippingDir = Join-Path $SrcDir "Shipping"
+$OutputDir = Join-Path $ShippingDir "installer"
 $ProjectFile = Join-Path $SrcDir "AemulusConnect.csproj"
-$WxsFile = Join-Path $InstallerDir "AemulusConnect.wxs"
-$OutputMsi = Join-Path $OutputDir "AemulusConnect.msi"
+$WxsFile = Join-Path $InstallerDir "AemulusConnect.wxs" # Used as fallback
+$OutputMsi = Join-Path $OutputDir "AemulusConnect-Installer.msi"
 
 $BuildConfig = "Release"
 $TargetFramework = "net8.0-windows10.0.26100.0"
@@ -327,13 +327,13 @@ else {
 
 #endregion
 
-#region Step 5: Create Output Directory
+#region Step 6: Create Output Directory
 
 Write-Step "Preparing output directory..." 6 9
 
 if (-not (Test-Path $OutputDir)) {
     New-Item -ItemType Directory -Path $OutputDir -Force | Out-Null
-    Write-Success "Output directory created"
+    Write-Success "Output directory created at $OutputDir"
 }
 else {
     Write-Info "Output directory exists"
@@ -361,11 +361,22 @@ else {
 
 # Create Shipping directory structure
 if (Test-Path $ShippingDir) {
-    Remove-Item -Path $ShippingDir -Recurse -Force
+    Write-Info "Clearing previous Shipping folder..."
+    Remove-Item -Path $ShippingDir -Recurse -Force -ErrorAction SilentlyContinue
+
+    # Validation step to ensure the directory was removed
+    if (Test-Path $ShippingDir) {
+        Write-Error "Failed to clear the Shipping folder. It may be locked by another process."
+        Write-Info "Close any open files or explorers in '$ShippingDir' and try again."
+        exit 1
+    }
 }
 New-Item -ItemType Directory -Path $ShippingDir -Force | Out-Null
 $ShippingPlatformTools = Join-Path $ShippingDir "platform-tools"
 New-Item -ItemType Directory -Path $ShippingPlatformTools -Force | Out-Null
+# Re-create the output directory inside Shipping
+$OutputDir = Join-Path $ShippingDir "installer"
+New-Item -ItemType Directory -Path $OutputDir -Force | Out-Null
 
 Write-Info "Copying files to Shipping folder..."
 
@@ -404,6 +415,33 @@ foreach ($file in $platformToolsFiles) {
     }
     else {
         Write-Warning "Platform tool not found: $file"
+    }
+}
+
+# Copy localization folders (e.g., 'fr', 'es-ES')
+$cultureFolders = Get-ChildItem -Path $BuildOutputPath -Directory | Where-Object { $_.Name -match '^[a-z]{2}(-[A-Z]{2})?$' }
+if ($cultureFolders) {
+    Write-Info "Copying localization folders..."
+    foreach ($folder in $cultureFolders) {
+        $destPath = Join-Path $ShippingDir $folder.Name
+        Copy-Item -Path $folder.FullName -Destination $destPath -Recurse -Force
+        Write-Info "  - Copied $($folder.Name)"
+    }
+}
+
+# Copy converted documentation
+$docsToCopy = @{
+    (Join-Path $InstallerDir "license.rtf")    = (Join-Path $ShippingDir "license.rtf")
+    (Join-Path $InstallerDir "UserManual.pdf") = (Join-Path $ShippingDir "UserManual.pdf")
+}
+
+foreach ($source in $docsToCopy.Keys) {
+    if (Test-Path $source) {
+        Copy-Item -Path $source -Destination $docsToCopy[$source] -Force
+        Write-Info "Copied $($source | Split-Path -Leaf) to Shipping folder"
+    }
+    else {
+        Write-Warning "Documentation file not found, skipping: $($source | Split-Path -Leaf)"
     }
 }
 
@@ -446,14 +484,7 @@ catch {
 Write-Step "Building WiX installer..." 9 9
 
 try {
-    # Determine the correct build output path
-    if ($SelfContained) {
-        $BuildOutputPath = Join-Path $SrcDir "bin\$BuildConfig\$TargetFramework\$RuntimeIdentifier"
-    }
-    else {
-        $BuildOutputPath = Join-Path $SrcDir "bin\$BuildConfig\$TargetFramework"
-    }
-
+    $BuildOutputPath = $ShippingDir # All installer content is now in the Shipping folder
     Write-Info "Using build output from: $BuildOutputPath"
 
     # Build using dotnet build with wixproj
@@ -535,14 +566,19 @@ try {
 
         if ($versionContent -match 'version=(\d+\.\d+\.\d+)') {
             $version = $matches[1]
-            $versionedMsi = Join-Path $OutputDir "AemulusConnect-$version.msi"
+            $versionedMsi = Join-Path $OutputDir "AemulusConnect-Installer-$version.msi"
+            # The wixproj build outputs 'AemulusConnect.msi' by default.
+            $builtMsiPath = Join-Path $OutputDir "AemulusConnect.msi"
 
-            if (Test-Path $OutputMsi) {
-                Copy-Item $OutputMsi $versionedMsi -Force
-                Write-Success "Created versioned installer: AemulusConnect-$version.msi"
+            if (Test-Path $builtMsiPath) {
+                Write-Info "Renaming installer..."
+                Write-Info "  From: $($builtMsiPath | Split-Path -Leaf)"
+                Write-Info "  To:   $($versionedMsi | Split-Path -Leaf)"
+                Rename-Item -Path $builtMsiPath -NewName ($versionedMsi | Split-Path -Leaf) -Force
+                Write-Success "Installer renamed to: $($versionedMsi | Split-Path -Leaf)"
             }
             else {
-                Write-Error "ERROR: The MSI file does not exist: $OutputMsi"
+                Write-Error "ERROR: The built MSI file does not exist: $builtMsiPath"
             }
         }
         else {
@@ -591,7 +627,7 @@ else {
 
 if (Test-Path $OutputMsi) {
     $fileSize = Get-FormattedFileSize $OutputMsi
-    Write-Host "  Installer size:  " -NoNewline
+    Write-Host "  Installer size:  " -NoNewline # Note: This shows size of the un-versioned MSI
     Write-Host $fileSize -ForegroundColor Cyan
 }
 
