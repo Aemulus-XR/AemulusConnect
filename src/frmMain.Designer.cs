@@ -108,7 +108,7 @@ namespace AemulusConnect
 			MaximizeBox = false;
 			MinimizeBox = false;
 			Name = "frmMain";
-			RightToLeft = RightToLeft.Yes;
+			RightToLeft = RightToLeft.No;
 			StartPosition = FormStartPosition.CenterScreen;
 			Text = "AemulusXR Report";
 			Shown += frmMain_Shown;
