@@ -431,8 +431,8 @@ if ($cultureFolders) {
 
 # Copy converted documentation
 $docsToCopy = @{
-    (Join-Path $InstallerDir "license.rtf")   = (Join-Path $ShippingDir "license.rtf")
-    (Join-Path $InstallerDir "UserGuide.pdf") = (Join-Path $ShippingDir "UserGuide.pdf")
+    (Join-Path $InstallerDir "license.rtf")    = (Join-Path $ShippingDir "license.rtf")
+    (Join-Path $InstallerDir "UserManual.pdf") = (Join-Path $ShippingDir "UserManual.pdf")
 }
 
 foreach ($source in $docsToCopy.Keys) {
