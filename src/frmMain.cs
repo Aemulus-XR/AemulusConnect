@@ -141,5 +141,21 @@ namespace AemulusConnect
 
 			_loadingUserControl.setDownloadStatus(downloadStatus);
 		}
+
+		private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var settingsForm = new SettingsForm(
+				FSStrings.ReportsLocation,
+				FSStrings.ArchiveLocation,
+				FSStrings.OutputLocation,
+				(r, a, o) => UpdateQuestHelperPaths(r, a, o)
+			);
+			settingsForm.ShowDialog(this);
+		}
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
+		}
 	}
 }

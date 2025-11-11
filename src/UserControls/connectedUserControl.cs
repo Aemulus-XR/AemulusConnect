@@ -15,28 +15,6 @@ namespace AemulusConnect
 				btnViewReports.Enabled = true;
 			else
 				btnViewReports.Enabled = false;
-
-			// Add Settings button
-			var settingsBtn = new Button()
-			{
-				Text = "Settings",
-				AutoSize = true,
-				Location = new Point(10, 10)
-			};
-			settingsBtn.Click += (s, e) =>
-			{
-				var settingsForm = new SettingsForm(FSStrings.ReportsLocation, FSStrings.ArchiveLocation, FSStrings.OutputLocation, (r, a, o) =>
-				{
-					// Notify the main form that settings have changed
-					var mainForm = FindForm() as frmMain;
-					if (mainForm != null)
-					{
-						mainForm.UpdateQuestHelperPaths(r, a, o);
-					}
-				});
-				settingsForm.ShowDialog(this);
-			};
-			this.Controls.Add(settingsBtn);
 		}
 
 		private void btnTransfer_Click(object sender, EventArgs e) => BtnTransfer_Click?.Invoke();

@@ -267,4 +267,18 @@
     <value>Restart Required</value>
     <comment>MessageBox title for restart notification</comment>
   </data>
+
+  <!-- Main Menu -->
+  <data name="Menu_File" xml:space="preserve">
+    <value>&amp;File</value>
+    <comment>Main menu - File menu (Alt+F hotkey)</comment>
+  </data>
+  <data name="Menu_Settings" xml:space="preserve">
+    <value>&amp;Settings...</value>
+    <comment>File menu - Settings menu item (Alt+S hotkey)</comment>
+  </data>
+  <data name="Menu_Exit" xml:space="preserve">
+    <value>E&amp;xit</value>
+    <comment>File menu - Exit menu item (Alt+X hotkey)</comment>
+  </data>
 </root>
