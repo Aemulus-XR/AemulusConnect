@@ -124,7 +124,7 @@
     <!-- Documentation component -->
     <ComponentGroup Id="DocumentationComponents" Directory="DOCUMENTATIONFOLDER">
       <Component Id="UserDocumentation" Guid="3cc6bcbf-51d9-4600-8e13-74bca12b9405">
-        <!-- User Manual PDF -->
+        <!-- User Guide PDF -->
         <File Id="UserManualPdf" Source="UserManual.pdf" Name="UserManual.pdf" KeyPath="yes" />
 
         <!-- License RTF -->
@@ -143,11 +143,11 @@
           WorkingDirectory="BINFOLDER"
           Icon="AppIcon.exe" />
 
-        <!-- User Manual shortcut -->
+        <!-- User Guide shortcut -->
         <Shortcut
           Id="UserManualShortcut"
-          Name="User Manual"
-          Description="Open the AemulusConnect User Manual"
+          Name="User Guide"
+          Description="Open the AemulusConnect User Guide"
           Target="[DOCUMENTATIONFOLDER]UserManual.pdf" />
 
         <!-- Uninstall shortcut -->

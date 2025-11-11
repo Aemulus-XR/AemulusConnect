@@ -34,7 +34,7 @@
 
 ### Features
 
-* New Installer: ✅ Custom UI - WixUI_FeatureTree with multiple dialogs ✅ License Agreement - MIT license displayed during install ✅ Install Location - ConfigurableDirectory allows user to change path ✅ Feature Selection - Desktop Shortcut as optional feature ✅ Launch App Checkbox - On finish dialog ✅ Desktop Shortcut - Optional feature ✅ Start Menu Shortcuts - App, User Manual, and Uninstall ✅ Documentation - PDF user manual included and accessible ✅ Product Icon - Custom icon (aemulus.ico) ✅ Version Management - MajorUpgrade configuration ✅ Organized Install Structure - bin/ and documentation/ folders ([e957a7a](https://github.com/Aemulus-XR/AemulusConnect/commit/e957a7aedd1eef08e78297a1b27610a5e6fc462b))
+* New Installer: ✅ Custom UI - WixUI_FeatureTree with multiple dialogs ✅ License Agreement - MIT license displayed during install ✅ Install Location - ConfigurableDirectory allows user to change path ✅ Feature Selection - Desktop Shortcut as optional feature ✅ Launch App Checkbox - On finish dialog ✅ Desktop Shortcut - Optional feature ✅ Start Menu Shortcuts - App, User Guide, and Uninstall ✅ Documentation - PDF User Guide included and accessible ✅ Product Icon - Custom icon (aemulus.ico) ✅ Version Management - MajorUpgrade configuration ✅ Organized Install Structure - bin/ and documentation/ folders ([e957a7a](https://github.com/Aemulus-XR/AemulusConnect/commit/e957a7aedd1eef08e78297a1b27610a5e6fc462b))
 
 ## [1.3.0](https://github.com/Aemulus-XR/AemulusConnect/compare/v1.2.0...v1.3.0) (2025-11-07)
 

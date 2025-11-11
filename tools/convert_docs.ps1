@@ -212,7 +212,7 @@ if (-not $SkipPdf) {
                 $pdfArgs = @(
                     $UserReadmeMd,
                     "-o", $UserManualPdf,
-                    "--metadata", "title=AemulusConnect - User Manual",
+                    "--metadata", "title=AemulusConnect - User Guide",
                     "--resource-path=$UserReadmeDir, $MediaScriptRoot"
                 )
 
@@ -223,7 +223,7 @@ if (-not $SkipPdf) {
                 & $pandocPath @pdfArgs 2>&1 | Out-Null
 
                 if ($LASTEXITCODE -eq 0 -and (Test-Path $UserManualPdf)) {
-                    Write-Success "User Manual PDF created: $UserManualPdf"
+                    Write-Success "User Guide PDF created: $UserManualPdf"
                 }
                 else {
                     throw "Pandoc PDF conversion failed"
@@ -240,10 +240,10 @@ if (-not $SkipPdf) {
                 foreach ($engine in $engines) {
                     try {
                         $UserReadmeDir = Split-Path -Parent $UserReadmeMd
-                        & $pandocPath $UserReadmeMd -o $UserManualPdf --metadata title="AemulusConnect - User Manual" --resource-path="$UserReadmeDir, $MediaScriptRoot" --pdf-engine=$engine 2>&1 | Out-Null
+                        & $pandocPath $UserReadmeMd -o $UserManualPdf --metadata title="AemulusConnect - User Guide" --resource-path="$UserReadmeDir, $MediaScriptRoot" --pdf-engine=$engine 2>&1 | Out-Null
 
                         if ($LASTEXITCODE -eq 0 -and (Test-Path $UserManualPdf)) {
-                            Write-Success "User Manual PDF created using $engine`: $UserManualPdf"
+                            Write-Success "User Guide PDF created using $engine`: $UserManualPdf"
                             $success = $true
                             break
                         }
