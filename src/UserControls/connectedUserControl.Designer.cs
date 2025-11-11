@@ -63,7 +63,7 @@ namespace AemulusConnect
 			statusLabel.RightToLeft = RightToLeft.No;
 			statusLabel.Size = new Size(207, 26);
 			statusLabel.TabIndex = 4;
-			statusLabel.Text = "AemulusXR Report";
+			statusLabel.Text = Properties.Resources.Connected_StatusLabel;
 			statusLabel.TextAlign = ContentAlignment.BottomCenter;
 			// 
 			// lblNumReports
@@ -98,7 +98,7 @@ namespace AemulusConnect
 			btnTransfer.RoundedBorderWidth = 0F;
 			btnTransfer.Size = new Size(206, 59);
 			btnTransfer.TabIndex = 3;
-			btnTransfer.Text = "Fetch Reports";
+			btnTransfer.Text = Properties.Resources.Connected_FetchButton;
 			btnTransfer.UseVisualStyleBackColor = false;
 			btnTransfer.Click += btnTransfer_Click;
 			// 
@@ -120,7 +120,7 @@ namespace AemulusConnect
 			btnViewReports.RoundedBorderWidth = 0F;
 			btnViewReports.Size = new Size(200, 59);
 			btnViewReports.TabIndex = 5;
-			btnViewReports.Text = "View Reports";
+			btnViewReports.Text = Properties.Resources.Connected_ViewButton;
 			btnViewReports.UseVisualStyleBackColor = false;
 			btnViewReports.Click += btnViewReports_Click;
 			// 

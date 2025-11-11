@@ -56,19 +56,19 @@ namespace AemulusConnect
 			switch (downloadStatus)
 			{
 				case DownloadStatus.NoReports:
-					lblDownloadStatus.Text = "No Reports Found";
+					lblDownloadStatus.Text = Properties.Resources.Loading_StatusNoReports;
 					lblDownloadStatus.Font = new Font(lblDownloadStatus.Font, FontStyle.Regular);
 					break;
 				case DownloadStatus.Downloading:
-					lblDownloadStatus.Text = "Downloading to PC";
+					lblDownloadStatus.Text = Properties.Resources.Loading_StatusDownloading;
 					lblDownloadStatus.Font = new Font(lblDownloadStatus.Font, FontStyle.Regular);
 					break;
 				case DownloadStatus.DownloadingComplete:
-					lblDownloadStatus.Text = "Downloading Complete";
+					lblDownloadStatus.Text = Properties.Resources.Loading_StatusComplete;
 					lblDownloadStatus.Font = new Font(lblDownloadStatus.Font, FontStyle.Regular);
 					break;
 				case DownloadStatus.DownloadFailed:
-					lblDownloadStatus.Text = "Downloading Failed";
+					lblDownloadStatus.Text = Properties.Resources.Loading_StatusFailed;
 					lblDownloadStatus.ForeColor = Color.Red;
 					lblDownloadStatus.Font = new Font(lblDownloadStatus.Font, FontStyle.Bold);
 					break;

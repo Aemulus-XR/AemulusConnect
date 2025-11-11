@@ -48,7 +48,7 @@ namespace AemulusConnect
 			label1.Name = "label1";
 			label1.Size = new Size(42, 45);
 			label1.TabIndex = 2;
-			label1.Text = "1";
+			label1.Text = Properties.Resources.Disconnected_StepNumber1;
 			// 
 			// label2
 			// 
@@ -59,7 +59,7 @@ namespace AemulusConnect
 			label2.Name = "label2";
 			label2.Size = new Size(42, 45);
 			label2.TabIndex = 3;
-			label2.Text = "2";
+			label2.Text = Properties.Resources.Disconnected_StepNumber2;
 			// 
 			// textLabel1
 			// 
@@ -71,7 +71,7 @@ namespace AemulusConnect
 			textLabel1.Name = "textLabel1";
 			textLabel1.Size = new Size(260, 66);
 			textLabel1.TabIndex = 4;
-			textLabel1.Text = "Make sure the quest device is plugged into the PC with a USB-C cable";
+			textLabel1.Text = Properties.Resources.Disconnected_Instruction1;
 			textLabel1.TextAlign = ContentAlignment.TopCenter;
 			// 
 			// textLabel2
@@ -84,7 +84,7 @@ namespace AemulusConnect
 			textLabel2.Name = "textLabel2";
 			textLabel2.Size = new Size(286, 66);
 			textLabel2.TabIndex = 5;
-			textLabel2.Text = "Check in-headset for a prompt to trust the PC - check the always allow this computer and click OK";
+			textLabel2.Text = Properties.Resources.Disconnected_Instruction2;
 			textLabel2.TextAlign = ContentAlignment.TopCenter;
 			// 
 			// pictureBox1

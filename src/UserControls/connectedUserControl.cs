@@ -23,7 +23,11 @@ namespace AemulusConnect
 
 		public void setNumReports(int numReports)
 		{
-			lblNumReports.Text = $"{numReports} Reports fetched";
+			// Use singular or plural form based on count
+			if (numReports == 1)
+				lblNumReports.Text = string.Format(Properties.Resources.Connected_ReportCountSingular, numReports);
+			else
+				lblNumReports.Text = string.Format(Properties.Resources.Connected_ReportCountPlural, numReports);
 			// Enable the View Reports button when there are reports and the output folder exists
 			try
 			{

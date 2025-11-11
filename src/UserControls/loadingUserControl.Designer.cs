@@ -85,7 +85,7 @@ namespace AemulusConnect
 			statusLabel.RightToLeft = RightToLeft.No;
 			statusLabel.Size = new Size(207, 26);
 			statusLabel.TabIndex = 6;
-			statusLabel.Text = "AemulusXR Report";
+			statusLabel.Text = Properties.Resources.Loading_StatusLabel;
 			statusLabel.TextAlign = ContentAlignment.BottomCenter;
 			// 
 			// loadingUserControl
