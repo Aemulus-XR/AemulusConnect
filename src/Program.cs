@@ -34,6 +34,17 @@ namespace AemulusConnect
 				log.Error("Failed to load settings", ex);
 			}
 
+			// Apply saved language/culture before creating forms
+			try
+			{
+				Helpers.LocalizationHelper.SetCulture(Helpers.SettingsManager.Language);
+				log.Info($"Applied culture: {Helpers.SettingsManager.Language}");
+			}
+			catch (Exception ex)
+			{
+				log.Error("Failed to set culture", ex);
+			}
+
 			Application.Run(new frmMain());
 		}
 	}

@@ -15,6 +15,11 @@ namespace AemulusConnect.Helpers
         private static readonly string AppFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AemulusConnect");
         private static readonly string SettingsFile = Path.Combine(AppFolder, "settings.ini");
 
+        /// <summary>
+        /// Current language/culture setting. Defaults to en-US.
+        /// </summary>
+        public static string Language { get; set; } = LocalizationHelper.DefaultCulture;
+
         public static void LoadSettings()
         {
             try
@@ -50,6 +55,9 @@ namespace AemulusConnect.Helpers
                         case "ADBEXELocation":
                             FSStrings.ADBEXELocation = value;
                             break;
+                        case "Language":
+                            Language = value;
+                            break;
                         default:
                             // unknown keys ignored
                             break;
@@ -71,6 +79,7 @@ namespace AemulusConnect.Helpers
 
                 var sb = new StringBuilder();
                 sb.AppendLine("# AemulusConnect settings");
+                sb.AppendLine($"Language={Language}");
                 sb.AppendLine($"ReportsLocation={FSStrings.ReportsLocation}");
                 sb.AppendLine($"ArchiveLocation={FSStrings.ArchiveLocation}");
                 sb.AppendLine($"OutputLocation={FSStrings.OutputLocation}");
