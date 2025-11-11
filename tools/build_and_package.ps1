@@ -420,7 +420,7 @@ try {
     $ConvertDocsScript = Join-Path $PSScriptRoot "convert_docs.ps1"
 
     if (Test-Path $ConvertDocsScript) {
-        # Run doc conversion (notes/LICENSE.md -> RTF, notes/USER_README.md -> PDF)
+        # Run doc conversion (notes/LICENSE.md -> RTF, notes/USER_GUIDE.md -> PDF)
         & powershell.exe -NoProfile -File $ConvertDocsScript
 
         if ($LASTEXITCODE -eq 0) {

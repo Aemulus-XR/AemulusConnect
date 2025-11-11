@@ -50,7 +50,8 @@ $versionContent = Get-Content $versionFile -Raw
 if ($versionContent -match 'version=(\d+\.\d+\.\d+)') {
     $version = $matches[1]
     Write-Host "  [OK]   Version found: $version" -ForegroundColor Green
-} else {
+}
+else {
     Write-Host "  [ERROR] Could not parse version from VERSION.md" -ForegroundColor Red
     exit 1
 }
@@ -58,38 +59,38 @@ if ($versionContent -match 'version=(\d+\.\d+\.\d+)') {
 # Files to update with their specific patterns
 $filesToUpdate = @(
     @{
-        Path = "README.md"
-        Pattern = '\*\*Current Version\*\*: \d+\.\d+\.\d+'
+        Path        = "README.md"
+        Pattern     = '\*\*Current Version\*\*: \d+\.\d+\.\d+'
         Replacement = "**Current Version**: $version"
         Description = "Main README"
     },
     @{
-        Path = "notes\USER_README.md"
-        Pattern = 'Current version documentation: \*\*\d+\.\d+\.\d+\*\*'
+        Path        = "notes\USER_GUIDE.md"
+        Pattern     = 'Current version documentation: \*\*\d+\.\d+\.\d+\*\*'
         Replacement = "Current version documentation: **$version**"
         Description = "User README"
     },
     @{
-        Path = "src\installer\AemulusConnect.wxs"
-        Pattern = '<\?define ProductVersion = "\d+\.\d+\.\d+\.0" \?>'
+        Path        = "src\installer\AemulusConnect.wxs"
+        Pattern     = '<\?define ProductVersion = "\d+\.\d+\.\d+\.0" \?>'
         Replacement = "<?define ProductVersion = `"$version.0`" ?>"
         Description = "WiX installer ProductVersion"
     },
     @{
-        Path = "src\AemulusConnect.csproj"
-        Pattern = '<Version>[\d\.]+</Version>'
+        Path        = "src\AemulusConnect.csproj"
+        Pattern     = '<Version>[\d\.]+</Version>'
         Replacement = "<Version>$version</Version>"
         Description = "Project file Version"
     },
     @{
-        Path = "src\AemulusConnect.csproj"
-        Pattern = '<FileVersion>[\d\.]+</FileVersion>'
+        Path        = "src\AemulusConnect.csproj"
+        Pattern     = '<FileVersion>[\d\.]+</FileVersion>'
         Replacement = "<FileVersion>$version</FileVersion>"
         Description = "Project file FileVersion"
     },
     @{
-        Path = "src\AemulusConnect.csproj"
-        Pattern = '<AssemblyVersion>[\d\.]+</AssemblyVersion>'
+        Path        = "src\AemulusConnect.csproj"
+        Pattern     = '<AssemblyVersion>[\d\.]+</AssemblyVersion>'
         Replacement = "<AssemblyVersion>$version</AssemblyVersion>"
         Description = "Project file AssemblyVersion"
     }
@@ -122,7 +123,8 @@ foreach ($file in $filesToUpdate) {
             Write-Host "         Pattern: $($file.Pattern)" -ForegroundColor Gray
             Write-Host "         Replacement: $($file.Replacement)" -ForegroundColor Gray
         }
-    } else {
+    }
+    else {
         Write-Host "  [SKIP] Pattern not found in: $($file.Description)" -ForegroundColor Yellow
         $skippedCount++
 

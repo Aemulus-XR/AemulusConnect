@@ -3,7 +3,7 @@
 .SYNOPSIS
     Converts documentation files for the installer
 .DESCRIPTION
-    Converts LICENSE.md to RTF and USER_README.md to PDF for inclusion in the installer
+    Converts LICENSE.md to RTF and USER_GUIDE.md to PDF for inclusion in the installer
 .PARAMETER SkipPdf
     Skip PDF generation (useful if wkhtmltopdf is not installed)
 #>
@@ -96,7 +96,7 @@ function Get-WkhtmltopdfPath {
 
 $ScriptRoot = Split-Path -Parent $PSScriptRoot
 $LicenseMd = Join-Path $ScriptRoot "notes/LICENSE.md"
-$UserReadmeMd = Join-Path $ScriptRoot "notes\USER_README.md"
+$UserReadmeMd = Join-Path $ScriptRoot "notes\USER_GUIDE.md"
 $MediaScriptRoot = Join-Path $ScriptRoot "assets\media"
 $InstallerDir = Join-Path $ScriptRoot "src\installer"
 $LicenseRtf = Join-Path $InstallerDir "license.rtf"
@@ -184,13 +184,13 @@ if ($useFallback) {
 
 #endregion
 
-#region Convert USER_README.md to PDF
+#region Convert USER_GUIDE.md to PDF
 
 if (-not $SkipPdf) {
-    Write-Step "Converting USER_README.md to PDF..."
+    Write-Step "Converting USER_GUIDE.md to PDF..."
 
     if (-not (Test-Path $UserReadmeMd)) {
-        Write-Error "USER_README.md not found at: $UserReadmeMd"
+        Write-Error "USER_GUIDE.md not found at: $UserReadmeMd"
         Write-Info "Skipping PDF generation"
     }
     else {

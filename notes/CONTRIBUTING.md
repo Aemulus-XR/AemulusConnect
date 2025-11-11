@@ -99,7 +99,7 @@ AemulusConnect/
 │   ├── convert_docs.ps1              # Documentation converter
 │   └── README.md                     # Tools documentation
 ├── notes/                            # Project documentation
-│   ├── USER_README.md                # User guide
+│   ├── USER_GUIDE.md                # User guide
 │   ├── BUILD.md                      # Build quick reference
 │   ├── CONTRIBUTING.md               # This file
 │   ├── CODE_OF_CONDUCT.md            # Community guidelines
@@ -243,12 +243,12 @@ cd tools
 
 ### Build Options
 
-| Command | Description | Output Size |
-|---------|-------------|-------------|
-| `.\build_and_package.ps1` | Standard build | ~5-10 MB |
-| `.\build_and_package.ps1 -Clean` | Clean build | ~5-10 MB |
-| `.\build_and_package.ps1 -SelfContained` | Includes .NET runtime | ~100+ MB |
-| `.\build_and_package.ps1 -SkipBuild` | Only rebuild MSI | N/A |
+| Command                                  | Description           | Output Size |
+| ---------------------------------------- | --------------------- | ----------- |
+| `.\build_and_package.ps1`                | Standard build        | ~5-10 MB    |
+| `.\build_and_package.ps1 -Clean`         | Clean build           | ~5-10 MB    |
+| `.\build_and_package.ps1 -SelfContained` | Includes .NET runtime | ~100+ MB    |
+| `.\build_and_package.ps1 -SkipBuild`     | Only rebuild MSI      | N/A         |
 
 **Output**: `src\output\AemulusConnect.msi`
 
@@ -408,7 +408,7 @@ We use [Conventional Commits](https://www.conventionalcommits.org/) with Semanti
 ```
 feat: add progress reporting for file transfers
 fix: resolve device detection timeout issue
-docs: update USER_README with troubleshooting steps
+docs: update USER_GUIDE with troubleshooting steps
 refactor: extract file validation logic to separate method
 feat!: change settings file location to AppData
 ```
@@ -444,7 +444,7 @@ Please test on:
 
 1. **Update documentation**:
    - Update README.md if adding features
-   - Update USER_README.md for user-facing changes
+   - Update USER_GUIDE.md for user-facing changes
    - Update BUILD.md for build system changes
 
 2. **Ensure CI passes**:
@@ -479,7 +479,7 @@ Need help? Here's how to reach us:
 
 ## Additional Resources
 
-- **[USER_README.md](USER_README.md)** - User documentation
+- **[USER_GUIDE.md](USER_GUIDE.md)** - User documentation
 - **[BUILD.md](BUILD.md)** - Build quick reference
 - **[CodeReview.md](CodeReview.md)** - Technical analysis and improvement suggestions
 - **[CHANGELOG.md](CHANGELOG.md)** - Version history

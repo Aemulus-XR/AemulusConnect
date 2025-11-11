@@ -13,7 +13,7 @@
 [![License](https://img.shields.io/github/license/Aemulus-XR/AemulusConnect.svg)](https://github.com/Aemulus-XR/AemulusConnect/blob/main/notes/LICENSE.md)
 [![Discord](https://img.shields.io/discord/1052011377415438346?style=flat-square&label=discord&color=00ACD7)](https://discord.gg/gQH4mXWQRT)
 
-[Download](https://github.com/Aemulus-XR/AemulusConnect/releases) • [Documentation](notes/USER_README.md) • [Report Bug](https://github.com/Aemulus-XR/AemulusConnect/issues/new?template=bug_report.md) • [Request Feature](https://github.com/Aemulus-XR/AemulusConnect/issues/new?template=feature_request.md)
+[Download](https://github.com/Aemulus-XR/AemulusConnect/releases) • [Documentation](notes/USER_GUIDE.md) • [Report Bug](https://github.com/Aemulus-XR/AemulusConnect/issues/new?template=bug_report.md) • [Request Feature](https://github.com/Aemulus-XR/AemulusConnect/issues/new?template=feature_request.md)
 
 </div>
 
@@ -43,7 +43,7 @@
 4. **Enable USB Debugging** on your Quest (first time only)
 5. **Click "Fetch Reports"** to download your files
 
-📖 **Full user guide:** [USER_README.md](notes/USER_README.md)
+📖 **Full user guide:** [USER_GUIDE.md](notes/USER_GUIDE.md)
 
 ### For Developers
 
@@ -73,7 +73,7 @@ cd tools
 
 | Document                                        | Description                                                |
 | ----------------------------------------------- | ---------------------------------------------------------- |
-| **[User Guide](notes/USER_README.md)**          | Installation, usage, and troubleshooting for end users     |
+| **[User Guide](notes/USER_GUIDE.md)**           | Installation, usage, and troubleshooting for end users     |
 | **[Contributing Guide](notes/CONTRIBUTING.md)** | Developer setup, architecture, and contribution guidelines |
 | **[Build Guide](notes/BUILD.md)**               | Quick reference for building and packaging                 |
 | **[Changelog](notes/CHANGELOG.md)**             | Version history and release notes                          |
