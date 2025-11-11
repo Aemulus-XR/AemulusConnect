@@ -19,6 +19,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="AemulusConnect.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Loggers\**" />
     <Compile Remove="platform-tools\.vs\**" />
     <Compile Remove="utils\**" />
