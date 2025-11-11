@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Common/Shared Strings -->
+  <data name="Common_AppTitle" xml:space="preserve">
+    <value>Rapport AemulusXR</value>
+    <comment>Titre de l'application utilisé dans toute l'interface</comment>
+  </data>
+  <data name="Common_FolderBrowserDescription" xml:space="preserve">
+    <value>Sélectionner le dossier de sortie local</value>
+    <comment>Description affichée dans la boîte de dialogue du navigateur de dossiers</comment>
+  </data>
+
+  <!-- Main Form -->
+  <data name="MainForm_Title" xml:space="preserve">
+    <value>Rapport AemulusXR</value>
+    <comment>Titre de la fenêtre principale (statique dans Designer)</comment>
+  </data>
+  <data name="MainForm_WindowTitleWithVersion" xml:space="preserve">
+    <value>AemulusConnect v{0}</value>
+    <comment>Titre de la fenêtre principale avec numéro de version. {0} = chaîne de version</comment>
+  </data>
+  <data name="MainForm_VersionLabel" xml:space="preserve">
+    <value>Version {0}</value>
+    <comment>Texte de l'étiquette de version. {0} = chaîne de version</comment>
+  </data>
+  <data name="MainForm_VersionPrefix" xml:space="preserve">
+    <value>Version</value>
+    <comment>Préfixe statique de l'étiquette de version</comment>
+  </data>
+
+  <!-- Main Form - Error Messages -->
+  <data name="Error_GenericMessage" xml:space="preserve">
+    <value>Une erreur s'est produite lors de l'exécution du programme. Voici les détails :</value>
+    <comment>Message d'erreur générique affiché dans la boîte de dialogue d'erreur</comment>
+  </data>
+  <data name="Error_RetryDialogTitle" xml:space="preserve">
+    <value>Voulez-vous réessayer ?</value>
+    <comment>Titre de la boîte de dialogue de réessai d'erreur avec boutons Oui/Non</comment>
+  </data>
+
+  <!-- Connected User Control -->
+  <data name="Connected_StatusLabel" xml:space="preserve">
+    <value>Rapport AemulusXR</value>
+    <comment>Étiquette d'état en mode connecté</comment>
+  </data>
+  <data name="Connected_ReportCountSingular" xml:space="preserve">
+    <value>{0} rapport récupéré</value>
+    <comment>Étiquette affichant le nombre de rapports (singulier). {0} = nombre de rapports</comment>
+  </data>
+  <data name="Connected_ReportCountPlural" xml:space="preserve">
+    <value>{0} rapports récupérés</value>
+    <comment>Étiquette affichant le nombre de rapports (pluriel). {0} = nombre de rapports</comment>
+  </data>
+  <data name="Connected_FetchButton" xml:space="preserve">
+    <value>Récupérer les rapports</value>
+    <comment>Bouton pour télécharger les rapports depuis l'appareil Quest</comment>
+  </data>
+  <data name="Connected_ViewButton" xml:space="preserve">
+    <value>Voir les rapports</value>
+    <comment>Bouton pour ouvrir l'explorateur de fichiers vers le dossier des rapports</comment>
+  </data>
+  <data name="Connected_SettingsButton" xml:space="preserve">
+    <value>Paramètres</value>
+    <comment>Bouton pour ouvrir la boîte de dialogue des paramètres</comment>
+  </data>
+
+  <!-- Disconnected User Control -->
+  <data name="Disconnected_StepNumber1" xml:space="preserve">
+    <value>1</value>
+    <comment>Numéro d'étape pour la première instruction</comment>
+  </data>
+  <data name="Disconnected_StepNumber2" xml:space="preserve">
+    <value>2</value>
+    <comment>Numéro d'étape pour la deuxième instruction</comment>
+  </data>
+  <data name="Disconnected_Instruction1" xml:space="preserve">
+    <value>Assurez-vous que l'appareil Quest est branché au PC avec un câble USB-C</value>
+    <comment>Première instruction de configuration. USB-C est un terme technique.</comment>
+  </data>
+  <data name="Disconnected_Instruction2" xml:space="preserve">
+    <value>Vérifiez dans le casque s'il y a une invitation à autoriser le PC - cochez « toujours autoriser cet ordinateur » et cliquez sur OK</value>
+    <comment>Deuxième instruction de configuration. « dans le casque » fait référence à l'affichage du casque VR</comment>
+  </data>
+
+  <!-- Loading User Control -->
+  <data name="Loading_StatusLabel" xml:space="preserve">
+    <value>Rapport AemulusXR</value>
+    <comment>Étiquette d'état en mode chargement</comment>
+  </data>
+  <data name="Loading_StatusNoReports" xml:space="preserve">
+    <value>Aucun rapport trouvé</value>
+    <comment>État lorsqu'aucun rapport n'existe sur l'appareil</comment>
+  </data>
+  <data name="Loading_StatusDownloading" xml:space="preserve">
+    <value>Téléchargement vers le PC</value>
+    <comment>État pendant le téléchargement actif</comment>
+  </data>
+  <data name="Loading_StatusComplete" xml:space="preserve">
+    <value>Téléchargement terminé</value>
+    <comment>État lorsque le téléchargement se termine avec succès</comment>
+  </data>
+  <data name="Loading_StatusFailed" xml:space="preserve">
+    <value>Échec du téléchargement</value>
+    <comment>État lorsque le téléchargement rencontre une erreur (affiché en rouge/gras)</comment>
+  </data>
+
+  <!-- Settings Form -->
+  <data name="Settings_WindowTitle" xml:space="preserve">
+    <value>Paramètres</value>
+    <comment>Titre de la fenêtre de dialogue des paramètres</comment>
+  </data>
+  <data name="Settings_ReportsPathLabel" xml:space="preserve">
+    <value>Chemin distant des rapports :</value>
+    <comment>Étiquette pour la zone de texte du chemin des rapports. « Distant » = sur l'appareil Quest</comment>
+  </data>
+  <data name="Settings_ArchivePathLabel" xml:space="preserve">
+    <value>Chemin distant de l'archive :</value>
+    <comment>Étiquette pour la zone de texte du chemin de l'archive. « Distant » = sur l'appareil Quest</comment>
+  </data>
+  <data name="Settings_OutputPathLabel" xml:space="preserve">
+    <value>Dossier de sortie local :</value>
+    <comment>Étiquette pour la zone de texte du dossier de sortie. « Local » = sur ce PC</comment>
+  </data>
+  <data name="Settings_LanguageLabel" xml:space="preserve">
+    <value>Langue :</value>
+    <comment>Étiquette pour le menu déroulant de langue</comment>
+  </data>
+  <data name="Settings_BrowseButton" xml:space="preserve">
+    <value>Parcourir...</value>
+    <comment>Bouton pour ouvrir la boîte de dialogue du navigateur de dossiers</comment>
+  </data>
+  <data name="Settings_SaveButton" xml:space="preserve">
+    <value>Enregistrer</value>
+    <comment>Bouton pour enregistrer les paramètres et fermer la boîte de dialogue</comment>
+  </data>
+  <data name="Settings_CancelButton" xml:space="preserve">
+    <value>Annuler</value>
+    <comment>Bouton pour fermer la boîte de dialogue sans enregistrer</comment>
+  </data>
+  <data name="Settings_FolderBrowserDescription" xml:space="preserve">
+    <value>Sélectionner le dossier de sortie local</value>
+    <comment>Description affichée dans la boîte de dialogue du navigateur de dossiers</comment>
+  </data>
+  <data name="Settings_RestartMessage" xml:space="preserve">
+    <value>La langue changera après le redémarrage de l'application.</value>
+    <comment>Notification MessageBox après changement de langue</comment>
+  </data>
+  <data name="Settings_RestartTitle" xml:space="preserve">
+    <value>Redémarrage requis</value>
+    <comment>Titre de la MessageBox pour la notification de redémarrage</comment>
+  </data>
+
+  <!-- Main Menu -->
+  <data name="Menu_File" xml:space="preserve">
+    <value>&amp;Fichier</value>
+    <comment>Menu principal - Menu Fichier (raccourci Alt+F)</comment>
+  </data>
+  <data name="Menu_Settings" xml:space="preserve">
+    <value>&amp;Paramètres...</value>
+    <comment>Menu Fichier - Élément de menu Paramètres (raccourci Alt+P)</comment>
+  </data>
+  <data name="Menu_Exit" xml:space="preserve">
+    <value>&amp;Quitter</value>
+    <comment>Menu Fichier - Élément de menu Quitter (raccourci Alt+Q)</comment>
+  </data>
+</root>
