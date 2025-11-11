@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Common/Shared Strings -->
+  <data name="Common_AppTitle" xml:space="preserve">
+    <value>تقرير AemulusXR</value>
+    <comment>عنوان التطبيق المستخدم في جميع أنحاء الواجهة</comment>
+  </data>
+  <data name="Common_FolderBrowserDescription" xml:space="preserve">
+    <value>حدد مجلد الإخراج المحلي</value>
+    <comment>الوصف المعروض في مربع حوار متصفح المجلدات</comment>
+  </data>
+
+  <!-- Main Form -->
+  <data name="MainForm_Title" xml:space="preserve">
+    <value>تقرير AemulusXR</value>
+    <comment>عنوان شريط النافذة الرئيسية (ثابت في المصمم)</comment>
+  </data>
+  <data name="MainForm_WindowTitleWithVersion" xml:space="preserve">
+    <value>AemulusConnect الإصدار {0}</value>
+    <comment>عنوان النافذة الرئيسية مع رقم الإصدار. {0} = سلسلة الإصدار</comment>
+  </data>
+  <data name="MainForm_VersionLabel" xml:space="preserve">
+    <value>الإصدار {0}</value>
+    <comment>نص تسمية الإصدار. {0} = سلسلة الإصدار</comment>
+  </data>
+  <data name="MainForm_VersionPrefix" xml:space="preserve">
+    <value>الإصدار</value>
+    <comment>بادئة تسمية الإصدار الثابتة</comment>
+  </data>
+
+  <!-- Main Form - Error Messages -->
+  <data name="Error_GenericMessage" xml:space="preserve">
+    <value>حدث خطأ أثناء تشغيل البرنامج. المعلومات كما يلي:</value>
+    <comment>رسالة الخطأ العامة المعروضة في مربع حوار الخطأ</comment>
+  </data>
+  <data name="Error_RetryDialogTitle" xml:space="preserve">
+    <value>هل تريد المحاولة مرة أخرى؟</value>
+    <comment>عنوان مربع حوار إعادة المحاولة مع أزرار نعم/لا</comment>
+  </data>
+
+  <!-- Connected User Control -->
+  <data name="Connected_StatusLabel" xml:space="preserve">
+    <value>تقرير AemulusXR</value>
+    <comment>تسمية الحالة في حالة الاتصال</comment>
+  </data>
+  <data name="Connected_ReportCountSingular" xml:space="preserve">
+    <value>تم جلب {0} تقرير</value>
+    <comment>تسمية تعرض عدد التقارير (مفرد). {0} = عدد التقارير</comment>
+  </data>
+  <data name="Connected_ReportCountPlural" xml:space="preserve">
+    <value>تم جلب {0} تقارير</value>
+    <comment>تسمية تعرض عدد التقارير (جمع). {0} = عدد التقارير. ملاحظة: العربية لها 6 أشكال للجمع</comment>
+  </data>
+  <data name="Connected_FetchButton" xml:space="preserve">
+    <value>جلب التقارير</value>
+    <comment>زر لتنزيل التقارير من جهاز Quest</comment>
+  </data>
+  <data name="Connected_ViewButton" xml:space="preserve">
+    <value>عرض التقارير</value>
+    <comment>زر لفتح مستكشف الملفات إلى مجلد التقارير</comment>
+  </data>
+  <data name="Connected_SettingsButton" xml:space="preserve">
+    <value>الإعدادات</value>
+    <comment>زر لفتح مربع حوار الإعدادات</comment>
+  </data>
+
+  <!-- Disconnected User Control -->
+  <data name="Disconnected_StepNumber1" xml:space="preserve">
+    <value>١</value>
+    <comment>رقم الخطوة للتعليمات الأولى (رقم عربي-هندي)</comment>
+  </data>
+  <data name="Disconnected_StepNumber2" xml:space="preserve">
+    <value>٢</value>
+    <comment>رقم الخطوة للتعليمات الثانية (رقم عربي-هندي)</comment>
+  </data>
+  <data name="Disconnected_Instruction1" xml:space="preserve">
+    <value>تأكد من توصيل جهاز Quest بالكمبيوتر باستخدام كابل USB-C</value>
+    <comment>التعليمات الأولى للإعداد. USB-C مصطلح تقني.</comment>
+  </data>
+  <data name="Disconnected_Instruction2" xml:space="preserve">
+    <value>تحقق داخل سماعة الرأس من وجود مطالبة للثقة بالكمبيوتر - حدد "السماح دائمًا لهذا الكمبيوتر" وانقر فوق موافق</value>
+    <comment>التعليمات الثانية للإعداد. "داخل سماعة الرأس" يشير إلى شاشة سماعة VR</comment>
+  </data>
+
+  <!-- Loading User Control -->
+  <data name="Loading_StatusLabel" xml:space="preserve">
+    <value>تقرير AemulusXR</value>
+    <comment>تسمية الحالة في حالة التحميل</comment>
+  </data>
+  <data name="Loading_StatusNoReports" xml:space="preserve">
+    <value>لم يتم العثور على تقارير</value>
+    <comment>الحالة عندما لا توجد تقارير على الجهاز</comment>
+  </data>
+  <data name="Loading_StatusDownloading" xml:space="preserve">
+    <value>جارٍ التنزيل إلى الكمبيوتر</value>
+    <comment>الحالة أثناء التنزيل النشط</comment>
+  </data>
+  <data name="Loading_StatusComplete" xml:space="preserve">
+    <value>اكتمل التنزيل</value>
+    <comment>الحالة عندما ينتهي التنزيل بنجاح</comment>
+  </data>
+  <data name="Loading_StatusFailed" xml:space="preserve">
+    <value>فشل التنزيل</value>
+    <comment>الحالة عندما يواجه التنزيل خطأ (يُعرض باللون الأحمر/غامق)</comment>
+  </data>
+
+  <!-- Settings Form -->
+  <data name="Settings_WindowTitle" xml:space="preserve">
+    <value>الإعدادات</value>
+    <comment>عنوان نافذة حوار الإعدادات</comment>
+  </data>
+  <data name="Settings_ReportsPathLabel" xml:space="preserve">
+    <value>مسار التقارير البعيد:</value>
+    <comment>تسمية لمربع نص مسار التقارير. "البعيد" = على جهاز Quest</comment>
+  </data>
+  <data name="Settings_ArchivePathLabel" xml:space="preserve">
+    <value>مسار الأرشيف البعيد:</value>
+    <comment>تسمية لمربع نص مسار الأرشيف. "البعيد" = على جهاز Quest</comment>
+  </data>
+  <data name="Settings_OutputPathLabel" xml:space="preserve">
+    <value>مجلد الإخراج المحلي:</value>
+    <comment>تسمية لمربع نص مجلد الإخراج. "المحلي" = على هذا الكمبيوتر</comment>
+  </data>
+  <data name="Settings_LanguageLabel" xml:space="preserve">
+    <value>اللغة:</value>
+    <comment>تسمية للقائمة المنسدلة للغة</comment>
+  </data>
+  <data name="Settings_BrowseButton" xml:space="preserve">
+    <value>استعراض...</value>
+    <comment>زر لفتح مربع حوار متصفح المجلدات</comment>
+  </data>
+  <data name="Settings_SaveButton" xml:space="preserve">
+    <value>حفظ</value>
+    <comment>زر لحفظ الإعدادات وإغلاق مربع الحوار</comment>
+  </data>
+  <data name="Settings_CancelButton" xml:space="preserve">
+    <value>إلغاء</value>
+    <comment>زر لإغلاق مربع الحوار بدون حفظ</comment>
+  </data>
+  <data name="Settings_FolderBrowserDescription" xml:space="preserve">
+    <value>حدد مجلد الإخراج المحلي</value>
+    <comment>الوصف المعروض في مربع حوار متصفح المجلدات</comment>
+  </data>
+  <data name="Settings_RestartMessage" xml:space="preserve">
+    <value>ستتغير اللغة بعد إعادة تشغيل التطبيق.</value>
+    <comment>إشعار MessageBox بعد تغيير اللغة</comment>
+  </data>
+  <data name="Settings_RestartTitle" xml:space="preserve">
+    <value>مطلوب إعادة التشغيل</value>
+    <comment>عنوان MessageBox لإشعار إعادة التشغيل</comment>
+  </data>
+
+  <!-- Main Menu -->
+  <data name="Menu_File" xml:space="preserve">
+    <value>ملف</value>
+    <comment>القائمة الرئيسية - قائمة ملف (لا توجد اختصارات Alt في RTL)</comment>
+  </data>
+  <data name="Menu_Settings" xml:space="preserve">
+    <value>الإعدادات...</value>
+    <comment>قائمة ملف - عنصر قائمة الإعدادات</comment>
+  </data>
+  <data name="Menu_Exit" xml:space="preserve">
+    <value>خروج</value>
+    <comment>قائمة ملف - عنصر قائمة الخروج</comment>
+  </data>
+</root>

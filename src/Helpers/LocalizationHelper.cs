@@ -47,8 +47,7 @@ namespace AemulusConnect.Helpers
             {
                 new CultureOption("en-US", "English"),
                 new CultureOption("fr-FR", "Français (French)"),
-                // Arabic will be added in Phase 4
-                // new CultureOption("ar-SA", "العربية (Arabic)"),
+                new CultureOption("ar-SA", "العربية (Arabic)"),
             };
         }
 
