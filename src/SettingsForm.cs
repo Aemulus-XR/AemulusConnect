@@ -91,6 +91,9 @@ namespace AemulusConnect
             Controls.Add(cmbLanguage);
             Controls.Add(btnSave);
             Controls.Add(btnCancel);
+
+            // Apply RTL layout if Arabic is selected
+            LocalizationHelper.ApplyRTLToForm(this);
         }
 
         private void BtnSave_Click(object? sender, EventArgs e)

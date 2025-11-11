@@ -29,6 +29,8 @@ namespace AemulusConnect
 			_logger.Info($"AemulusConnect version {version} initialized at {DateTime.Now.ToString()}");
 			_logger.Info($"Operating System: {os}");
 
+			// Apply RTL layout if Arabic is selected
+			Helpers.LocalizationHelper.ApplyRTLToForm(this);
 		}
 
 		public void UpdateQuestHelperPaths(string reportsPath, string archivePath, string outputPath)
