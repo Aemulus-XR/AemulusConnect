@@ -1,0 +1,31 @@
+# Crowdin configuration for AemulusConnect
+# Documentation: https://support.crowdin.com/configuration-file/
+
+# NOTE: Do not add project_id or api_token here when using GitHub integration
+# These credentials are managed through the Crowdin GitHub App
+
+files:
+  # Main resource file (English source)
+  - source: /src/Properties/Resources.resx
+    translation: /src/Properties/Resources.%locale_with_underscore%.resx
+
+    # Update existing translations in the repo
+    update_option: update_as_unapproved
+
+    # Language mapping for resx naming convention
+    # .NET uses dash format (e.g., fr-FR, es-ES)
+    languages_mapping:
+      locale_with_underscore:
+        ar-SA: ar-SA
+        de-DE: de-DE
+        es-ES: es-ES
+        fr-FR: fr-FR
+        # Add more languages as needed
+        # ja-JP: ja-JP
+        # zh-CN: zh-CN
+        # pt-BR: pt-BR
+
+    # Skip files - exclude the pirate language from Crowdin
+    # (it's a custom fun language, not a real translation)
+    ignore:
+      - /src/Properties/Resources.en-PIRATE.resx

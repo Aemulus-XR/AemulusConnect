@@ -10,6 +10,8 @@ First off, thank you for considering contributing to AemulusConnect! Whether you
 - [Project Architecture](#project-architecture)
 - [Building the Project](#building-the-project)
 - [How to Contribute](#how-to-contribute)
+  - [Contributing Translations](#contributing-translations)
+- [Crowdin Setup](#crowdin-setup)
 - [Coding Guidelines](#coding-guidelines)
 - [Commit Message Guidelines](#commit-message-guidelines)
 - [Testing](#testing)
@@ -318,6 +320,106 @@ Enhancement suggestions are tracked as GitHub issues. Use our **feature request 
    ```
 
 6. **Create a Pull Request** on GitHub
+
+### Contributing Translations
+
+We use Crowdin to manage translations for multiple languages. Non-technical contributors can help translate the application into their native language through a user-friendly web interface.
+
+**For translators**: See [CONTRIBUTING_TRANSLATIONS.md](../CONTRIBUTING_TRANSLATIONS.md) for instructions on using Crowdin.
+
+**For developers**: See [Crowdin Setup](#crowdin-setup) below for initial integration setup.
+
+## Crowdin Setup
+
+This section is for maintainers who need to set up or manage the Crowdin integration. If you're just contributing translations, see the [Contributing Translations](#contributing-translations) section above.
+
+### Initial Setup (One-time)
+
+The project already has Crowdin configuration files in place:
+- `crowdin.yml` - Configuration for source/translation file mapping
+- `.github/workflows/crowdin.yml` - GitHub Actions workflow for automatic sync
+- `CONTRIBUTING_TRANSLATIONS.md` - User-facing translator documentation
+
+To complete the Crowdin integration:
+
+1. **Create a Crowdin Account** (if not already done):
+   - Go to [crowdin.com](https://crowdin.com)
+   - Sign up for a free account (free for open source projects)
+
+2. **Create a Crowdin Project**:
+   - Click "Create Project"
+   - Name: "AemulusConnect"
+   - Source language: English
+   - Target languages: Select the languages you want to support (currently: ar-SA, de-DE, es-ES, fr-FR)
+
+3. **Get Crowdin Credentials**:
+   - **Project ID**: Found in project Settings → API (looks like a number, e.g., "123456")
+   - **Personal Access Token**:
+     - Go to Account Settings → API
+     - Click "New Token"
+     - Name it "GitHub Actions"
+     - Scope: Select all permissions
+     - Copy the token (you won't see it again!)
+
+4. **Add GitHub Secrets**:
+   - Go to your GitHub repository → Settings → Secrets and variables → Actions
+   - Click "New repository secret"
+   - Add two secrets:
+     - Name: `CROWDIN_PROJECT_ID`, Value: [your project ID]
+     - Name: `CROWDIN_PERSONAL_TOKEN`, Value: [your personal access token]
+
+5. **Update Documentation**:
+   - Edit `CONTRIBUTING_TRANSLATIONS.md` line 18
+   - Replace `[TO BE ADDED AFTER CROWDIN PROJECT SETUP]` with your actual Crowdin project URL
+   - Example: `https://crowdin.com/project/aemulusconnect`
+
+6. **Initial Sync**:
+   - Push the `crowdin.yml` file to the `main` branch
+   - The GitHub Action will automatically run and upload `Resources.resx` to Crowdin
+   - You can also manually trigger it: GitHub Actions → Crowdin Sync → Run workflow
+
+### How It Works
+
+Once configured, the integration works automatically:
+
+1. **Source File Updates**: When `src/Properties/Resources.resx` is modified and pushed to main, GitHub Actions uploads the changes to Crowdin
+2. **Translation Workflow**: Translators work in Crowdin's web interface to translate strings
+3. **Download Translations**: Daily at midnight UTC, the workflow downloads new translations from Crowdin
+4. **Pull Requests**: Completed translations are automatically submitted as a PR to the `l10n_crowdin_translations` branch
+5. **Review & Merge**: Maintainers review the PR and merge it into main
+
+### Managing Translations
+
+**Add a new language**:
+1. Add the language in Crowdin project settings
+2. Update `crowdin.yml` to include the language code mapping:
+   ```yaml
+   languages_mapping:
+     locale_with_underscore:
+       ja-JP: ja-JP  # Add new language here
+   ```
+3. Commit and push the change
+
+**Force sync manually**:
+- Go to GitHub Actions → Crowdin Sync → Run workflow
+
+**Check sync status**:
+- View the Actions tab in GitHub to see sync logs
+- Check Crowdin project dashboard for translation progress
+
+### Adding Custom/Non-Standard Languages
+
+For fun languages like "Pirate" (en-PIRATE) that don't follow standard locale codes:
+
+1. These should NOT be added to Crowdin (they're excluded in `crowdin.yml`)
+2. Create the `.resx` file manually: `src/Properties/Resources.en-PIRATE.resx`
+3. The build system will automatically handle them via the custom MSBuild target in `src/AemulusConnect.csproj`
+4. Add to the language exclusion list in `crowdin.yml`:
+   ```yaml
+   ignore:
+     - /src/Properties/Resources.en-PIRATE.resx
+     - /src/Properties/Resources.en-L33T.resx  # Example
+   ```
 
 ## Coding Guidelines
 
