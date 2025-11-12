@@ -339,6 +339,9 @@ The project already has Crowdin configuration files in place:
 - `crowdin.yml` - Configuration for source/translation file mapping
 - `.github/workflows/crowdin.yml` - GitHub Actions workflow for automatic sync
 - `CONTRIBUTING_TRANSLATIONS.md` - User-facing translator documentation
+- `CROWDIN_GUIDE.md` - Complete workflow guide and setup checklist
+
+For a detailed explanation of how the translation workflow works, see [CROWDIN_GUIDE.md](../CROWDIN_GUIDE.md).
 
 To complete the Crowdin integration:
 
