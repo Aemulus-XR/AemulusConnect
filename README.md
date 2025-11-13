@@ -57,7 +57,7 @@ cd tools
 .\verify_prerequisites.ps1
 
 # Build the application
-.\build_and_package.ps1 -Clean
+.\build-and-package.ps1 -Clean
 ```
 
 🛠️ **Developer guide:** [CONTRIBUTING.md](notes/dev/CONTRIBUTING.md)
