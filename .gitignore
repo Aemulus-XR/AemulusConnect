@@ -418,8 +418,9 @@ example_wix_installer_code/**
 *.dead
 src/installer/UserGuide.pdf
 tools/sound.ps1
-notes/dev/
 BUILD_ANALYSIS.md
 BUILD_SYSTEM_DIAGRAMS.md
 RESTRUCTURING_PLAN.md
+src/installer/USER_GUIDE.pdf
+src/installer/LICENSE.rtf
 src/installer/UserManual.pdf
