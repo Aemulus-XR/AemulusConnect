@@ -410,8 +410,8 @@ namespace AemulusConnect.Helpers
 				var tempReportsLocation = FSStrings.ReportsLocation.Replace("\\", "/").TrimEnd('/');
 				var tempArchiveLocation = FSStrings.ArchiveLocation.Replace("\\", "/").TrimEnd('/');
 
-				// Use ls -F to identify directories (they end with /)
-				var output = await ExecuteAdbCommand($"shell ls -F {tempReportsLocation}");
+				// Use ls -1F to get one file per line and identify directories (they end with /)
+				var output = await ExecuteAdbCommand($"shell ls -1F {tempReportsLocation}");
 				_logger.Debug($"Files in reports location: {output}");
 
 				if (string.IsNullOrWhiteSpace(output))
@@ -423,8 +423,8 @@ namespace AemulusConnect.Helpers
 				// Create archive directory with timeout protection
 				await ExecuteAdbCommand($"shell mkdir -p {tempArchiveLocation}", 3000);
 
-				var files = output.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
-					.Select(f => f.Trim())
+				var files = output.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
+					.Select(f => Regex.Replace(f, @"\t|\r", "").Trim())
 					.Where(f => !string.IsNullOrEmpty(f))
 					.ToList();
 
@@ -441,28 +441,40 @@ namespace AemulusConnect.Helpers
 					_logger.Debug($"Archiving file: {cleanFile}");
 
 					// Build full source and destination paths
-					var sourcePath = $"{tempReportsLocation}/{cleanFile}";
-					var destPath = $"{tempArchiveLocation}/{cleanFile}";
+					// Use single quotes for shell to preserve all special characters literally
+					var sourcePath = $"'{tempReportsLocation}/{cleanFile}'";
+					var destPath = $"'{tempArchiveLocation}/{cleanFile}'";
 
 					try
 					{
 						// First verify it's a file
-						var typeCheck = await ExecuteAdbCommand($"shell [ -f \"{sourcePath}\" ] && echo OK", 2000);
+						var typeCheck = await ExecuteAdbCommand($"shell [ -f {sourcePath} ] && echo OK", 2000);
 						if (typeCheck.Trim() != "OK")
 						{
 							_logger.Debug($"Skipping non-file {cleanFile}");
 							continue;
 						}
 
-						// Try to copy with -n (no-clobber) and verify
-						await ExecuteAdbCommand($"shell cp -n \"{sourcePath}\" \"{destPath}\" 2>&1", 5000);
+						// Check if file already exists in archive
+						var existsCheck = await ExecuteAdbCommand($"shell [ -f {destPath} ] && echo EXISTS", 2000);
+						if (existsCheck.Trim() == "EXISTS")
+						{
+							// File already archived - just remove from reports location
+							_logger.Debug($"File {cleanFile} already in archive, removing from reports");
+							await ExecuteAdbCommand($"shell rm {sourcePath}", 2000);
+							_logger.Debug($"Removed duplicate: {cleanFile}");
+							continue;
+						}
+
+						// Copy to archive
+						await ExecuteAdbCommand($"shell cp {sourcePath} {destPath} 2>&1", 5000);
 
 						// Verify the copy succeeded
-						var verifyResult = await ExecuteAdbCommand($"shell [ -f \"{destPath}\" ] && echo OK", 2000);
+						var verifyResult = await ExecuteAdbCommand($"shell [ -f {destPath} ] && echo OK", 2000);
 						if (verifyResult.Trim() == "OK")
 						{
 							// Remove original only after verified copy
-							await ExecuteAdbCommand($"shell rm \"{sourcePath}\"", 2000);
+							await ExecuteAdbCommand($"shell rm {sourcePath}", 2000);
 							_logger.Debug($"Successfully archived and removed: {cleanFile}");
 						}
 						else
