@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.5.0](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.4.4...v2.5.0) (2025-11-13)
+
+
+### Features
+
+* added user settings for max archived files and interval timing ([ca76d86](https://github.com/Aemulus-XR/AemulusConnect/commit/ca76d86ac6bfe3d124214394a471dac6d89bcc31))
+* bug [#46](https://github.com/Aemulus-XR/AemulusConnect/issues/46) collecting magic number, creating constants and user settings ([28045f5](https://github.com/Aemulus-XR/AemulusConnect/commit/28045f54f407ffd16885ebc8bdcec088cf07478a))
+
+
+### Bug Fixes
+
+* catching additional potential adb/filename errors before they come up ([742f77d](https://github.com/Aemulus-XR/AemulusConnect/commit/742f77d279590b47983da9d3b54371dd0b3b6caf))
+
 ## [2.4.4](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.4.3...v2.4.4) (2025-11-13)
 
 
