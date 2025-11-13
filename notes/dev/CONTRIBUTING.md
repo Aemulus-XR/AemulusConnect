@@ -30,9 +30,13 @@ Before you begin, ensure you have the following installed:
 - **Windows 10/11** (or Windows Server 2019+)
 - **.NET 8 SDK**: https://dotnet.microsoft.com/download/dotnet/8.0
 - **WiX Toolset v4+**: `dotnet tool install --global wix`
+- **Pandoc**: https://pandoc.org/installing.html (for documentation conversion)
+- **TeX Live**: https://tug.org/texlive/acquire-netinstall.html (for PDF generation, ~7GB)
 - **Git**: https://git-scm.com/downloads
 - **Visual Studio 2022** or **VS Code** (recommended)
 - **PowerShell 5.1+** or **PowerShell Core 7+**
+
+> **Note**: Pandoc and TeX Live are required for building installer documentation. The installer build will create placeholder PDFs if these are not installed, but proper documentation requires both tools.
 
 ### Setting Up Your Development Environment
 

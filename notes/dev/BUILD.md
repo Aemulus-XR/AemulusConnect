@@ -11,7 +11,13 @@ Quick reference for building the AemulusConnect Application and creating install
    ```powershell
    dotnet tool install --global wix
    ```
-3. Restart your terminal after WiX installation
+3. Install Pandoc (for documentation conversion): https://pandoc.org/installing.html
+4. Install TeX Live (for PDF generation):
+   - Download from: https://tug.org/texlive/acquire-netinstall.html
+   - Run `install-tl-windows.exe` and choose "Simple install"
+   - Installation takes 30-60 minutes (~7GB)
+   - Provides `pdflatex` and `xelatex` PDF engines for pandoc
+5. Restart your terminal after installations
 
 ### Build Installer (One Command)
 
@@ -94,6 +100,32 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 # Clean everything and rebuild
 .\build-and-package.ps1 -Clean -Verbose
 ```
+
+### PDF Generation Issues
+
+If `convert_docs.ps1` creates placeholder PDFs instead of proper documentation:
+
+1. **Check Pandoc Installation**:
+   ```powershell
+   pandoc --version
+   ```
+   If not found, install from: https://pandoc.org/installing.html
+
+2. **Check PDF Engine (TeX Live)**:
+   ```powershell
+   pdflatex --version
+   ```
+   If not found, install TeX Live:
+   - Download: https://tug.org/texlive/acquire-netinstall.html
+   - Run installer and choose "Simple install"
+   - Restart terminal after installation
+
+3. **Verify Installation**:
+   ```powershell
+   cd tools
+   .\convert_docs.ps1
+   ```
+   Should show which PDF engine is being used (pdflatex, xelatex, or wkhtmltopdf)
 
 ## Directory Structure
 

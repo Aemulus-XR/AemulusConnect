@@ -33,7 +33,7 @@ Your project now has a complete WiX installer solution with PowerShell automatio
 
 ## What You Need To Do
 
-### One-Time Setup (15 minutes)
+### One-Time Setup (45-90 minutes)
 
 1. **Install WiX Toolset** (if not already installed):
    ```powershell
@@ -41,13 +41,22 @@ Your project now has a complete WiX installer solution with PowerShell automatio
    ```
    ⚠️ **Important**: Close and reopen your terminal after installation!
 
-2. **Verify Setup**:
+2. **Install Pandoc** (for documentation conversion):
+   - Download from: https://pandoc.org/installing.html
+   - Install and restart terminal
+
+3. **Install TeX Live** (for PDF generation - ~7GB, 30-60 min):
+   - Download from: https://tug.org/texlive/acquire-netinstall.html
+   - Run `install-tl-windows.exe` and choose "Simple install"
+   - Restart terminal after installation
+
+4. **Verify Setup**:
    ```powershell
    cd tools
    .\verify_prerequisites.ps1
    ```
 
-3. **Done!** The UpgradeCode GUID has already been set in the .wxs file.
+5. **Done!** The UpgradeCode GUID has already been set in the .wxs file.
 
 ### Build Your First Installer
 

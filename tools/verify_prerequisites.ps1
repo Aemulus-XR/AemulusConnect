@@ -22,6 +22,8 @@
     Checks for:
     - .NET SDK (version 8 or higher)
     - WiX Toolset (version 4 or higher)
+    - Pandoc (optional, for documentation conversion)
+    - PDF Engine - pdflatex, xelatex, or wkhtmltopdf (optional, for PDF generation)
     - Project files
     - Installer configuration
     - UpgradeCode GUID customization
@@ -189,6 +191,101 @@ else {
     Write-CheckResult -Status Fail -Message "WiX Toolset is not installed"
     Write-DetailInfo "Install with: dotnet tool install --global wix"
     Write-DetailInfo "Then restart your terminal/PowerShell session"
+}
+
+Write-Host ""
+
+#endregion
+
+#region Check Pandoc
+
+Write-Host "Checking Pandoc (optional for documentation)..." -ForegroundColor Yellow
+
+if (Test-CommandExists "pandoc") {
+    try {
+        $pandocVersion = (pandoc --version 2>&1 | Select-Object -First 1).Trim()
+        Write-CheckResult -Status Pass -Message "Pandoc version: $pandocVersion"
+
+        if ($Detailed) {
+            $pandocPath = (Get-Command pandoc).Source
+            Write-DetailInfo "Location: $pandocPath"
+        }
+    }
+    catch {
+        Write-CheckResult -Status Warning -Message "Pandoc found but version could not be determined"
+    }
+}
+else {
+    Write-CheckResult -Status Warning -Message "Pandoc is not installed (optional)"
+    Write-DetailInfo "Install from: https://pandoc.org/installing.html"
+    Write-DetailInfo "Required for proper PDF documentation generation"
+    Write-DetailInfo "Without it, placeholder PDFs will be created"
+}
+
+Write-Host ""
+
+#endregion
+
+#region Check TeX Live / PDF Engine
+
+Write-Host "Checking PDF engine (optional for documentation)..." -ForegroundColor Yellow
+
+$pdfEngineFound = $false
+
+if (Test-CommandExists "pdflatex") {
+    try {
+        $texVersion = (pdflatex --version 2>&1 | Select-Object -First 1).Trim()
+        Write-CheckResult -Status Pass -Message "pdflatex found: $texVersion"
+        $pdfEngineFound = $true
+
+        if ($Detailed) {
+            $pdflatexPath = (Get-Command pdflatex).Source
+            Write-DetailInfo "Location: $pdflatexPath"
+        }
+    }
+    catch {
+        Write-CheckResult -Status Warning -Message "pdflatex found but version could not be determined"
+        $pdfEngineFound = $true
+    }
+}
+elseif (Test-CommandExists "xelatex") {
+    try {
+        $texVersion = (xelatex --version 2>&1 | Select-Object -First 1).Trim()
+        Write-CheckResult -Status Pass -Message "xelatex found: $texVersion"
+        $pdfEngineFound = $true
+
+        if ($Detailed) {
+            $xelatexPath = (Get-Command xelatex).Source
+            Write-DetailInfo "Location: $xelatexPath"
+        }
+    }
+    catch {
+        Write-CheckResult -Status Warning -Message "xelatex found but version could not be determined"
+        $pdfEngineFound = $true
+    }
+}
+elseif (Test-CommandExists "wkhtmltopdf") {
+    try {
+        $wkhtmlVersion = (wkhtmltopdf --version 2>&1 | Select-Object -First 1).Trim()
+        Write-CheckResult -Status Pass -Message "wkhtmltopdf found: $wkhtmlVersion"
+        $pdfEngineFound = $true
+
+        if ($Detailed) {
+            $wkhtmlPath = (Get-Command wkhtmltopdf).Source
+            Write-DetailInfo "Location: $wkhtmlPath"
+        }
+    }
+    catch {
+        Write-CheckResult -Status Warning -Message "wkhtmltopdf found but version could not be determined"
+        $pdfEngineFound = $true
+    }
+}
+
+if (-not $pdfEngineFound) {
+    Write-CheckResult -Status Warning -Message "No PDF engine installed (optional)"
+    Write-DetailInfo "Install TeX Live from: https://tug.org/texlive/acquire-netinstall.html"
+    Write-DetailInfo "Required for proper PDF documentation generation"
+    Write-DetailInfo "Without it, placeholder PDFs will be created"
 }
 
 Write-Host ""

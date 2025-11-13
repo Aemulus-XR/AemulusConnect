@@ -268,8 +268,14 @@ if (-not $SkipPdf) {
 
                 if (-not $success) {
                     Write-Warning "Could not generate PDF with any available engine"
-                    Write-Info "Install wkhtmltopdf from https://wkhtmltopdf.org/ or a LaTeX distribution"
-                    Write-Info "To skip PDF generation, use: .\convert_docs.ps1 -SkipPdf"
+                    Write-Info ""
+                    Write-Info "To generate proper PDFs, install TeX Live:"
+                    Write-Info "  1. Download from: https://tug.org/texlive/acquire-netinstall.html"
+                    Write-Info "  2. Run install-tl-windows.exe and choose 'Simple install'"
+                    Write-Info "  3. Restart your terminal after installation"
+                    Write-Info ""
+                    Write-Info "Alternatively, skip PDF generation: .\convert_docs.ps1 -SkipPdf"
+                    Write-Info ""
                     Write-Info "Creating placeholder PDF for installer compatibility..."
 
                     # Create a minimal PDF placeholder
@@ -350,8 +356,14 @@ startxref
         }
         else {
             Write-Warning "Pandoc not found - cannot generate PDF"
-            Write-Info "Install pandoc from https://pandoc.org/ to enable PDF generation"
-            Write-Info "Or use: .\convert_docs.ps1 -SkipPdf to skip PDF generation"
+            Write-Info ""
+            Write-Info "To generate PDFs, install both Pandoc and TeX Live:"
+            Write-Info "  1. Install Pandoc from: https://pandoc.org/installing.html"
+            Write-Info "  2. Install TeX Live from: https://tug.org/texlive/acquire-netinstall.html"
+            Write-Info "  3. Restart your terminal after installation"
+            Write-Info ""
+            Write-Info "Alternatively, skip PDF generation: .\convert_docs.ps1 -SkipPdf"
+            Write-Info ""
             Write-Info "Creating placeholder PDF for installer compatibility..."
 
             # Create a minimal PDF placeholder
