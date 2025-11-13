@@ -182,8 +182,53 @@ Click the gear icon (⚙️) in the top-right corner to customize:
 
 - **Language** - Choose your preferred language (English, Arabic, German, Spanish, French, or Pirate)
 - **Output Location** - Where to save reports on your PC (default: `Desktop\AemulusConnect\`)
+- **Max Archived Files** - Maximum number of files to keep in Quest archive before automatic cleanup (default: 100)
+  - Range: 10-1000 files
+  - **Lower values** (10-50): Good for devices with limited storage
+  - **Higher values** (200-1000): Keep more history for power users
+  - Cleanup happens automatically when limit is exceeded, removing oldest files first
+- **Device Check Interval** - How often to check for Quest device connection, in milliseconds (default: 1000)
+  - Range: 100-10000 ms
+  - **Lower values** (100-500): Faster device detection, uses more CPU
+  - **Recommended**: 1000 (1 second - good balance)
+  - **Higher values** (2000-10000): May help with flaky USB connections or reduce CPU usage
 
-> **Advanced Users**: The Quest device paths (Reports and Archive locations) can only be modified through the `settings.ini` file in your installation directory. The defaults are `sdcard\Documents\` for reports and `sdcard\Documents\Archive\` for archived files. These are hidden from the Settings dialog to prevent accidental misconfiguration.
+> **Note**: Changes to Max Archived Files and Device Check Interval require restarting AemulusConnect to take effect.
+
+### Advanced Settings (settings.ini)
+
+Advanced users can manually edit the `settings.ini` file for additional control:
+
+**Location**: `%APPDATA%\AemulusConnect\settings.ini`
+(Typically: `C:\Users\YourUsername\AppData\Roaming\AemulusConnect\settings.ini`)
+
+**Available Settings**:
+
+#### Quest Device Paths
+These settings control where files are stored on your Quest device and cannot be changed through the UI:
+- `ReportsLocation` - Where reports are initially saved (default: `sdcard\Documents\`)
+- `ArchiveLocation` - Where archived reports are moved (default: `sdcard\Documents\Archive\`)
+
+> **⚠️ Warning**: Only modify these paths if you know what you're doing. Incorrect paths will prevent the app from finding your reports.
+
+**Example settings.ini**:
+```ini
+# AemulusConnect settings
+Language=en
+ReportsLocation=sdcard\Documents\
+ArchiveLocation=sdcard\Documents\Archive\
+OutputLocation=Desktop\AemulusConnect\
+
+# File Management
+# Maximum number of files to keep in archive before cleanup (default: 100)
+MaxArchivedFiles=100
+
+# Device Monitoring
+# Device status check interval in milliseconds (default: 1000, minimum: 100)
+StatusCheckIntervalMs=1000
+```
+
+> **⚠️ Note**: Changes to `settings.ini` require restarting AemulusConnect to take effect. Invalid values will be ignored and defaults will be used instead.
 
 ## Uninstalling
 

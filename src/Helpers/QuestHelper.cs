@@ -29,7 +29,7 @@ namespace AemulusConnect.Helpers
 		private static readonly ILog _logger = LogManager.GetLogger(typeof(Program));
 		private string _remotePath = FSStrings.ReportsLocation;
 		private string _localPath = FSStrings.OutputLocation;
-		private int maxArchivedFiles = FileManagement.MaxArchivedFiles;
+		private int maxArchivedFiles => SettingsManager.MaxArchivedFiles;
 		private ConsoleOutputReceiver _receiver;
 
 		public event Action<QuestStatus>? OnStatusChanged;
@@ -44,7 +44,7 @@ namespace AemulusConnect.Helpers
 			_logger.Info("QuestHelper initialized");
 			_adbClient = new AdbClient();
 			_receiver = new ConsoleOutputReceiver();
-			_timer = new System.Timers.Timer(DeviceMonitoring.StatusCheckInterval);
+			_timer = new System.Timers.Timer(SettingsManager.StatusCheckIntervalMs);
 			_timer.Elapsed += OnTimerElapsed;
 		}
 

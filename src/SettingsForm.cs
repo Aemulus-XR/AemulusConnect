@@ -10,10 +10,14 @@ namespace AemulusConnect
     {
         private TextBox txtOutputPath;
         private ComboBox cmbLanguage;
+        private NumericUpDown numMaxArchivedFiles;
+        private NumericUpDown numStatusCheckInterval;
         private Button btnSave;
         private Button btnCancel;
         private Action<string, string, string>? _onSave;
         private string _initialLanguage;
+        private int _initialMaxArchivedFiles;
+        private int _initialStatusCheckInterval;
         // Keep the initial remote paths for backend persistence, but don't expose in UI
         private string _reportsPath;
         private string _archivePath;
@@ -22,10 +26,12 @@ namespace AemulusConnect
         {
             _onSave = onSave;
             _initialLanguage = SettingsManager.Language;
+            _initialMaxArchivedFiles = SettingsManager.MaxArchivedFiles;
+            _initialStatusCheckInterval = SettingsManager.StatusCheckIntervalMs;
             _reportsPath = initialReportsPath;
             _archivePath = initialArchivePath;
             Text = Properties.Resources.Settings_WindowTitle;
-            Size = new Size(520, 210);
+            Size = new Size(520, 330);
             StartPosition = FormStartPosition.CenterParent;
 
             // Output path (PC location)
@@ -72,8 +78,57 @@ namespace AemulusConnect
                     cmbLanguage.SelectedIndex = 0;
             }
 
-            btnSave = new Button() { Text = Properties.Resources.Settings_SaveButton, Location = new Point(320, 145), DialogResult = DialogResult.OK };
-            btnCancel = new Button() { Text = Properties.Resources.Settings_CancelButton, Location = new Point(410, 145), DialogResult = DialogResult.Cancel };
+            // Max archived files setting
+            var lblMaxFiles = new Label()
+            {
+                Text = "Max Archived Files:",
+                Location = new Point(10, 145),
+                AutoSize = true
+            };
+            numMaxArchivedFiles = new NumericUpDown()
+            {
+                Location = new Point(10, 168),
+                Width = 100,
+                Minimum = 10,
+                Maximum = 1000,
+                Value = SettingsManager.MaxArchivedFiles
+            };
+            var lblMaxFilesHelp = new Label()
+            {
+                Text = "(10-1000, lower = less storage used on Quest)",
+                Location = new Point(120, 170),
+                AutoSize = true,
+                ForeColor = Color.Gray,
+                Font = new Font(lblMaxFiles.Font.FontFamily, 8)
+            };
+
+            // Status check interval setting
+            var lblStatusInterval = new Label()
+            {
+                Text = "Device Check Interval (ms):",
+                Location = new Point(10, 205),
+                AutoSize = true
+            };
+            numStatusCheckInterval = new NumericUpDown()
+            {
+                Location = new Point(10, 228),
+                Width = 100,
+                Minimum = 100,
+                Maximum = 10000,
+                Increment = 100,
+                Value = SettingsManager.StatusCheckIntervalMs
+            };
+            var lblStatusIntervalHelp = new Label()
+            {
+                Text = "(100-10000, higher = better for flaky USB)",
+                Location = new Point(120, 230),
+                AutoSize = true,
+                ForeColor = Color.Gray,
+                Font = new Font(lblStatusInterval.Font.FontFamily, 8)
+            };
+
+            btnSave = new Button() { Text = Properties.Resources.Settings_SaveButton, Location = new Point(320, 265), DialogResult = DialogResult.OK };
+            btnCancel = new Button() { Text = Properties.Resources.Settings_CancelButton, Location = new Point(410, 265), DialogResult = DialogResult.Cancel };
 
             btnSave.Click += BtnSave_Click;
             btnCancel.Click += (s, e) => Close();
@@ -83,6 +138,12 @@ namespace AemulusConnect
             Controls.Add(btnBrowse);
             Controls.Add(lblLanguage);
             Controls.Add(cmbLanguage);
+            Controls.Add(lblMaxFiles);
+            Controls.Add(numMaxArchivedFiles);
+            Controls.Add(lblMaxFilesHelp);
+            Controls.Add(lblStatusInterval);
+            Controls.Add(numStatusCheckInterval);
+            Controls.Add(lblStatusIntervalHelp);
             Controls.Add(btnSave);
             Controls.Add(btnCancel);
 
@@ -107,11 +168,19 @@ namespace AemulusConnect
             FSStrings.OutputLocation = output;
             SettingsManager.Language = selectedLanguage;
 
+            // Update file management and device monitoring settings
+            SettingsManager.MaxArchivedFiles = (int)numMaxArchivedFiles.Value;
+            SettingsManager.StatusCheckIntervalMs = (int)numStatusCheckInterval.Value;
+
             // Persist settings to disk
             try { SettingsManager.SaveSettings(); } catch { }
 
-            // Show restart notification if language changed
-            if (selectedLanguage != _initialLanguage)
+            // Show restart notification if any settings that require restart have changed
+            bool needsRestart = selectedLanguage != _initialLanguage ||
+                               SettingsManager.MaxArchivedFiles != _initialMaxArchivedFiles ||
+                               SettingsManager.StatusCheckIntervalMs != _initialStatusCheckInterval;
+
+            if (needsRestart)
             {
                 MessageBox.Show(
                     Properties.Resources.Settings_RestartMessage,
