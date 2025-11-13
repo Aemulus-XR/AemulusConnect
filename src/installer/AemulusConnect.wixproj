@@ -9,8 +9,8 @@
 
   <ItemGroup>
     <!-- Documentation files now come from Shipping/documentation -->
-    <None Include="$(BuildOutputPath)\documentation\license.rtf" />
-    <None Include="$(BuildOutputPath)\documentation\UserManual.pdf" />
+    <None Include="$(BuildOutputPath)\documentation\LICENSE.rtf" />
+    <None Include="$(BuildOutputPath)\documentation\USER_GUIDE.pdf" />
   </ItemGroup>
 
   <ItemGroup>

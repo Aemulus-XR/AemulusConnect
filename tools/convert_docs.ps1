@@ -112,8 +112,8 @@ if (-not (Test-Path $OutputDir)) {
     New-Item -ItemType Directory -Path $OutputDir -Force | Out-Null
 }
 
-$LicenseRtf = Join-Path $OutputDir "license.rtf"
-$UserGuidePdf = Join-Path $OutputDir "UserManual.pdf"
+$LicenseRtf = Join-Path $OutputDir "LICENSE.rtf"
+$UserGuidePdf = Join-Path $OutputDir "USER_GUIDE.pdf"
 
 #endregion
 
@@ -125,7 +125,7 @@ Write-Host ""
 
 #region Convert LICENSE.md to RTF
 
-Write-Step "Converting LICENSE.md to license.rtf..."
+Write-Step "Converting LICENSE.md to LICENSE.rtf..."
 
 if (-not (Test-Path $LicenseMd)) {
     Write-Error "LICENSE.md not found at: $LicenseMd"

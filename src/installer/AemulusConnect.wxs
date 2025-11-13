@@ -150,10 +150,10 @@
     <ComponentGroup Id="DocumentationComponents" Directory="DOCUMENTATIONFOLDER">
       <Component Id="UserDocumentation" Guid="3cc6bcbf-51d9-4600-8e13-74bca12b9405">
         <!-- License RTF -->
-        <File Id="LicenseRtf" Source="$(var.BuildOutputPath)\documentation\license.rtf" Name="License.rtf" KeyPath="yes" />
+        <File Id="LicenseRtf" Source="$(var.BuildOutputPath)\documentation\LICENSE.rtf" Name="License.rtf" KeyPath="yes" />
 
         <!-- User Guide PDF -->
-        <File Id="UserGuidePdf" Source="$(var.BuildOutputPath)\documentation\UserManual.pdf" Name="UserGuide.pdf" />
+        <File Id="UserGuidePdf" Source="$(var.BuildOutputPath)\documentation\USER_GUIDE.pdf" Name="UserGuide.pdf" />
       </Component>
     </ComponentGroup>
 
@@ -255,7 +255,7 @@
     </Feature>
 
     <!-- License file for installer dialog -->
-    <WixVariable Id="WixUILicenseRtf" Value="$(var.BuildOutputPath)\documentation\license.rtf" />
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.BuildOutputPath)\documentation\LICENSE.rtf" />
 
     <!-- Custom branding images (optional - comment out if images don't exist) -->
     <!-- Banner: 493x58 pixels, shown at top of most dialogs -->

@@ -5,7 +5,7 @@
 
 .DESCRIPTION
     Wrapper script that calls the main convert_docs.ps1 script.
-    Converts LICENSE.md to license.rtf and USER_GUIDE.md to UserManual.pdf.
+    Converts LICENSE.md to LICENSE.rtf and USER_GUIDE.md to USER_GUIDE.pdf.
     Outputs to src/Shipping/documentation/ directory.
 
 .EXAMPLE
@@ -44,14 +44,14 @@ try {
     Write-Host "  Documentation converted successfully" -ForegroundColor Green
 
     # Show what was created
-    $licenseRtf = Join-Path $ShippingDocsDir "license.rtf"
-    $userManualPdf = Join-Path $ShippingDocsDir "UserManual.pdf"
+    $licenseRtf = Join-Path $ShippingDocsDir "LICENSE.rtf"
+    $userGuidePdf = Join-Path $ShippingDocsDir "USER_GUIDE.pdf"
 
     if (Test-Path $licenseRtf) {
-        Write-Host "    Created: license.rtf" -ForegroundColor Gray
+        Write-Host "    Created: LICENSE.rtf" -ForegroundColor Gray
     }
-    if (Test-Path $userManualPdf) {
-        Write-Host "    Created: UserManual.pdf" -ForegroundColor Gray
+    if (Test-Path $userGuidePdf) {
+        Write-Host "    Created: USER_GUIDE.pdf" -ForegroundColor Gray
     }
 
     exit 0
