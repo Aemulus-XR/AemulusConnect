@@ -417,3 +417,6 @@ example_wix_installer_code/**
 src/installer/UserGuide.pdf
 tools/sound.ps1
 notes/dev/
+BUILD_ANALYSIS.md
+BUILD_SYSTEM_DIAGRAMS.md
+RESTRUCTURING_PLAN.md
