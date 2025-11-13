@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.4.4](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.4.3...v2.4.4) (2025-11-13)
+
+
+### Bug Fixes
+
+* bug [#37](https://github.com/Aemulus-XR/AemulusConnect/issues/37) - Progress tracking bar not tied to actual file transfers ([a1036ff](https://github.com/Aemulus-XR/AemulusConnect/commit/a1036ffbc3b45b381cca76c0eb1365e116fd42cb))
+* downloading was getting stuck when no files on headset ([a1036ff](https://github.com/Aemulus-XR/AemulusConnect/commit/a1036ffbc3b45b381cca76c0eb1365e116fd42cb))
+* progress bar updates based on actual work to be done now - was just animated before ([3d53a88](https://github.com/Aemulus-XR/AemulusConnect/commit/3d53a88594605d0bf28e3bf43ce9c55d2d5eefbe))
+* tying to handle files with spaces was failing over adb ([a1036ff](https://github.com/Aemulus-XR/AemulusConnect/commit/a1036ffbc3b45b381cca76c0eb1365e116fd42cb))
+
 ## [2.4.3](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.4.2...v2.4.3) (2025-11-13)
 
 
