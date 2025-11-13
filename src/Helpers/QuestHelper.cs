@@ -339,7 +339,7 @@ namespace AemulusConnect.Helpers
 				var remoteFilePath = $"{remotePath.TrimEnd('/')}/{newFileName}".Replace("\\", "/");
 				try
 				{
-					var typeOut = await ExecuteAdbCommand($"shell [ -d \"{remoteFilePath}\" ] && echo DIR || echo FILE", 2000);
+					var typeOut = await ExecuteAdbCommand($"shell [ -d '{remoteFilePath}' ] && echo DIR || echo FILE", 2000);
 					if (typeOut.Trim() == "DIR")
 					{
 						_logger.Debug($"Skipping remote directory {fileName}");
@@ -526,16 +526,16 @@ namespace AemulusConnect.Helpers
 
 					try
 					{
-						var fullPath = $"{tempArchiveLocation}/{fileName}";
+						var fullPath = $"'{tempArchiveLocation}/{fileName}'";
 						// Verify it's a file first
-						var typeCheck = await ExecuteAdbCommand($"shell [ -f \"{fullPath}\" ] && echo OK", 2000);
+						var typeCheck = await ExecuteAdbCommand($"shell [ -f {fullPath} ] && echo OK", 2000);
 						if (typeCheck.Trim() != "OK")
 						{
 							_logger.Debug($"Skipping non-file {fileName} during cleanup");
 							continue;
 						}
 
-						await ExecuteAdbCommand($"shell rm \"{fullPath}\"", 3000);
+						await ExecuteAdbCommand($"shell rm {fullPath}", 3000);
 						_logger.Debug($"Removed old archive file: {fileName}");
 					}
 					catch (Exception ex)
