@@ -1,4 +1,5 @@
 using AemulusConnect.Enums;
+using AemulusConnect.Constants;
 using System.ComponentModel;
 
 namespace AemulusConnect
@@ -50,7 +51,7 @@ namespace AemulusConnect
 			{
 				Task.Run(async () =>
 				{
-					await Task.Delay(500);
+					await Task.Delay(UiDelays.CompletionNotification);
 					onLoadingComplete();
 				});
 				return;
@@ -64,7 +65,7 @@ namespace AemulusConnect
 			{
 				Task.Run(async () =>
 				{
-					await Task.Delay(500);
+					await Task.Delay(UiDelays.CompletionNotification);
 					onLoadingComplete();
 				});
 			}
@@ -72,7 +73,7 @@ namespace AemulusConnect
 
 		private void onLoadingComplete()
 		{
-			Thread.Sleep(2000);
+			Thread.Sleep(UiDelays.LoadingComplete);
 			OnLoadingComplete?.Invoke();
 		}
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using AemulusConnect.Strings;
+using AemulusConnect.Constants;
 
 namespace AemulusConnect.Helpers
 {
@@ -19,6 +20,16 @@ namespace AemulusConnect.Helpers
         /// Current language/culture setting. Defaults to en-US.
         /// </summary>
         public static string Language { get; set; } = LocalizationHelper.DefaultCulture;
+
+        /// <summary>
+        /// Maximum number of files to keep in archive before cleanup. Defaults to 100.
+        /// </summary>
+        public static int MaxArchivedFiles { get; set; } = FileManagement.MaxArchivedFiles;
+
+        /// <summary>
+        /// Device status check interval in milliseconds. Defaults to 1000ms (1 second).
+        /// </summary>
+        public static int StatusCheckIntervalMs { get; set; } = DeviceMonitoring.StatusCheckInterval;
 
         public static void LoadSettings()
         {
@@ -58,6 +69,14 @@ namespace AemulusConnect.Helpers
                         case "Language":
                             Language = value;
                             break;
+                        case "MaxArchivedFiles":
+                            if (int.TryParse(value, out int maxFiles) && maxFiles > 0)
+                                MaxArchivedFiles = maxFiles;
+                            break;
+                        case "StatusCheckIntervalMs":
+                            if (int.TryParse(value, out int interval) && interval >= 100)
+                                StatusCheckIntervalMs = interval;
+                            break;
                         default:
                             // unknown keys ignored
                             break;
@@ -84,6 +103,14 @@ namespace AemulusConnect.Helpers
                 sb.AppendLine($"ArchiveLocation={FSStrings.ArchiveLocation}");
                 sb.AppendLine($"OutputLocation={FSStrings.OutputLocation}");
                 sb.AppendLine($"ADBEXELocation={FSStrings.ADBEXELocation}");
+                sb.AppendLine();
+                sb.AppendLine("# File Management");
+                sb.AppendLine($"# Maximum number of files to keep in archive before cleanup (default: 100)");
+                sb.AppendLine($"MaxArchivedFiles={MaxArchivedFiles}");
+                sb.AppendLine();
+                sb.AppendLine("# Device Monitoring");
+                sb.AppendLine($"# Device status check interval in milliseconds (default: 1000, minimum: 100)");
+                sb.AppendLine($"StatusCheckIntervalMs={StatusCheckIntervalMs}");
 
                 var temp = SettingsFile + ".tmp";
                 File.WriteAllText(temp, sb.ToString(), Encoding.UTF8);

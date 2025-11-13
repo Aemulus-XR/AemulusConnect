@@ -1,4 +1,5 @@
 using AemulusConnect.Enums;
+using AemulusConnect.Constants;
 using AdvancedSharpAdbClient;
 using AdvancedSharpAdbClient.Models;
 using log4net;
@@ -28,7 +29,7 @@ namespace AemulusConnect.Helpers
 		private static readonly ILog _logger = LogManager.GetLogger(typeof(Program));
 		private string _remotePath = FSStrings.ReportsLocation;
 		private string _localPath = FSStrings.OutputLocation;
-		private int maxArchivedFiles = 100;
+		private int maxArchivedFiles => SettingsManager.MaxArchivedFiles;
 		private ConsoleOutputReceiver _receiver;
 
 		public event Action<QuestStatus>? OnStatusChanged;
@@ -43,7 +44,7 @@ namespace AemulusConnect.Helpers
 			_logger.Info("QuestHelper initialized");
 			_adbClient = new AdbClient();
 			_receiver = new ConsoleOutputReceiver();
-			_timer = new System.Timers.Timer(1000);
+			_timer = new System.Timers.Timer(SettingsManager.StatusCheckIntervalMs);
 			_timer.Elapsed += OnTimerElapsed;
 		}
 
@@ -225,7 +226,7 @@ namespace AemulusConnect.Helpers
 		/// Executes a shell command (uses system adb) with a timeout.
 		/// Returns stdout string if successful, throws on error or timeout.
 		/// </summary>
-		private async Task<string> ExecuteAdbCommand(string command, int timeoutMs = 5000)
+		private async Task<string> ExecuteAdbCommand(string command, int timeoutMs = AdbTimeouts.DefaultCommand)
 		{
 			_logger.Debug($"Executing ADB command: {command}");
 			using var process = new Process();
@@ -271,7 +272,7 @@ namespace AemulusConnect.Helpers
 			}
 
 			// allow small time for remaining output
-			await Task.WhenAny(outputTcs.Task, Task.Delay(500));
+			await Task.WhenAny(outputTcs.Task, Task.Delay(AdbTimeouts.OutputFlush));
 
 			if (process.ExitCode != 0 && error.Length > 0)
 			{
@@ -339,7 +340,7 @@ namespace AemulusConnect.Helpers
 				var remoteFilePath = $"{remotePath.TrimEnd('/')}/{newFileName}".Replace("\\", "/");
 				try
 				{
-					var typeOut = await ExecuteAdbCommand($"shell [ -d '{remoteFilePath}' ] && echo DIR || echo FILE", 2000);
+					var typeOut = await ExecuteAdbCommand($"shell [ -d '{remoteFilePath}' ] && echo DIR || echo FILE", AdbTimeouts.FileCheck);
 					if (typeOut.Trim() == "DIR")
 					{
 						_logger.Debug($"Skipping remote directory {fileName}");
@@ -421,7 +422,7 @@ namespace AemulusConnect.Helpers
 				}
 
 				// Create archive directory with timeout protection
-				await ExecuteAdbCommand($"shell mkdir -p {tempArchiveLocation}", 3000);
+				await ExecuteAdbCommand($"shell mkdir -p {tempArchiveLocation}", AdbTimeouts.Mkdir);
 
 				var files = output.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
 					.Select(f => Regex.Replace(f, @"\t|\r", "").Trim())
@@ -448,7 +449,7 @@ namespace AemulusConnect.Helpers
 					try
 					{
 						// First verify it's a file
-						var typeCheck = await ExecuteAdbCommand($"shell [ -f {sourcePath} ] && echo OK", 2000);
+						var typeCheck = await ExecuteAdbCommand($"shell [ -f {sourcePath} ] && echo OK", AdbTimeouts.FileCheck);
 						if (typeCheck.Trim() != "OK")
 						{
 							_logger.Debug($"Skipping non-file {cleanFile}");
@@ -456,25 +457,25 @@ namespace AemulusConnect.Helpers
 						}
 
 						// Check if file already exists in archive
-						var existsCheck = await ExecuteAdbCommand($"shell [ -f {destPath} ] && echo EXISTS", 2000);
+						var existsCheck = await ExecuteAdbCommand($"shell [ -f {destPath} ] && echo EXISTS", AdbTimeouts.FileCheck);
 						if (existsCheck.Trim() == "EXISTS")
 						{
 							// File already archived - just remove from reports location
 							_logger.Debug($"File {cleanFile} already in archive, removing from reports");
-							await ExecuteAdbCommand($"shell rm {sourcePath}", 2000);
+							await ExecuteAdbCommand($"shell rm {sourcePath}", AdbTimeouts.Remove);
 							_logger.Debug($"Removed duplicate: {cleanFile}");
 							continue;
 						}
 
 						// Copy to archive
-						await ExecuteAdbCommand($"shell cp {sourcePath} {destPath} 2>&1", 5000);
+						await ExecuteAdbCommand($"shell cp {sourcePath} {destPath} 2>&1", AdbTimeouts.Copy);
 
 						// Verify the copy succeeded
-						var verifyResult = await ExecuteAdbCommand($"shell [ -f {destPath} ] && echo OK", 2000);
+						var verifyResult = await ExecuteAdbCommand($"shell [ -f {destPath} ] && echo OK", AdbTimeouts.FileCheck);
 						if (verifyResult.Trim() == "OK")
 						{
 							// Remove original only after verified copy
-							await ExecuteAdbCommand($"shell rm {sourcePath}", 2000);
+							await ExecuteAdbCommand($"shell rm {sourcePath}", AdbTimeouts.Remove);
 							_logger.Debug($"Successfully archived and removed: {cleanFile}");
 						}
 						else
@@ -528,14 +529,14 @@ namespace AemulusConnect.Helpers
 					{
 						var fullPath = $"'{tempArchiveLocation}/{fileName}'";
 						// Verify it's a file first
-						var typeCheck = await ExecuteAdbCommand($"shell [ -f {fullPath} ] && echo OK", 2000);
+						var typeCheck = await ExecuteAdbCommand($"shell [ -f {fullPath} ] && echo OK", AdbTimeouts.FileCheck);
 						if (typeCheck.Trim() != "OK")
 						{
 							_logger.Debug($"Skipping non-file {fileName} during cleanup");
 							continue;
 						}
 
-						await ExecuteAdbCommand($"shell rm {fullPath}", 3000);
+						await ExecuteAdbCommand($"shell rm {fullPath}", AdbTimeouts.Cleanup);
 						_logger.Debug($"Removed old archive file: {fileName}");
 					}
 					catch (Exception ex)
