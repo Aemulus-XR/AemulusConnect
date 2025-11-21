@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.2](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.6.1...v2.6.2) (2025-11-21)
+
+
+### Bug Fixes
+
+* update language on optional settings ([7d3b7f3](https://github.com/Aemulus-XR/AemulusConnect/commit/7d3b7f38c476e9f8b413e8fd504880cbc09dd842))
+
 ## [2.6.1](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.6.0...v2.6.1) (2025-11-21)
 
 
