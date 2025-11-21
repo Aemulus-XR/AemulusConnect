@@ -149,6 +149,9 @@ namespace AemulusConnect
 
             // Apply RTL layout if Arabic is selected
             LocalizationHelper.ApplyRTLToForm(this);
+
+            // Apply culture-specific fonts
+            LocalizationHelper.ApplyCultureSpecificFont(this);
         }
 
         private void BtnSave_Click(object? sender, EventArgs e)

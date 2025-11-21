@@ -30,6 +30,14 @@ namespace AemulusConnect
 
 			// Apply RTL layout if Arabic is selected
 			Helpers.LocalizationHelper.ApplyRTLToForm(this);
+
+			// Apply culture-specific fonts to the main form
+			Helpers.LocalizationHelper.ApplyCultureSpecificFont(this);
+
+			// Apply fonts to user controls (they've already been initialized above)
+			Helpers.LocalizationHelper.ApplyCultureSpecificFont(_disconnectedUserControl);
+			Helpers.LocalizationHelper.ApplyCultureSpecificFont(_connectedUserControl);
+			Helpers.LocalizationHelper.ApplyCultureSpecificFont(_loadingUserControl);
 		}
 
 		public void UpdateQuestHelperPaths(string reportsPath, string archivePath, string outputPath)

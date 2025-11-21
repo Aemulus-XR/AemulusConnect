@@ -39,6 +39,10 @@
     <Content Include="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\res\fonts\arfonts-al-mohanad_all\*.ttf">
+      <Link>res\fonts\arfonts-al-mohanad_all\%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
