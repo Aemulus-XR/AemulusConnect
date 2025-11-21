@@ -71,6 +71,12 @@
         <Directory Id="INSTALLFOLDER" Name="$(var.ProductName)">
           <Directory Id="BINFOLDER" Name="bin">
             <Directory Id="PlatformToolsFolder" Name="platform-tools" />
+            <!-- Resources folder for fonts and other assets -->
+            <Directory Id="RESFOLDER" Name="res">
+              <Directory Id="FONTSFOLDER" Name="fonts">
+                <Directory Id="ARABICFONTSFOLDER" Name="arfonts-al-mohanad_all" />
+              </Directory>
+            </Directory>
             <!-- Localization culture folders -->
             <Directory Id="Culture_arSA" Name="ar-SA" />
             <Directory Id="Culture_deDE" Name="de-DE" />
@@ -115,6 +121,17 @@
       <Component Id="PlatformToolsComponent" Directory="PlatformToolsFolder" Guid="a48a76d8-f696-458e-a734-01ea103437f3">
         <File Source="$(var.BuildOutputPath)\bin\platform-tools\adb.exe" KeyPath="yes" />
         <File Source="$(var.BuildOutputPath)\bin\platform-tools\AdbWinApi.dll" />
+      </Component>
+    </ComponentGroup>
+
+    <!-- Arabic Font Files -->
+    <ComponentGroup Id="ArabicFontComponents" Directory="ARABICFONTSFOLDER">
+      <Component Id="ArabicFont_AlMohanad" Guid="6f3d0b7f-4c8d-9e6f-3a2b-7c8d9e0f1a2b">
+        <File Source="$(var.BuildOutputPath)\bin\res\fonts\arfonts-al-mohanad_all\al-mohanad.ttf" KeyPath="yes" />
+        <File Source="$(var.BuildOutputPath)\bin\res\fonts\arfonts-al-mohanad_all\al-mohanad-bold.ttf" />
+        <File Source="$(var.BuildOutputPath)\bin\res\fonts\arfonts-al-mohanad_all\al-mohanad-extra-bold-extra-bold.ttf" />
+        <File Source="$(var.BuildOutputPath)\bin\res\fonts\arfonts-al-mohanad_all\al-mohanad-long-kaf.ttf" />
+        <File Source="$(var.BuildOutputPath)\bin\res\fonts\arfonts-al-mohanad_all\al-mohanad-thick.ttf" />
       </Component>
     </ComponentGroup>
 
@@ -241,6 +258,7 @@
       Level="1"
       Description="The main application files and Start Menu shortcuts">
       <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="ArabicFontComponents" />
       <ComponentGroupRef Id="LocalizationComponents" />
       <ComponentGroupRef Id="DocumentationComponents" />
       <ComponentGroupRef Id="ApplicationShortcuts" />

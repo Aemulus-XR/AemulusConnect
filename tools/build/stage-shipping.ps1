@@ -197,6 +197,21 @@ if ($cultureFolders) {
 }
 Write-Host " OK ($cultureCopied cultures)" -ForegroundColor Green
 
+# Copy font resources to bin/res/fonts/
+Write-Host "  Copying font resources to bin/res/fonts/..." -NoNewline
+$sourceResDir = Join-Path $BuildOutputPath "res"
+if (Test-Path $sourceResDir) {
+    $destResDir = Join-Path $ShippingBinDir "res"
+    Copy-Item -Path $sourceResDir -Destination $destResDir -Recurse -Force
+
+    # Count font files
+    $fontCount = (Get-ChildItem -Path (Join-Path $destResDir "fonts") -Recurse -Filter "*.ttf" -ErrorAction SilentlyContinue).Count
+    Write-Host " OK ($fontCount font files)" -ForegroundColor Green
+}
+else {
+    Write-Host " SKIPPED (res folder not found)" -ForegroundColor Yellow
+}
+
 # Note: Documentation files are created by convert-docs.ps1 directly into documentation/
 # This includes license.rtf and UserManual.pdf which are generated from Markdown sources
 

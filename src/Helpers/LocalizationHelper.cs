@@ -288,6 +288,35 @@ namespace AemulusConnect.Helpers
                 form.RightToLeftLayout = false;
             }
         }
+
+        /// <summary>
+        /// Applies culture-specific fonts to a form (e.g., Al-Mohanad for Arabic)
+        /// </summary>
+        /// <param name="form">Form to apply fonts to</param>
+        public static void ApplyCultureSpecificFont(Form form)
+        {
+            ApplyCultureSpecificFont((Control)form);
+        }
+
+        /// <summary>
+        /// Applies culture-specific fonts to a control (e.g., Al-Mohanad for Arabic)
+        /// </summary>
+        /// <param name="control">Control to apply fonts to</param>
+        public static void ApplyCultureSpecificFont(Control control)
+        {
+            var currentCulture = CultureInfo.CurrentUICulture.Name;
+
+            // Apply Al-Mohanad font for Arabic
+            if (currentCulture == "ar-SA")
+            {
+                FontHelper.ApplyAlMohanadFontToForm(control);
+            }
+            else
+            {
+                // Reset to default system font for other languages
+                FontHelper.ResetToDefaultFont(control);
+            }
+        }
     }
 
     /// <summary>
