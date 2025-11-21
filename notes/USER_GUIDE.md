@@ -211,6 +211,11 @@ These settings control where files are stored on your Quest device and cannot be
 
 > **⚠️ Warning**: Only modify these paths if you know what you're doing. Incorrect paths will prevent the app from finding your reports.
 
+### File Filtering
+- Comma-separated list of file extensions to download and archive (default: .pdf,.csv)
+- Extensions should include the dot (e.g., .pdf,.csv,.txt)
+FileExtensions=.pdf,.csv
+
 **Example settings.ini**:
 ```ini
 # AemulusConnect settings
@@ -226,6 +231,9 @@ MaxArchivedFiles=100
 # Device Monitoring
 # Device status check interval in milliseconds (default: 1000, minimum: 100)
 StatusCheckIntervalMs=1000
+
+# File Extensions to transfer (default: .pdf,.csv)
+FileExtensions=.pdf,.csv
 ```
 
 > **⚠️ Note**: Changes to `settings.ini` require restarting AemulusConnect to take effect. Invalid values will be ignored and defaults will be used instead.

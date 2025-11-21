@@ -1,6 +1,6 @@
 TODO
 ----
-- [ ] .
+- [ ] test file extension filtering - settings.ini
 
 In Progress
 -----------

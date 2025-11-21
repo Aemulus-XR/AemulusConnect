@@ -296,12 +296,20 @@ namespace AemulusConnect.Helpers
 				var output = await ExecuteAdbCommand($"shell ls -F -tr {tempRemotePath}");
 				_logger.Debug("Raw ls output: " + output);
 
+				var extensions = SettingsManager.GetFileExtensionsList();
 				var remoteFiles = output
 					.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
 					.Select(s => Regex.Replace(s, @"\t|\r", "").Trim())
 					.Where(s => !string.IsNullOrWhiteSpace(s))
 					// skip entries marked as directories by ls -F (ending with '/')
 					.Where(s => !s.EndsWith("/"))
+					// Filter by configured file extensions (if any)
+					.Where(s =>
+					{
+						if (extensions.Count == 0)
+							return true; // No extensions configured, include all files
+						return extensions.Any(ext => s.EndsWith(ext, StringComparison.OrdinalIgnoreCase));
+					})
 					.ToList();
 
 				if (remoteFiles.Count == 0)
@@ -354,10 +362,20 @@ namespace AemulusConnect.Helpers
 				}
 
 				var savedFileName = newFileName;
-				if (savedFileName.Contains(".pdf"))
-					savedFileName = savedFileName.Replace(".pdf", $"_Archived_{date}.pdf");
-				if (savedFileName.Contains(".csv"))
-					savedFileName = savedFileName.Replace(".csv", $"_Archived_{date}.csv");
+				// Replace extension with archived version for any configured extension
+				var extensions = SettingsManager.GetFileExtensionsList();
+				foreach (var ext in extensions)
+				{
+					if (savedFileName.Contains(ext, StringComparison.OrdinalIgnoreCase))
+					{
+						var position = savedFileName.LastIndexOf(ext, StringComparison.OrdinalIgnoreCase);
+						if (position >= 0)
+						{
+							savedFileName = savedFileName.Substring(0, position) + $"_Archived_{date}" + ext;
+							break;
+						}
+					}
+				}
 
 				var localPathWindows = destination.Replace("/", Path.DirectorySeparatorChar.ToString());
 				var destPath = Path.Combine(localPathWindows, savedFileName);

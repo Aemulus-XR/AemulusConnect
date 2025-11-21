@@ -31,6 +31,28 @@ namespace AemulusConnect.Helpers
         /// </summary>
         public static int StatusCheckIntervalMs { get; set; } = DeviceMonitoring.StatusCheckInterval;
 
+        /// <summary>
+        /// Comma-separated list of file extensions to look for, download, and archive. Defaults to ".pdf,.csv".
+        /// Extensions should include the dot (e.g., ".pdf,.csv,.txt").
+        /// </summary>
+        public static string FileExtensions { get; set; } = ".pdf,.csv";
+
+        /// <summary>
+        /// Gets the configured file extensions as a list of strings.
+        /// Returns empty list if FileExtensions is null or empty.
+        /// </summary>
+        public static List<string> GetFileExtensionsList()
+        {
+            if (string.IsNullOrWhiteSpace(FileExtensions))
+                return new List<string>();
+
+            return FileExtensions
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(ext => ext.Trim().ToLowerInvariant())
+                .Where(ext => !string.IsNullOrWhiteSpace(ext))
+                .ToList();
+        }
+
         public static void LoadSettings()
         {
             try
@@ -77,6 +99,10 @@ namespace AemulusConnect.Helpers
                             if (int.TryParse(value, out int interval) && interval >= 100)
                                 StatusCheckIntervalMs = interval;
                             break;
+                        case "FileExtensions":
+                            if (!string.IsNullOrWhiteSpace(value))
+                                FileExtensions = value;
+                            break;
                         default:
                             // unknown keys ignored
                             break;
@@ -111,6 +137,11 @@ namespace AemulusConnect.Helpers
                 sb.AppendLine("# Device Monitoring");
                 sb.AppendLine($"# Device status check interval in milliseconds (default: 1000, minimum: 100)");
                 sb.AppendLine($"StatusCheckIntervalMs={StatusCheckIntervalMs}");
+                sb.AppendLine();
+                sb.AppendLine("# File Filtering");
+                sb.AppendLine($"# Comma-separated list of file extensions to download and archive (default: .pdf,.csv)");
+                sb.AppendLine($"# Extensions should include the dot (e.g., .pdf,.csv,.txt)");
+                sb.AppendLine($"FileExtensions={FileExtensions}");
 
                 var temp = SettingsFile + ".tmp";
                 File.WriteAllText(temp, sb.ToString(), Encoding.UTF8);

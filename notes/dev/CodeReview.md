@@ -338,7 +338,7 @@ D:\1\GitRepos\Aemulus-XR\AemulusConnect\
 - `FetchReportsAsync()` not actually async (doesn't return Task)
 - Mixed async/sync patterns
 - No progress reporting during transfers
-- Hard-coded file extensions (pdf, csv)
+- ~~Hard-coded file extensions (pdf, csv)~~
 - Some defensive path manipulation could be simplified
 
 **Critical Code Smell:**
