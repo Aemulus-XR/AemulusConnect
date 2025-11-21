@@ -294,9 +294,9 @@
 
     <Feature
       Id="UtilitiesFeature"
-      Title="Utility Scripts"
+      Title="Optional Utility Scripts"
       Level="1000"
-      Description="Optional data conversion and validation scripts (PowerShell and Bash)">
+      Description="Data conversion and validation scripts (PowerShell and Bash)">
       <ComponentGroupRef Id="UtilitiesComponents" />
     </Feature>
 
