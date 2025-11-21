@@ -1,3 +1,5 @@
+#undef PIRATE_DEBUG
+
 using System.Globalization;
 
 namespace AemulusConnect.Helpers
@@ -69,49 +71,65 @@ namespace AemulusConnect.Helpers
         {
             try
             {
+#if PIRATE_DEBUG
                 LogPirate("Starting LoadPirateResources()");
+#endif
 
                 // Find the satellite assembly DLL
                 var assemblyDir = System.AppDomain.CurrentDomain.BaseDirectory;
                 var satellitePath = System.IO.Path.Combine(assemblyDir, "en-PIRATE", "AemulusConnect.resources.dll");
 
+#if PIRATE_DEBUG
                 LogPirate($"Looking for satellite assembly at: {satellitePath}");
                 LogPirate($"Satellite assembly exists: {System.IO.File.Exists(satellitePath)}");
+#endif
 
                 if (!System.IO.File.Exists(satellitePath))
                 {
+#if PIRATE_DEBUG
                     LogPirate("ERROR: Satellite assembly not found!");
+#endif
                     return;
                 }
 
                 // Load the satellite assembly
                 var satelliteAssembly = System.Reflection.Assembly.LoadFrom(satellitePath);
+#if PIRATE_DEBUG
                 LogPirate($"Loaded satellite assembly: {satelliteAssembly.FullName}");
 
                 // Get the embedded resource names to verify
                 var resourceNames = string.Join(", ", satelliteAssembly.GetManifestResourceNames());
                 LogPirate($"Embedded resources: {resourceNames}");
+#endif
 
                 // Create a ResourceSet directly from the embedded resource
                 var resourceStream = satelliteAssembly.GetManifestResourceStream("AemulusConnect.Properties.Resources.en-PIRATE.resources");
                 if (resourceStream == null)
                 {
+#if PIRATE_DEBUG
                     LogPirate("ERROR: Could not find embedded resource stream!");
+#endif
                     return;
                 }
 
+#if PIRATE_DEBUG
                 LogPirate("Found embedded resource stream");
+#endif
 
                 var pirateResourceSet = new System.Resources.ResourceSet(resourceStream);
+#if PIRATE_DEBUG
                 LogPirate("Created ResourceSet from stream");
 
                 // Verify the pirate resources are actually in the ResourceSet
                 var testValue = pirateResourceSet.GetString("Settings_WindowTitle");
                 LogPirate($"Direct ResourceSet test: Settings_WindowTitle = '{testValue}'");
+#endif
 
                 // Create a custom ResourceManager that always returns pirate resources
                 var pirateResourceManager = new PirateResourceManager(pirateResourceSet);
+#if PIRATE_DEBUG
                 LogPirate("Created PirateResourceManager");
+#endif
 
                 // Replace the ResourceManager in Properties.Resources with our custom one
                 var resourceManField = typeof(Properties.Resources).GetField("resourceMan",
@@ -120,22 +138,33 @@ namespace AemulusConnect.Helpers
                 if (resourceManField != null)
                 {
                     resourceManField.SetValue(null, pirateResourceManager);
+#if PIRATE_DEBUG
                     LogPirate("Replaced Properties.Resources.resourceMan with PirateResourceManager");
+#endif
                 }
 
                 // Set culture to en-US (but it won't matter because our custom manager ignores it)
                 Properties.Resources.Culture = new CultureInfo("en-US");
 
+#if PIRATE_DEBUG
                 // Test load a string to verify it works
                 var testString = Properties.Resources.Settings_WindowTitle;
                 LogPirate($"Test string loaded: '{testString}'");
                 LogPirate($"Success! Pirate={testString != "Settings"}");
+#endif
             }
+#if PIRATE_DEBUG
             catch (Exception ex)
             {
                 LogPirate($"ERROR: {ex.Message}");
                 LogPirate($"Stack: {ex.StackTrace}");
             }
+#else
+            catch
+            {
+                // Ignore errors when debug logging is disabled
+            }
+#endif
         }
 
         /// <summary>
@@ -171,6 +200,7 @@ namespace AemulusConnect.Helpers
             }
         }
 
+#if PIRATE_DEBUG
         /// <summary>
         /// Logs pirate language debug information to a file
         /// </summary>
@@ -189,6 +219,7 @@ namespace AemulusConnect.Helpers
                 // Ignore logging errors
             }
         }
+#endif
 
         /// <summary>
         /// Resets the ResourceManager to clear any custom culture overrides
