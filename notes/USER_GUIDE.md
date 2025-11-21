@@ -21,11 +21,14 @@ AemulusConnect is a Windows application that helps you transfer report files fro
    - Accept the license agreement
    - Choose your installation location (default recommended)
    - Optionally select "Create desktop shortcut"
+   - Optionally select "Utility Scripts" (data conversion and validation tools for advanced users)
    - Click Install
 
 4. **Launch AemulusConnect** from the Start Menu or desktop shortcut
 
 > **Note**: If you don't have .NET 8 Desktop Runtime installed, the installer will direct you to download it from Microsoft.
+>
+> **Utility Scripts**: If you selected this option during installation, you'll find PowerShell and Bash scripts in the `utilities` folder within your installation directory. These scripts help with data conversion (JSON to CSV) and validation. See the README.md in that folder for details.
 
 ## First Time Setup
 

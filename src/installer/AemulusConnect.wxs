@@ -84,6 +84,7 @@
             <Directory Id="Culture_frFR" Name="fr-FR" />
             <Directory Id="Culture_enPIRATE" Name="en-PIRATE" />
           </Directory>
+          <Directory Id="UTILITIESFOLDER" Name="utilities" />
           <Directory Id="DOCUMENTATIONFOLDER" Name="documentation" />
         </Directory>
       </Directory>
@@ -160,6 +161,25 @@
       <!-- Pirate English (Custom) -->
       <Component Id="Culture_enPIRATE_Component" Directory="Culture_enPIRATE" Guid="5e2c9a6f-3b7c-8d5e-2f1a-6b7c8d9e0f1a">
         <File Source="$(var.BuildOutputPath)\bin\en-PIRATE\AemulusConnect.resources.dll" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <!-- Utilities component (optional data processing scripts) -->
+    <ComponentGroup Id="UtilitiesComponents" Directory="UTILITIESFOLDER">
+      <Component Id="UtilityScripts" Guid="7a4e1c8f-5d9b-0f2c-4a3e-8b9c0d1e2f3a">
+        <!-- PowerShell Scripts -->
+        <File Id="j2c_ps1" Source="$(var.BuildOutputPath)\utilities\j2c.ps1" KeyPath="yes" />
+        <File Id="ConvertToCsv_ps1" Source="$(var.BuildOutputPath)\utilities\ConvertTo-Csv.ps1" />
+        <File Id="ValidateJson_ps1" Source="$(var.BuildOutputPath)\utilities\validate-json.ps1" />
+        <File Id="ValidateCsv_ps1" Source="$(var.BuildOutputPath)\utilities\validate-csv.ps1" />
+
+        <!-- Bash Scripts -->
+        <File Id="j2c_sh" Source="$(var.BuildOutputPath)\utilities\j2c.sh" />
+        <File Id="ValidateJson_sh" Source="$(var.BuildOutputPath)\utilities\validate-json.sh" />
+        <File Id="ValidateCsv_sh" Source="$(var.BuildOutputPath)\utilities\validate-csv.sh" />
+
+        <!-- README -->
+        <File Id="UtilitiesReadme" Source="$(var.BuildOutputPath)\utilities\README.md" Name="README.md" />
       </Component>
     </ComponentGroup>
 
@@ -270,6 +290,14 @@
       Level="1"
       Description="Creates a shortcut on the desktop">
       <ComponentGroupRef Id="DesktopShortcuts" />
+    </Feature>
+
+    <Feature
+      Id="UtilitiesFeature"
+      Title="Utility Scripts"
+      Level="1000"
+      Description="Optional data conversion and validation scripts (PowerShell and Bash)">
+      <ComponentGroupRef Id="UtilitiesComponents" />
     </Feature>
 
     <!-- License file for installer dialog -->

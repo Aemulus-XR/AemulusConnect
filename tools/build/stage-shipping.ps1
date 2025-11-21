@@ -212,6 +212,21 @@ else {
     Write-Host " SKIPPED (res folder not found)" -ForegroundColor Yellow
 }
 
+# Copy utilities folder from tools/distributables/
+Write-Host "  Copying utility scripts to utilities/..." -NoNewline
+$sourceUtilitiesDir = Join-Path $PSScriptRoot "..\distributables"
+if (Test-Path $sourceUtilitiesDir) {
+    $destUtilitiesDir = Join-Path $ShippingDir "utilities"
+    Copy-Item -Path $sourceUtilitiesDir -Destination $destUtilitiesDir -Recurse -Force
+
+    # Count utility files (ps1 and sh scripts)
+    $utilityCount = (Get-ChildItem -Path $destUtilitiesDir -Include "*.ps1","*.sh" -Recurse -ErrorAction SilentlyContinue).Count
+    Write-Host " OK ($utilityCount scripts)" -ForegroundColor Green
+}
+else {
+    Write-Host " SKIPPED (distributables folder not found)" -ForegroundColor Yellow
+}
+
 # Note: Documentation files are created by convert-docs.ps1 directly into documentation/
 # This includes license.rtf and UserManual.pdf which are generated from Markdown sources
 
@@ -219,6 +234,7 @@ Write-Host ""
 Write-Host "Shipping folder staged successfully!" -ForegroundColor Green
 Write-Host "  Structure:" -ForegroundColor Gray
 Write-Host "    bin/              - Application binaries and runtime files" -ForegroundColor Gray
+Write-Host "    utilities/        - Data conversion and validation utilities" -ForegroundColor Gray
 Write-Host "    documentation/    - User documentation (license, manual)" -ForegroundColor Gray
 Write-Host "    installer/        - MSI installer output" -ForegroundColor Gray
 Write-Host ""
