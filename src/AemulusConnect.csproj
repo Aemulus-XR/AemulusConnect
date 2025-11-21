@@ -10,11 +10,11 @@
     <ApplicationIcon>aemulus.ico</ApplicationIcon>
     <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
     <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
-    <FileVersion>2.6.0</FileVersion>
-    <AssemblyVersion>2.6.0</AssemblyVersion>
+    <FileVersion>2.6.1</FileVersion>
+    <AssemblyVersion>2.6.1</AssemblyVersion>
     <StartupObject>AemulusConnect.Program</StartupObject>
     <SupportedOSPlatformVersion>10.0.26100.0</SupportedOSPlatformVersion>
-    <Version>2.6.0</Version>
+    <Version>2.6.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
