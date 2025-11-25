@@ -12,20 +12,41 @@ permissions:
 jobs:
   release-please:
     runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
       - uses: googleapis/release-please-action@v4
         id: release
         with:
-          # this assumes that you have created a personal access token
-          # (PAT) and configured it as a GitHub action secret named
-          # `MY_RELEASE_PLEASE_TOKEN` (this secret name is not important).
-          # token: ${{ secrets.GITHUB_TOKEN }}
           token: ${{ github.token }}
           config-file: .github/release-please/release-please-config.json
           manifest-file: .github/release-please/.release-please-manifest.json
-          # this is a built-in strategy in release-please, see "Action Inputs"
-          # for more options
-          # release-type: simple
 
-          
+  build-and-upload:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build application and installer
+        run: |
+          powershell -ExecutionPolicy Bypass -File ".\tools\build-and-package.ps1"
+
+      - name: Rename MSI with version
+        run: |
+          Move-Item -Path ./src/Shipping/installer/AemulusConnect.msi -Destination ./src/Shipping/installer/AemulusConnect-${{ needs.release-please.outputs.tag_name }}.msi
+        shell: pwsh
+
+      - name: Upload MSI to release
+        run: |
+          gh release upload ${{ needs.release-please.outputs.tag_name }} ./src/Shipping/installer/AemulusConnect-${{ needs.release-please.outputs.tag_name }}.msi --clobber
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
