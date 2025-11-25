@@ -36,6 +36,9 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Install WiX Toolset
+        run: dotnet tool install --global wix
+
       - name: Build application and installer
         run: |
           powershell -ExecutionPolicy Bypass -File ".\tools\build-and-package.ps1"
