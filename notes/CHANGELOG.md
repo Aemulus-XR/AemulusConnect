@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.2](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.7.1...v2.7.2) (2025-11-25)
+
+
+### Bug Fixes
+
+* **devops:** update the look of the discord message ([c04400b](https://github.com/Aemulus-XR/AemulusConnect/commit/c04400bdb9e75ab25461e3f0aa2515ee6d2cf73b))
+
 ## [2.7.1](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.7.0...v2.7.1) (2025-11-25)
 
 
