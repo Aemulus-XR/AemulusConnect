@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.1](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.7.0...v2.7.1) (2025-11-25)
+
+
+### Bug Fixes
+
+* add slack notification at end of automatic build success ([0824e8e](https://github.com/Aemulus-XR/AemulusConnect/commit/0824e8e81c041c924344540bda1826f2dec8f536))
+
 ## [2.7.0](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.6.4...v2.7.0) (2025-11-25)
 
 
