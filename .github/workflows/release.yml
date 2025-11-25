@@ -43,13 +43,30 @@ jobs:
         run: |
           powershell -ExecutionPolicy Bypass -File ".\tools\build-and-package.ps1"
 
-      - name: Rename MSI with version
+      - name: Find and upload MSI to release
         run: |
-          Move-Item -Path ./src/Shipping/installer/AemulusConnect.msi -Destination ./src/Shipping/installer/AemulusConnect-${{ needs.release-please.outputs.tag_name }}.msi
-        shell: pwsh
+          # Find the versioned MSI file (e.g., AemulusConnect-Installer-2.6.2.msi)
+          $msiFile = Get-ChildItem -Path ./src/Shipping/installer/ -Filter "AemulusConnect-Installer-*.msi" | Select-Object -First 1
 
-      - name: Upload MSI to release
-        run: |
-          gh release upload ${{ needs.release-please.outputs.tag_name }} ./src/Shipping/installer/AemulusConnect-${{ needs.release-please.outputs.tag_name }}.msi --clobber
+          if ($msiFile) {
+            Write-Host "Found MSI: $($msiFile.Name)"
+
+            # Rename to include git tag instead of just version
+            $newName = "AemulusConnect-${{ needs.release-please.outputs.tag_name }}.msi"
+            $newPath = Join-Path $msiFile.Directory.FullName $newName
+
+            Copy-Item -Path $msiFile.FullName -Destination $newPath
+            Write-Host "Copied to: $newName"
+
+            # Upload to release
+            gh release upload ${{ needs.release-please.outputs.tag_name }} $newPath --clobber
+            Write-Host "Uploaded to release ${{ needs.release-please.outputs.tag_name }}"
+          } else {
+            Write-Host "ERROR: No MSI file found matching pattern AemulusConnect-Installer-*.msi"
+            Write-Host "Available files in installer directory:"
+            Get-ChildItem -Path ./src/Shipping/installer/ -Recurse | Format-Table Name, Length
+            exit 1
+          }
+        shell: pwsh
         env:
           GITHUB_TOKEN: ${{ github.token }}
