@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.4](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.6.3...v2.6.4) (2025-11-25)
+
+
+### Bug Fixes
+
+* **devops:** upload renamed msi file to github releases ([cb4a76e](https://github.com/Aemulus-XR/AemulusConnect/commit/cb4a76ed78d791ea3eeed8aa305f21302d872e60))
+
 ## [2.6.3](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.6.2...v2.6.3) (2025-11-25)
 
 
