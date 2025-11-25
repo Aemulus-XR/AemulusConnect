@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.0](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.6.4...v2.7.0) (2025-11-25)
+
+
+### Features
+
+* **devops:** add automated Discord notifications to release workflow ([86aa64b](https://github.com/Aemulus-XR/AemulusConnect/commit/86aa64b09bfbab06d86a18f717bb627c4c2dc5a7))
+
 ## [2.6.4](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.6.3...v2.6.4) (2025-11-25)
 
 
