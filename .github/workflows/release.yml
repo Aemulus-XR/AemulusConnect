@@ -78,3 +78,11 @@ jobs:
         shell: pwsh
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Send Slack notification
+        run: |
+          $releaseUrl = "https://github.com/${{ github.repository }}/releases/tag/${{ needs.release-please.outputs.tag_name }}"
+          .\tools\message_slack.ps1 -Version "${{ needs.release-please.outputs.tag_name }}" -ReleaseUrl $releaseUrl
+        shell: pwsh
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
