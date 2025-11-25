@@ -47,11 +47,13 @@ if ([string]::IsNullOrWhiteSpace($Version)) {
         $versionContent = Get-Content $versionFile -Raw
         if ($versionContent -match 'version=(\d+\.\d+\.\d+)') {
             $Version = $matches[1]
-        } else {
+        }
+        else {
             Write-Host "ERROR: Could not parse version from VERSION.md" -ForegroundColor Red
             exit 1
         }
-    } else {
+    }
+    else {
         Write-Host "ERROR: VERSION.md not found and no version specified" -ForegroundColor Red
         exit 1
     }
@@ -72,14 +74,15 @@ $message = @{
 Write-Host "Sending deployment notification to Discord..." -ForegroundColor Cyan
 Write-Host "Version: $Version" -ForegroundColor Gray
 if (-not [string]::IsNullOrWhiteSpace($ReleaseUrl)) {
-    Write-Host "Release URL: $ReleaseUrl" -ForegroundColor Gray
+    Write-Host "Release URL: [GitHub Release]($ReleaseUrl?)" -ForegroundColor Gray
 }
 
 # Send to Discord using Invoke-RestMethod (cross-platform)
 try {
     $response = Invoke-RestMethod -Uri $discordWebhook -Method Post -Body $message -ContentType 'application/json'
     Write-Host "Discord notification sent successfully!" -ForegroundColor Green
-} catch {
+}
+catch {
     Write-Host "ERROR: Failed to send Discord notification" -ForegroundColor Red
     Write-Host $_.Exception.Message -ForegroundColor Red
     exit 1
