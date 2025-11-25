@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.3](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.6.2...v2.6.3) (2025-11-25)
+
+
+### Bug Fixes
+
+* **devops:** install wix toolset in the CI/CD build workflow ([0416f6e](https://github.com/Aemulus-XR/AemulusConnect/commit/0416f6e23d1edf33f09c55d8db6e5135da1cdf65))
+
 ## [2.6.2](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.6.1...v2.6.2) (2025-11-25)
 
 
