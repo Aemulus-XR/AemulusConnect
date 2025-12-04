@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.3](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.7.2...v2.7.3) (2025-12-04)
+
+
+### Bug Fixes
+
+* Fixed download failure with Arabic files.  Added proper UTF8 support to file i/o and fixed up adb filename handling ([44ba5c4](https://github.com/Aemulus-XR/AemulusConnect/commit/44ba5c4385d0284725899e8e2569de6e6b7bd1fe))
+
 ## [2.7.2](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.7.1...v2.7.2) (2025-11-25)
 
 
