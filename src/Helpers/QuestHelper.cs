@@ -237,6 +237,8 @@ namespace AemulusConnect.Helpers
 			process.StartInfo.Arguments = command;
 			process.StartInfo.RedirectStandardOutput = true;
 			process.StartInfo.RedirectStandardError = true;
+			process.StartInfo.StandardOutputEncoding = System.Text.Encoding.UTF8;
+			process.StartInfo.StandardErrorEncoding = System.Text.Encoding.UTF8;
 			process.StartInfo.CreateNoWindow = true;
 			process.StartInfo.UseShellExecute = false;
 
@@ -386,13 +388,21 @@ namespace AemulusConnect.Helpers
 					return;
 				}
 
-				using var service = new SyncService(_deviceData);
-				using (var stream = new FileStream(destPath, FileMode.CreateNew, FileAccess.Write, FileShare.None))
-				{
-					await service.PullAsync(remoteFilePath, stream);
-				}
+				// Use direct adb pull command to properly handle Unicode/Arabic filenames
+				// Quote destPath for Windows paths with spaces, but don't quote remote path
+				// as adb pull doesn't use shell quoting
+				var quotedDestPath = $"\"{destPath}\"";
 
-				_logger.Debug($"Successfully transferred {fileName} to {destPath}");
+				try
+				{
+					await ExecuteAdbCommand($"pull \"{remoteFilePath}\" {quotedDestPath}", AdbTimeouts.Copy);
+					_logger.Debug($"Successfully transferred {fileName} to {destPath}");
+				}
+				catch (Exception ex)
+				{
+					_logger.Error($"Failed to pull file with adb pull: {ex.Message}");
+					throw;
+				}
 			}
 			catch (Exception ex)
 			{
