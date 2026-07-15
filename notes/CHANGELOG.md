@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.4](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.7.3...v2.7.4) (2026-07-15)
+
+
+### Bug Fixes
+
+* correct Discord invite link ([ea210ff](https://github.com/Aemulus-XR/AemulusConnect/commit/ea210ff881a7b722a4a5461e2a41dd5691450d52))
+
 ## [2.7.3](https://github.com/Aemulus-XR/AemulusConnect/compare/v2.7.2...v2.7.3) (2025-12-04)
 
 
